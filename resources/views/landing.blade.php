@@ -575,8 +575,8 @@
                                 <div class="icon-box">
                                     <i class="{{ $service->icon }} fs-3 text-primary"></i>
                                 </div>
-                                <h5 class="card-title fw-bold">{{ $service->title }}</h5>
-                                <p class="card-text text-muted">{{ $service->description }}</p>
+                                <div class="card-title fw-bold h5">{!! $service->title !!}</div>
+                                <div class="card-text text-muted">{!! $service->description !!}</div>
                             </div>
                         </div>
                     </div>
@@ -838,7 +838,7 @@
                     section.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-    });
+        });
     </script>
 </body>
 

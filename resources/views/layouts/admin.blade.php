@@ -7,11 +7,22 @@
     <title>Admin Panel - Legian Medical Clinic</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <style>
         :root {
             --primary-color: #0a2540;
             --secondary-color: #1c4966;
             --sidebar-width: 250px;
+        }
+
+        /* Trix Customization */
+        trix-toolbar [data-trix-button-group="file-tools"] {
+            display: none;
+        }
+
+        .trix-content {
+            min-height: 100px;
         }
 
         body {
