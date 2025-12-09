@@ -27,8 +27,13 @@ class DoctorController extends Controller
             'name' => 'required|max:255',
             'specialty' => 'required|max:255',
             'bio' => 'nullable',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|max:2048', // Validate as image file, max 2MB
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('doctors', 'public');
+            $validated['image'] = $path;
+        }
 
         \App\Models\Doctor::create($validated);
 
@@ -52,10 +57,21 @@ class DoctorController extends Controller
             'name' => 'required|max:255',
             'specialty' => 'required|max:255',
             'bio' => 'nullable',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         $doctor = \App\Models\Doctor::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists and is a file (not an external URL)
+            if ($doctor->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($doctor->image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($doctor->image);
+            }
+
+            $path = $request->file('image')->store('doctors', 'public');
+            $validated['image'] = $path;
+        }
+
         $doctor->update($validated);
 
         return redirect()->route('admin.doctors.index')->with('success', 'Doctor updated successfully.');
@@ -64,6 +80,12 @@ class DoctorController extends Controller
     public function destroy(string $id)
     {
         $doctor = \App\Models\Doctor::findOrFail($id);
+
+        // Delete image if it exists in storage
+        if ($doctor->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($doctor->image)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($doctor->image);
+        }
+
         $doctor->delete();
 
         return redirect()->route('admin.doctors.index')->with('success', 'Doctor deleted successfully.');

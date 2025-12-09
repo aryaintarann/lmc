@@ -621,8 +621,13 @@
                     <div class="col-md-6 col-lg-5">
                         <div class="card service-card border-0 p-4 d-flex flex-row align-items-center">
                             @if($doctor->image)
-                                <img src="{{ $doctor->image }}" class="rounded-circle shadow-sm me-4" alt="{{ $doctor->name }}"
-                                    style="width: 80px; height: 80px; object-fit: cover;">
+                                @if(Str::startsWith($doctor->image, 'http'))
+                                    <img src="{{ $doctor->image }}" class="rounded-circle shadow-sm me-4" alt="{{ $doctor->name }}"
+                                        style="width: 80px; height: 80px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('storage/' . $doctor->image) }}" class="rounded-circle shadow-sm me-4" alt="{{ $doctor->name }}"
+                                        style="width: 80px; height: 80px; object-fit: cover;">
+                                @endif
                             @else
                                 <div class="rounded-circle shadow-sm me-4 bg-light d-flex align-items-center justify-content-center text-primary fw-bold"
                                     style="width: 80px; height: 80px; font-size: 1.5rem;">

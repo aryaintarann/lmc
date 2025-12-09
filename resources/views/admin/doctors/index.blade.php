@@ -28,8 +28,13 @@
                                 <td>{{ $doctor->id }}</td>
                                 <td>
                                     @if($doctor->image)
-                                        <img src="{{ $doctor->image }}" alt="{{ $doctor->name }}" class="rounded-circle"
-                                            style="width: 40px; height: 40px; object-fit: cover;">
+                                        @if(Str::startsWith($doctor->image, 'http'))
+                                            <img src="{{ $doctor->image }}" alt="{{ $doctor->name }}" class="rounded-circle"
+                                                style="width: 40px; height: 40px; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('storage/' . $doctor->image) }}" alt="{{ $doctor->name }}"
+                                                class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                                        @endif
                                     @else
                                         <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
                                             style="width: 40px; height: 40px;">
