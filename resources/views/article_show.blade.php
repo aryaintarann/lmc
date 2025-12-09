@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $article['title'] }} - Legian Medical Clinic</title>
+    <title>{{ $article->title }} - Legian Medical Clinic</title>
     <link rel="icon" href="{{ asset('img/lmc.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -76,48 +76,33 @@
 
     <header class="article-header">
         <div class="container">
-            <span class="badge bg-primary rounded-pill mb-3 px-3 py-2">{{ $article['date'] }}</span>
-            <h1 class="display-4 fw-bold text-dark mb-0">{{ $article['title'] }}</h1>
+            <span class="badge bg-primary rounded-pill mb-3 px-3 py-2">{{ $article->date }}</span>
+            <h1 class="display-4 fw-bold text-dark mb-0">{{ $article->title }}</h1>
         </div>
     </header>
 
     <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}"
+                <img src="{{ $article->image }}" alt="{{ $article->title }}"
                     class="img-fluid article-img w-100 object-fit-cover" style="height: 400px; object-fit: cover;">
             </div>
         </div>
 
         <div class="article-content">
-            <p class="lead fw-bold mb-4">{{ $article['excerpt'] }}</p>
+            <p class="lead fw-bold mb-4">{{ $article->excerpt }}</p>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.</p>
-
-            <h3 class="fw-bold mt-5 mb-3">Understanding the Details</h3>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                laborum.</p>
-
-            <blockquote class="blockquote my-5 p-4 bg-light rounded border-start border-4 border-primary">
-                <p class="mb-0 fst-italic">"Health is not just about what you're eating. It's also about what you're
-                    thinking and saying."</p>
-            </blockquote>
-
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                explicabo.</p>
+            <div class="article-body">
+                {!! nl2br(e($article->content)) !!}
+            </div>
         </div>
-    </div>
 
-    <!-- Minimal Footer -->
-    <footer class="bg-dark text-white py-4 mt-5" style="background-color: var(--dark-blue) !important;">
-        <div class="container text-center">
-            <p class="text-white-50 small mb-0">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
-        </div>
-    </footer>
+        <!-- Minimal Footer -->
+        <footer class="bg-dark text-white py-4 mt-5" style="background-color: var(--dark-blue) !important;">
+            <div class="container text-center">
+                <p class="text-white-50 small mb-0">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+            </div>
+        </footer>
 
 </body>
 

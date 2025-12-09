@@ -130,13 +130,13 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="article-card">
                         <div class="article-img-wrapper">
-                            <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}">
+                            <img src="{{ $article->image }}" alt="{{ $article->title }}">
                         </div>
                         <div class="card-body p-4">
-                            <span class="article-date">{{ $article['date'] }}</span>
-                            <h5 class="fw-bold mb-3">{{ $article['title'] }}</h5>
-                            <p class="text-muted mb-4">{{ $article['excerpt'] }}</p>
-                            <a href="{{ route('articles.show', $article['id']) }}" class="article-link stretched-link">Read
+                            <span class="article-date">{{ $article->date }}</span>
+                            <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
+                            <p class="text-muted mb-4">{{ $article->excerpt }}</p>
+                            <a href="{{ route('articles.show', $article->id) }}" class="article-link stretched-link">Read
                                 More <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>

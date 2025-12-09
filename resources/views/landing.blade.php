@@ -487,16 +487,26 @@
         <div class="container position-relative z-1">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-start animate-up">
-                    <span class="badge bg-light text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold">Welcome to
-                        Legian Medical Clinic</span>
-                    <h1 class="display-3 fw-bolder mb-3 text-dark">Your Health, <br><span class="text-primary">Our Top
-                            Priority</span></h1>
-                    <p class="lead text-muted mb-4">Experience world-class healthcare with a personal touch in the heart
-                        of Legian. Our dedicated team is here for you 24/7, ensuring the best care for you and your
-                        family.</p>
+                    <span class="badge bg-light text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold">
+                        {{ $settings['header_badge'] ?? 'Welcome to Legian Medical Clinic' }}
+                    </span>
+                    <h1 class="display-3 fw-bolder mb-3 text-dark">
+                        {{ $settings['header_title'] ?? 'Your Health, Our Top Priority' }}
+                    </h1>
+                    <p class="lead text-muted mb-4">
+                        {{ $settings['header_subtitle'] ?? 'Experience world-class healthcare with a personal touch.' }}
+                    </p>
                     <div class="d-flex gap-3">
-                        <a href="#contact" class="btn btn-gradient btn-lg">Book Appointment <i
-                                class="bi bi-arrow-right ms-2"></i></a>
+                        @php
+                            $btnLink = $settings['header_btn_link'] ?? '#contact';
+                            if (!Str::startsWith($btnLink, ['http://', 'https://', '#', '/'])) {
+                                $btnLink = 'https://' . $btnLink;
+                            }
+                        @endphp
+                        <a href="{{ $btnLink }}" class="btn btn-gradient btn-lg">
+                            {{ $settings['header_btn_text'] ?? 'Book Appointment' }}
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
                         <a href="#services" class="btn btn-dark-blue btn-lg">Our Services</a>
                     </div>
                     <div class="mt-5 d-flex gap-4">
@@ -513,9 +523,15 @@
                 </div>
                 <div class="col-lg-6 mt-5 mt-lg-0 animate-up delay-200">
                     <div class="position-relative">
-                        <img src="https://placehold.co/600x600?text=Doctors+Team"
-                            class="img-fluid rounded-4 shadow-lg position-relative z-2" alt="Medical Team"
-                            style="border-radius: 30px;">
+                        @if(isset($settings['header_image']))
+                            <img src="{{ asset('storage/' . $settings['header_image']) }}"
+                                class="img-fluid rounded-4 shadow-lg position-relative z-2" alt="Medical Team"
+                                style="border-radius: 30px;">
+                        @else
+                            <img src="https://placehold.co/600x600?text=Doctors+Team"
+                                class="img-fluid rounded-4 shadow-lg position-relative z-2" alt="Medical Team"
+                                style="border-radius: 30px;">
+                        @endif
                         <!-- Floating Card -->
                         <div class="card position-absolute bottom-0 start-0 p-3 shadow border-0 z-3 rounded-4 mb-n4 ms-n4 d-none d-md-block"
                             style="max-width: 250px;">
@@ -552,42 +568,19 @@
                     services to ensure your health and well-being are always covered.</p>
             </div>
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card service-card h-100">
-                        <div class="card-body text-center">
-                            <div class="icon-box">
-                                <i class="bi bi-heart-pulse fs-3 text-primary"></i>
+                @foreach($services as $service)
+                    <div class="col-md-4">
+                        <div class="card service-card h-100">
+                            <div class="card-body text-center">
+                                <div class="icon-box">
+                                    <i class="{{ $service->icon }} fs-3 text-primary"></i>
+                                </div>
+                                <h5 class="card-title fw-bold">{{ $service->title }}</h5>
+                                <p class="card-text text-muted">{{ $service->description }}</p>
                             </div>
-                            <h5 class="card-title fw-bold">General Checkup</h5>
-                            <p class="card-text text-muted">Complete health screening and preventative care designed for
-                                all ages.</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card service-card h-100">
-                        <div class="card-body text-center">
-                            <div class="icon-box">
-                                <i class="bi bi-activity fs-3 text-primary"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Emergency Care</h5>
-                            <p class="card-text text-muted">24/7 rapid response team ready to handle any medical
-                                emergencies.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card service-card h-100">
-                        <div class="card-body text-center">
-                            <div class="icon-box">
-                                <i class="bi bi-capsule fs-3 text-primary"></i>
-                            </div>
-                            <h5 class="card-title fw-bold">Pharmacy</h5>
-                            <p class="card-text text-muted">Fully stocked in-house pharmacy with prescription and OTC
-                                medications.</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
 
@@ -599,28 +592,26 @@
                 <p class="text-muted">Expert doctors dedicated to your well-being</p>
             </div>
             <div class="row g-4 justify-content-center">
-                <div class="col-md-6 col-lg-5">
-                    <div class="card service-card border-0 p-4 d-flex flex-row align-items-center">
-                        <img src="https://placehold.co/120x120" class="rounded-circle shadow-sm me-4" alt="Doctor"
-                            style="object-fit: cover;">
-                        <div>
-                            <h5 class="fw-bold mb-1">Dr. Sarah Johnson</h5>
-                            <p class="text-primary mb-2 fw-medium">General Practitioner</p>
-                            <small class="text-muted">15+ years of experience in family medicine.</small>
+                @foreach($doctors as $doctor)
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card service-card border-0 p-4 d-flex flex-row align-items-center">
+                            @if($doctor->image)
+                                <img src="{{ $doctor->image }}" class="rounded-circle shadow-sm me-4" alt="{{ $doctor->name }}"
+                                    style="width: 80px; height: 80px; object-fit: cover;">
+                            @else
+                                <div class="rounded-circle shadow-sm me-4 bg-light d-flex align-items-center justify-content-center text-primary fw-bold"
+                                    style="width: 80px; height: 80px; font-size: 1.5rem;">
+                                    {{ substr($doctor->name, 0, 1) }}
+                                </div>
+                            @endif
+                            <div>
+                                <h5 class="fw-bold mb-1">{{ $doctor->name }}</h5>
+                                <p class="text-primary mb-2 fw-medium">{{ $doctor->specialty }}</p>
+                                <small class="text-muted">{{ $doctor->bio }}</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-lg-5">
-                    <div class="card service-card border-0 p-4 d-flex flex-row align-items-center">
-                        <img src="https://placehold.co/120x120" class="rounded-circle shadow-sm me-4" alt="Doctor"
-                            style="object-fit: cover;">
-                        <div>
-                            <h5 class="fw-bold mb-1">Dr. Mark Lee</h5>
-                            <p class="text-primary mb-2 fw-medium">Pediatrician</p>
-                            <small class="text-muted">Specialist in child healthcare and development.</small>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
 
@@ -632,11 +623,11 @@
                         style="border-radius: var(--card-radius);">
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="section-title text-primary">About Us</h2>
-                    <h4 class="mb-3 fw-bold">Committed to Excellence in Healthcare</h4>
-                    <p class="text-muted lead mb-4">Legian Medical Clinic has been a pillar of health in the community
-                        for over a decade. We combine state-of-the-art technology with compassionate care to ensure you
-                        receive the best treatment possible.</p>
+                    <h2 class="section-title text-primary">{{ $settings['about_title'] ?? 'About Us' }}</h2>
+                    <h4 class="mb-3 fw-bold">{{ $settings['site_name'] ?? 'Legian Medical Clinic' }}</h4>
+                    <p class="text-muted lead mb-4">
+                        {{ $settings['about_description'] ?? 'Legian Medical Clinic has been a pillar of health in the community.' }}
+                    </p>
                     <ul class="list-unstyled text-muted">
                         <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Experienced Medical
                             Professionals</li>
@@ -674,7 +665,8 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">Phone</small>
-                                            <span class="fw-semibold">+62 361 755 123</span>
+                                            <span
+                                                class="fw-semibold">{{ $settings['contact_phone'] ?? '+62 361 755 123' }}</span>
                                         </div>
                                     </div>
 
@@ -685,7 +677,8 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">Email</small>
-                                            <span class="fw-semibold">info@legianclinic.com</span>
+                                            <span class="fw-semibold">{{ $settings['contact_email'] ??
+                                                'info@legianclinic.com' }}</span>
                                         </div>
                                     </div>
 
@@ -696,7 +689,8 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">Location</small>
-                                            <span class="fw-semibold">Jln. Legian No. 123, Bali</span>
+                                            <span
+                                                class="fw-semibold">{{ $settings['contact_address'] ?? 'Jln. Legian No. 123, Bali' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -740,13 +734,13 @@
                     <div class="col-md-4">
                         <div class="article-card">
                             <div class="article-img-wrapper">
-                                <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}">
+                                <img src="{{ $article->image }}" alt="{{ $article->title }}">
                             </div>
                             <div class="card-body p-4">
-                                <span class="article-date">{{ $article['date'] }}</span>
-                                <h5 class="fw-bold mb-3">{{ $article['title'] }}</h5>
-                                <p class="text-muted mb-4">{{ $article['excerpt'] }}</p>
-                                <a href="{{ route('articles.show', $article['id']) }}"
+                                <span class="article-date">{{ $article->date }}</span>
+                                <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
+                                <p class="text-muted mb-4">{{ $article->excerpt }}</p>
+                                <a href="{{ route('articles.show', $article->id) }}"
                                     class="article-link stretched-link">Read More <i class="bi bi-arrow-right ms-2"></i></a>
                             </div>
                         </div>
@@ -810,7 +804,7 @@
                     modal.hide();
 
                     // AJAX Request
-                    fetch('{{ route("set-preference") }}', {
+                    fetch('{{ route("preferences.set") }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -844,7 +838,7 @@
                     section.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-        });
+    });
     </script>
 </body>
 
