@@ -736,59 +736,33 @@
                 <p class="text-muted">Stay informed with our latest health tips and news.</p>
             </div>
             <div class="row g-4">
-                <!-- Article 1 -->
-                <div class="col-md-4">
-                    <div class="article-card">
-                        <div class="article-img-wrapper">
-                            <img src="https://placehold.co/600x400?text=Heart+Health" alt="Article 1">
-                        </div>
-                        <div class="card-body p-4">
-                            <span class="article-date">AUG 12, 2024</span>
-                            <h5 class="fw-bold mb-3">5 Tips for a Healthy Heart</h5>
-                            <p class="text-muted mb-4">Discover simple lifestyle changes that can significantly improve
-                                your
-                                heart health and longevity.</p>
-                            <a href="#" class="article-link stretched-link">Read More <i
-                                    class="bi bi-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Article 2 -->
-                <div class="col-md-4">
-                    <div class="article-card">
-                        <div class="article-img-wrapper">
-                            <img src="https://placehold.co/600x400?text=Immune+System" alt="Article 2">
-                        </div>
-                        <div class="card-body p-4">
-                            <span class="article-date">JUL 28, 2024</span>
-                            <h5 class="fw-bold mb-3">Boosting Your Immune System</h5>
-                            <p class="text-muted mb-4">Learn how your body fights off infections and what you can do to
-                                support your natural defenses.</p>
-                            <a href="#" class="article-link stretched-link">Read More <i
-                                    class="bi bi-arrow-right ms-2"></i></a>
+                @foreach($landingArticles as $article)
+                    <div class="col-md-4">
+                        <div class="article-card">
+                            <div class="article-img-wrapper">
+                                <img src="{{ $article['image'] }}" alt="{{ $article['title'] }}">
+                            </div>
+                            <div class="card-body p-4">
+                                <span class="article-date">{{ $article['date'] }}</span>
+                                <h5 class="fw-bold mb-3">{{ $article['title'] }}</h5>
+                                <p class="text-muted mb-4">{{ $article['excerpt'] }}</p>
+                                <a href="{{ route('articles.show', $article['id']) }}"
+                                    class="article-link stretched-link">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Article 3 -->
-                <div class="col-md-4">
-                    <div class="article-card">
-                        <div class="article-img-wrapper">
-                            <img src="https://placehold.co/600x400?text=Regular+Checkups" alt="Article 3">
-                        </div>
-                        <div class="card-body p-4">
-                            <span class="article-date">JUN 15, 2024</span>
-                            <h5 class="fw-bold mb-3">Importance of Regular Checkups</h5>
-                            <p class="text-muted mb-4">Why you shouldn't skip your annual physical and what early
-                                detection
-                                means for your health.</p>
-                            <a href="#" class="article-link stretched-link">Read More <i
-                                    class="bi bi-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
+
+            @if(isset($totalArticles) && $totalArticles > 3)
+                <div class="text-center mt-5">
+                    <a href="{{ route('articles.index') }}" class="btn btn-outline-primary rounded-pill px-5 py-3 fw-bold">
+                        More Articles <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            @endif
         </div>
-    </div>
+        </div>
     </section>
 
     </div>
