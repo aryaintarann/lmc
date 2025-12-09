@@ -130,23 +130,46 @@
         }
 
         /* Hero */
+        /* Hero */
         .hero-section {
             position: relative;
-            padding: 120px 0 100px;
-            background: white;
+            padding: 140px 0 100px;
+            /* Increased top padding for better breathing room */
+            background: linear-gradient(180deg, rgba(240, 247, 255, 0.7) 0%, #ffffff 100%);
             overflow: hidden;
         }
 
         .hero-bg-blob {
             position: absolute;
-            top: -20%;
+            top: -15%;
             right: -10%;
-            width: 60%;
-            height: 120%;
-            background: linear-gradient(120deg, rgba(13, 110, 253, 0.08), rgba(13, 202, 240, 0.1));
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            width: 55%;
+            height: 110%;
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(13, 202, 240, 0.2));
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             z-index: 0;
-            animation: float 6s ease-in-out infinite;
+            filter: blur(40px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero-bg-blob-2 {
+            position: absolute;
+            bottom: -10%;
+            left: -10%;
+            width: 45%;
+            height: 90%;
+            background: linear-gradient(135deg, rgba(255, 0, 150, 0.05), rgba(0, 204, 255, 0.08));
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            z-index: 0;
+            filter: blur(50px);
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        .text-gradient-main {
+            background: linear-gradient(90deg, #0a2540 0%, #0d6efd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* Cards & Sections */
@@ -247,20 +270,21 @@
         }
 
         .btn-gradient {
-            background: var(--primary-gradient);
+            background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
             color: white;
             border: none;
             padding: 12px 30px;
             font-weight: 600;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+            box-shadow: 0 4px 15px rgba(13, 202, 240, 0.4);
             transition: all 0.3s;
         }
 
         .btn-gradient:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.5);
             color: white;
+            background: linear-gradient(90deg, #0b5ed7 0%, #0aa2c0 100%);
         }
 
         .btn-dark-blue {
@@ -484,13 +508,15 @@
     <!-- Hero Section -->
     <section id="hero" class="hero-section">
         <div class="hero-bg-blob"></div>
+        <div class="hero-bg-blob-2"></div>
         <div class="container position-relative z-1">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-start animate-up">
-                    <span class="badge bg-light text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold">
+                    <span
+                        class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold border border-light">
                         {{ $settings['header_badge'] ?? 'Welcome to Legian Medical Clinic' }}
                     </span>
-                    <h1 class="display-3 fw-bolder mb-3 text-dark">
+                    <h1 class="display-3 fw-bolder mb-3 text-gradient-main" style="line-height: 1.2;">
                         {{ $settings['header_title'] ?? 'Your Health, Our Top Priority' }}
                     </h1>
                     <p class="lead text-muted mb-4">
@@ -541,7 +567,6 @@
                                 </div>
                                 <div>
                                     <h6 class="mb-0 fw-bold">Certified Clinic</h6>
-                                    <small class="text-muted">ISO 9001 Approved</small>
                                 </div>
                             </div>
                         </div>
