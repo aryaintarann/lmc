@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Article;
 use App\Models\Service;
 use App\Models\Doctor;
-use App\Models\Setting;
 
 class MockTranslationSeeder extends Seeder
 {
@@ -31,23 +30,6 @@ class MockTranslationSeeder extends Seeder
             'Discover simple lifestyle changes that can significantly improve your heart health and longevity.' => 'Temukan perubahan gaya hidup sederhana untuk kesehatan jantung.',
             'Full content here...' => 'Konten lengkap di sini...',
         ];
-
-        // Settings
-        $settings = Setting::all();
-        foreach ($settings as $setting) {
-            $en = $setting->getTranslation('value', 'en');
-            if ($en) {
-                // Use dictionary or fallback to [ID] prefix
-                $id = $dictionary[$en] ?? '[ID] ' . $en;
-
-                // Manual overrides for specific keys
-                if ($setting->key === 'header_btn_text')
-                    $id = 'Buat Janji';
-
-                $setting->setTranslation('value', 'id', $id);
-                $setting->save();
-            }
-        }
 
         // Articles
         foreach (Article::all() as $article) {

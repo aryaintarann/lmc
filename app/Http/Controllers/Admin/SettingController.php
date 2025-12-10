@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
-    // ====================
-    // Header Management
-    // ====================
-    // Section: Header
     public function header()
     {
         $header = Header::firstOrCreate([]);
@@ -52,7 +48,6 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.header')->with('success', 'Header updated successfully.');
     }
 
-    // Section: About
     public function about()
     {
         $about = About::firstOrCreate([]);
@@ -96,7 +91,6 @@ class SettingController extends Controller
         return redirect()->route('admin.settings.about')->with('success', 'About section updated successfully.');
     }
 
-    // Section: Contact
     public function contact()
     {
         $contact = Contact::firstOrCreate([]);

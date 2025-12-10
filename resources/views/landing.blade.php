@@ -963,7 +963,6 @@
                         body: JSON.stringify({ preference: targetId })
                     })
                         .then(response => response.json())
-                        .then(data => console.log('Preference saved:', data))
                         .catch(error => console.error('Error:', error));
                 });
             });
