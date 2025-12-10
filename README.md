@@ -1,59 +1,302 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏥 Legian Medical Clinic (LMC)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern, multi-language medical clinic management system built with Laravel 12. Features a beautiful landing page for visitors and a powerful admin panel for content management.
 
-## About Laravel
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🌐 Landing Page
+- **Responsive Design** - Beautiful, mobile-friendly interface
+- **Multi-language Support** - Indonesian & English (JSON-based translations)
+- **Dynamic Content** - Header, About, Services, Doctors, Articles
+- **Contact Information** - Phone, email, address, WhatsApp, social media links
+- **Google Maps Integration** - Embedded clinic location
+- **User Preference Modal** - Personalized content navigation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👨‍💼 Admin Panel
+- **Role-based Access Control** - Owner & Admin roles
+- **Content Management**
+  - ✏️ Header Settings (title, tagline, logo)
+  - 📞 Contact Information (multi-channel)
+  - ℹ️ About Section (vision, mission, description)
+  - 💼 Services CRUD
+  - 👨‍⚕️ Doctors CRUD
+  - 📰 Articles CRUD with publishing
+- **User Management** (Owner only)
+- **Dashboard Analytics**
+- **Multi-language Content Editor**
 
-## Learning Laravel
+## 🛠️ Tech Stack
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- **Framework:** Laravel 12.x
+- **PHP:** 8.2+
+- **Database:** MySQL/MariaDB
+- **Authentication:** Laravel Breeze
+- **Frontend:** Blade Templates, Bootstrap 5
+- **Translation:** Spatie Laravel Translatable
+- **Package Manager:** Composer, NPM
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📋 Requirements
 
-## Laravel Sponsors
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL/MariaDB
+- Git
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Installation
 
-### Premium Partners
+### 1. Clone Repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/aryaintarann/lmc.git
+cd lmc
+```
 
-## Contributing
+### 2. Install Dependencies
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# Install PHP dependencies
+composer install
 
-## Code of Conduct
+# Install JavaScript dependencies
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Environment Configuration
 
-## Security Vulnerabilities
+```bash
+# Copy environment file
+cp .env.example .env
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Generate application key
+php artisan key:generate
+```
 
-## License
+### 4. Database Setup
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Configure your database in `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=lmc
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+### 5. Run Migrations & Seeders
+
+```bash
+# Run migrations
+php artisan migrate
+
+# Seed database with sample data
+php artisan db:seed
+```
+
+**Default Credentials:**
+- **Owner:** owner@lmc.com / password
+- **Admin:** admin@lmc.com / password
+
+### 6. Build Assets
+
+```bash
+# For development
+npm run dev
+
+# For production
+npm run build
+```
+
+### 7. Start Development Server
+
+```bash
+php artisan serve
+```
+
+Visit: `http://localhost:8000`
+
+## 📚 Database Structure
+
+### Core Tables
+
+#### headers
+- `title` (JSON: id, en) - Site title
+- `tagline` (JSON: id, en) - Site tagline
+- `logo` - Logo image path
+
+#### contacts
+- `address` (JSON: id, en) - Clinic address
+- `phone` - Phone number
+- `email` - Email address
+- `whatsapp` - WhatsApp number
+- `maps_embed` - Google Maps embed code
+- `facebook` - Facebook URL
+- `instagram` - Instagram URL
+
+#### abouts
+- `title` (JSON: id, en) - About title
+- `description` (JSON: id, en) - About description
+- `vision` (JSON: id, en) - Clinic vision
+- `mission` (JSON: id, en) - Clinic mission
+- `image` - About image
+
+#### services
+- `title` (JSON: id, en) - Service name
+- `description` (JSON: id, en) - Service description
+- `icon` - Icon identifier
+
+#### doctors
+- `name` - Doctor name
+- `specialty` (JSON: id, en) - Specialization
+- `bio` (JSON: id, en) - Biography
+- `image` - Doctor photo
+
+#### articles
+- `title` (JSON: id, en) - Article title
+- `excerpt` (JSON: id, en) - Short excerpt
+- `content` (JSON: id, en) - Full content
+- `image` - Article image
+- `published_at` - Publication date
+
+#### users
+- `name` - User name
+- `email` - Email (unique)
+- `password` - Hashed password
+- `role` - Role (owner/admin)
+
+## 🎯 Usage
+
+### Landing Page
+Access the public landing page at `/`
+
+Features:
+- View clinic information
+- Browse services and doctors
+- Read health articles
+- Contact information with map
+- Language switcher (ID/EN)
+
+### Admin Panel
+Access admin panel at `/admin`
+
+**Owner Capabilities:**
+- Full admin access +
+- User management (create/edit/delete admins)
+
+**Admin Capabilities:**
+- Manage header settings
+- Manage contact information
+- Manage about section
+- CRUD services
+- CRUD doctors
+- CRUD articles (with publish/unpublish)
+
+## 🌍 Multi-language Support
+
+Content is stored in JSON format for easy translation:
+
+```php
+// Example: Service title
+'title' => [
+    'id' => 'Layanan Darurat',
+    'en' => 'Emergency Care'
+]
+```
+
+Access translated content:
+```php
+$service->title['id']; // Indonesian
+$service->title['en']; // English
+```
+
+## 🔐 Security
+
+- CSRF protection on all forms
+- Password hashing with bcrypt
+- Role-based access control
+- SQL injection prevention (Eloquent ORM)
+- XSS protection (Blade escaping)
+- Session security
+
+## 📁 Project Structure
+
+```
+lmc/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Admin/          # Admin controllers
+│   │   └── LandingController.php
+│   └── Models/             # Eloquent models
+├── database/
+│   ├── migrations/         # Database migrations
+│   └── seeders/           # Database seeders
+├── resources/
+│   └── views/
+│       ├── admin/         # Admin views
+│       ├── landing.blade.php
+│       └── layouts/       # Shared layouts
+└── public/
+    └── storage/           # Uploaded files
+```
+
+## 🧪 Testing
+
+```bash
+# Run tests
+php artisan test
+```
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Arya Intaran**
+- GitHub: [@aryaintarann](https://github.com/aryaintarann)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'feat: add some amazing feature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+**Commit Convention:** We use [Semantic Commit Messages](https://www.conventionalcommits.org/)
+
+## 🐛 Known Issues
+
+None at the moment. Please report any issues on the [Issues](https://github.com/aryaintarann/lmc/issues) page.
+
+## 🗺️ Roadmap
+
+- [ ] Add appointment booking system
+- [ ] Email notification system
+- [ ] Patient portal
+- [ ] Online consultation
+- [ ] Payment gateway integration
+- [ ] API for mobile app
+
+## 📞 Support
+
+For support, email support@legianmedical.com or create an issue on GitHub.
+
+## 🙏 Acknowledgments
+
+- [Laravel](https://laravel.com) - The PHP Framework
+- [Bootstrap](https://getbootstrap.com) - UI Framework
+- [Spatie](https://spatie.be) - Translation package
+- All contributors who helped with this project
+
+---
+
+Made with ❤️ by Arya Intaran
