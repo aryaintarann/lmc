@@ -4,32 +4,106 @@
 
 @section('content')
     <div class="card">
-        <span class="input-group-text"><i id="icon-preview" class="bi bi-activity text-primary"></i></span>
-        <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon"
-            value="{{ old('icon', 'bi-activity') }}" readonly required>
-        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#iconModal">Change
-            Icon</button>
-    </div>
-    @error('icon')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-    </div>
+        <div class="card-body">
+            <form action="{{ route('admin.services.store') }}" method="POST">
+                @csrf
 
-    <!-- Icon Picker Modal -->
-    <div class="modal fade" id="iconModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Icon</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="iconSearch" class="form-control mb-3" placeholder="Search icons...">
-                    <div id="iconGrid" class="row g-2" style="max-height: 400px; overflow-y: auto;">
-                        <!-- Icons will be injected here via JS -->
+                <!-- Language Tabs -->
+                <ul class="nav nav-tabs mb-3" id="langTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="en-tab" data-bs-toggle="tab" data-bs-target="#en" type="button"
+                            role="tab" aria-controls="en" aria-selected="true">English (Default)</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id" type="button"
+                            role="tab" aria-controls="id" aria-selected="false">Indonesia</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="langTabContent">
+                    <!-- English Tab -->
+                    <div class="tab-pane fade show active" id="en" role="tabpanel" aria-labelledby="en-tab">
+                        <div class="mb-3">
+                            <label for="title_en" class="form-label">Title (EN)</label>
+                            <input type="text" class="form-control @error('title.en') is-invalid @enderror" id="title_en"
+                                name="title[en]" value="{{ old('title.en') }}" required>
+                            @error('title.en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description_en" class="form-label">Description (EN)</label>
+                            <textarea class="form-control @error('description.en') is-invalid @enderror" id="description_en"
+                                name="description[en]" rows="3" required>{{ old('description.en') }}</textarea>
+                            @error('description.en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Indonesian Tab -->
+                    <div class="tab-pane fade" id="id" role="tabpanel" aria-labelledby="id-tab">
+                        <div class="mb-3">
+                            <label for="title_id" class="form-label">Title (ID)</label>
+                            <input type="text" class="form-control @error('title.id') is-invalid @enderror" id="title_id"
+                                name="title[id]" value="{{ old('title.id') }}">
+                            @error('title.id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description_id" class="form-label">Description (ID)</label>
+                            <textarea class="form-control @error('description.id') is-invalid @enderror" id="description_id"
+                                name="description[id]" rows="3">{{ old('description.id') }}</textarea>
+                            @error('description.id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <hr>
+
+                <!-- Shared Fields -->
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i id="icon-preview" class="bi bi-activity text-primary"></i></span>
+                        <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon"
+                            value="{{ old('icon', 'bi-activity') }}" readonly required>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"
+                            data-bs-target="#iconModal">Change Icon</button>
+                    </div>
+                    @error('icon')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Icon Picker Modal -->
+                <div class="modal fade" id="iconModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Select Icon</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" id="iconSearch" class="form-control mb-3" placeholder="Search icons...">
+                                <div id="iconGrid" class="row g-2" style="max-height: 400px; overflow-y: auto;">
+                                    <!-- Icons will be injected here via JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="{{ route('admin.services.index') }}" class="btn btn-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Create Service</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -150,12 +224,4 @@
             renderIcons();
         });
     </script>
-
-    <div class="d-flex justify-content-end mt-4">
-        <a href="{{ route('admin.services.index') }}" class="btn btn-secondary me-2">Cancel</a>
-        <button type="submit" class="btn btn-primary">Create Service</button>
-    </div>
-    </form>
-    </div>
-    </div>
 @endsection

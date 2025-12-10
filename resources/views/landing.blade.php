@@ -431,48 +431,41 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Welcome to Legian Medical Clinic</h5>
+                    <h5 class="modal-title">{{ __('Welcome to Legian Medical Clinic') }}</h5>
                 </div>
+                <!-- ... (Modal content will be wrapped in next steps) ... -->
                 <div class="modal-body text-center">
                     <div class="mb-4">
                         <img src="img/lmc.png" class="mb-3" alt="Logo" style="height: 80px;">
-                        <h4 class="fw-bold text-dark">How can we help you today?</h4>
-                        <p class="text-muted">Select an option to personalize your experience.</p>
+                        <h4 class="fw-bold text-dark">{{ __('How can we help you today?') }}</h4>
+                        <p class="text-muted">{{ __('Select an option to personalize your experience.') }}</p>
                     </div>
                     <div class="d-grid gap-3">
-                        <button
-                            class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3"
-                            data-target="services">
+                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="services">
                             <span class="d-flex align-items-center gap-3">
                                 <i class="bi bi-bandaid text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">Check Services</span>
+                                <span class="text-dark fw-semibold">{{ __('Check Services') }}</span>
                             </span>
                             <i class="bi bi-chevron-right text-muted"></i>
                         </button>
-                        <button
-                            class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3"
-                            data-target="doctors">
+                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="doctors">
                             <span class="d-flex align-items-center gap-3">
                                 <i class="bi bi-people text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">Find a Doctor</span>
+                                <span class="text-dark fw-semibold">{{ __('Find a Doctor') }}</span>
                             </span>
                             <i class="bi bi-chevron-right text-muted"></i>
                         </button>
-                        <button
-                            class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3"
-                            data-target="contact">
+                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="contact">
                             <span class="d-flex align-items-center gap-3">
                                 <i class="bi bi-calendar-check text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">Book Appointment</span>
+                                <span class="text-dark fw-semibold">{{ __('Book Appointment') }}</span>
                             </span>
                             <i class="bi bi-chevron-right text-muted"></i>
                         </button>
-                        <button
-                            class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3"
-                            data-target="all">
+                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="all">
                             <span class="d-flex align-items-center gap-3">
                                 <i class="bi bi-grid text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">See Everything</span>
+                                <span class="text-dark fw-semibold">{{ __('See Everything') }}</span>
                             </span>
                             <i class="bi bi-chevron-right text-muted"></i>
                         </button>
@@ -493,15 +486,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#doctors">Doctors</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hero">{{ __('Home') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">{{ __('Services') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#doctors">{{ __('Doctors') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">{{ __('Contact') }}</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-primary dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-translate me-1"></i> <span id="current-lang-label">{{ strtoupper(app()->getLocale()) }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-2">
+                                <li><a class="dropdown-item d-flex align-items-center fw-semibold py-2" href="{{ route('lang.switch', 'en') }}">🇺🇸 English</a></li>
+                                <li><a class="dropdown-item d-flex align-items-center fw-semibold py-2" href="{{ route('lang.switch', 'id') }}">🇮🇩 Indonesia</a></li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+
 
     <!-- Hero Section -->
     <!-- Hero Section -->
@@ -514,13 +519,13 @@
                 <div class="col-lg-6 text-start animate-up">
                     <span
                         class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold border border-light">
-                        {{ $settings['header_badge'] ?? 'Welcome to Legian Medical Clinic' }}
+                        {{ $settings['header_badge'] ?? __('Welcome to Legian Medical Clinic') }}
                     </span>
                     <h1 class="display-3 fw-bolder mb-3 text-gradient-main" style="line-height: 1.2;">
-                        {{ $settings['header_title'] ?? 'Your Health, Our Top Priority' }}
+                        {{ $settings['header_title'] ?? __('Your Health, Our Top Priority') }}
                     </h1>
                     <p class="lead text-muted mb-4">
-                        {{ $settings['header_subtitle'] ?? 'Experience world-class healthcare with a personal touch.' }}
+                        {{ $settings['header_subtitle'] ?? __('Experience world-class healthcare with a personal touch.') }}
                     </p>
                     <div class="d-flex gap-3">
                         @php
@@ -530,20 +535,20 @@
                             }
                         @endphp
                         <a href="{{ $btnLink }}" class="btn btn-gradient btn-lg">
-                            {{ $settings['header_btn_text'] ?? 'Book Appointment' }}
+                            {{ $settings['header_btn_text'] ?? __('Book Appointment') }}
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
-                        <a href="#services" class="btn btn-dark-blue btn-lg">Our Services</a>
+                        <a href="#services" class="btn btn-dark-blue btn-lg">{{ __('Our Services') }}</a>
                     </div>
                     <div class="mt-5 d-flex gap-4">
                         <div class="d-flex align-items-center">
                             <h2 class="fw-bold mb-0 text-dark">10+</h2>
-                            <p class="mb-0 ms-2 text-muted small lh-1">Years of<br>Service</p>
+                            <p class="mb-0 ms-2 text-muted small lh-1">{{ __('Years of') }}<br>{{ __('Service') }}</p>
                         </div>
                         <div class="border-start border-2"></div>
                         <div class="d-flex align-items-center">
                             <h2 class="fw-bold mb-0 text-dark">24/7</h2>
-                            <p class="mb-0 ms-2 text-muted small lh-1">Emergency<br>Support</p>
+                            <p class="mb-0 ms-2 text-muted small lh-1">{{ __('Emergency') }}<br>{{ __('Support') }}</p>
                         </div>
                     </div>
                 </div>
@@ -566,7 +571,7 @@
                                     <i class="bi bi-shield-check-fill"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">Certified Clinic</h6>
+                                    <h6 class="mb-0 fw-bold">{{ __('Certified Clinic') }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -587,10 +592,9 @@
                 style="width: 300px; height: 300px; filter: blur(50px);"></div>
 
             <div class="text-center mb-5 position-relative z-1">
-                <span class="section-subtitle">Comprehensive Care</span>
-                <h2 class="section-title">Our Services</h2>
-                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">We provide a wide range of medical
-                    services to ensure your health and well-being are always covered.</p>
+                <span class="section-subtitle">{{ __('Comprehensive Care') }}</span>
+                <h2 class="section-title">{{ __('Our Services') }}</h2>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">{{ __('We provide a wide range of medical services to ensure your health and well-being are always covered.') }}</p>
             </div>
             <div class="row g-4">
                 @foreach($services as $service)
@@ -612,9 +616,9 @@
         <!-- Doctors Section -->
         <section id="doctors" class="section-block position-relative">
             <div class="text-center mb-5">
-                <span class="section-subtitle">Our Team</span>
-                <h2 class="section-title">Meet Our Specialists</h2>
-                <p class="text-muted">Expert doctors dedicated to your well-being</p>
+                <span class="section-subtitle">{{ __('Our Team') }}</span>
+                <h2 class="section-title">{{ __('Meet Our Specialists') }}</h2>
+                <p class="text-muted">{{ __('Expert doctors dedicated to your well-being') }}</p>
             </div>
             <div class="row g-4 justify-content-center">
                 @foreach($doctors as $doctor)
@@ -658,19 +662,19 @@
                     @endif
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="section-title text-primary">{{ $settings['about_title'] ?? 'About Us' }}</h2>
+                    <h2 class="section-title text-primary">{{ $settings['about_title'] ?? __('About Us') }}</h2>
                     <h4 class="mb-3 fw-bold">{{ $settings['about_subtitle'] ?? ($settings['site_name'] ?? 'Legian Medical Clinic') }}</h4>
                     <p class="text-muted lead mb-4">
-                        {{ $settings['about_description'] ?? 'Legian Medical Clinic has been a pillar of health in the community.' }}
+                        {{ $settings['about_description'] ?? __('Legian Medical Clinic has been a pillar of health in the community.') }}
                     </p>
                     <ul class="list-unstyled text-muted">
                         @php
                             $features = isset($settings['about_features']) ? json_decode($settings['about_features'], true) : [];
                             if(empty($features)) {
                                 $features = [
-                                    'Experienced Medical Professionals',
-                                    'Advanced Medical Technology',
-                                    'Comfortable and Safe Environment'
+                                    __('Experienced Medical Professionals'),
+                                    __('Advanced Medical Technology'),
+                                    __('Comfortable and Safe Environment')
                                 ];
                             }
                         @endphp
@@ -686,9 +690,9 @@
         <section id="contact" class="py-5 section-block" style="background-color: var(--bg-light);">
             <div class="container">
                 <div class="text-center mb-5">
-                    <span class="section-subtitle">{{ $settings['contact_section_subtitle'] ?? 'Get in Touch' }}</span>
-                    <h2 class="section-title">{{ $settings['contact_section_title'] ?? 'Contact Us' }}</h2>
-                    <p class="text-muted">{{ $settings['contact_section_description'] ?? 'We are here to assist you. Reach out to us anytime.' }}</p>
+                    <span class="section-subtitle">{{ $settings['contact_section_subtitle'] ?? __('Get in Touch') }}</span>
+                    <h2 class="section-title">{{ $settings['contact_section_title'] ?? __('Contact Us') }}</h2>
+                    <p class="text-muted">{{ $settings['contact_section_description'] ?? __('We are here to assist you. Reach out to us anytime.') }}</p>
                 </div>
                 <div class="row g-4 align-items-stretch">
                     <!-- Contact Info Card -->
@@ -697,8 +701,8 @@
                             style="background: var(--dark-blue)!important; border-radius: var(--card-radius);">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
-                                    <h3 class="fw-bold mb-4">{{ $settings['contact_info_title'] ?? 'Contact Information' }}</h3>
-                                    <p class="mb-4 text-white-50">{{ $settings['contact_info_description'] ?? 'Reach out to us directly or visit our clinic.' }}</p>
+                                    <h3 class="fw-bold mb-4">{{ $settings['contact_info_title'] ?? __('Contact Information') }}</h3>
+                                    <p class="mb-4 text-white-50">{{ $settings['contact_info_description'] ?? __('Reach out to us directly or visit our clinic.') }}</p>
 
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white rounded-circle me-3"
@@ -706,7 +710,7 @@
                                             <i class="bi bi-telephone-fill"></i>
                                         </div>
                                         <div>
-                                            <small class="text-white-50 d-block">Phone</small>
+                                            <small class="text-white-50 d-block">{{ __('Phone') }}</small>
                                             <span
                                                 class="fw-semibold">{{ $settings['contact_phone'] ?? '+62 361 755 123' }}</span>
                                         </div>
@@ -718,7 +722,7 @@
                                             <i class="bi bi-envelope-fill"></i>
                                         </div>
                                         <div>
-                                            <small class="text-white-50 d-block">Email</small>
+                                            <small class="text-white-50 d-block">{{ __('Email') }}</small>
                                             <span class="fw-semibold">{{ $settings['contact_email'] ??
                                                 'info@legianclinic.com' }}</span>
                                         </div>
@@ -730,7 +734,7 @@
                                             <i class="bi bi-geo-alt-fill"></i>
                                         </div>
                                         <div>
-                                            <small class="text-white-50 d-block">Location</small>
+                                            <small class="text-white-50 d-block">{{ __('Location') }}</small>
                                             <span
                                                 class="fw-semibold">{{ $settings['contact_address'] ?? 'Jln. Legian No. 123, Bali' }}</span>
                                         </div>
@@ -767,9 +771,9 @@
     <section id="articles" class="section-block bg-soft">
         <div class="container">
             <div class="text-center mb-5">
-                <span class="section-subtitle">Health Insights</span>
-                <h2 class="section-title">Latest Articles</h2>
-                <p class="text-muted">Stay informed with our latest health tips and news.</p>
+                <span class="section-subtitle">{{ __('Health Insights') }}</span>
+                <h2 class="section-title">{{ __('Latest Articles') }}</h2>
+                <p class="text-muted">{{ __('Stay informed with our latest health tips and news.') }}</p>
             </div>
             <div class="row g-4">
                 @foreach($landingArticles as $article)
@@ -783,7 +787,7 @@
                                 <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
                                 <p class="text-muted mb-4">{{ $article->excerpt }}</p>
                                 <a href="{{ route('articles.show', $article->id) }}"
-                                    class="article-link stretched-link">Read More <i class="bi bi-arrow-right ms-2"></i></a>
+                                    class="article-link stretched-link">{{ __('Read More') }} <i class="bi bi-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </div>
@@ -793,7 +797,7 @@
             @if(isset($totalArticles) && $totalArticles > 3)
                 <div class="text-center mt-5">
                     <a href="{{ route('articles.index') }}" class="btn btn-outline-primary rounded-pill px-5 py-3 fw-bold">
-                        More Articles <i class="bi bi-arrow-right ms-2"></i>
+                        {{ __('More Articles') }} <i class="bi bi-arrow-right ms-2"></i>
                     </a>
                 </div>
             @endif

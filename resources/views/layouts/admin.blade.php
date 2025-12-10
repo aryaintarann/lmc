@@ -40,21 +40,21 @@
             display: block;
         }
 
-        .nav-link {
+        .sidebar .nav-link {
             color: rgba(255, 255, 255, 0.8);
             padding: 12px 20px;
             font-size: 1rem;
             transition: all 0.3s;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
             color: white;
             background-color: rgba(255, 255, 255, 0.1);
             border-left: 4px solid #fff;
         }
 
-        .nav-link i {
+        .sidebar .nav-link i {
             margin-right: 10px;
             width: 20px;
             text-align: center;

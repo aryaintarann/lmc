@@ -9,33 +9,89 @@
                 @csrf
                 @method('PUT')
 
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
-                        value="{{ old('title', $article->title) }}" required>
-                    @error('title')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <!-- Language Tabs -->
+                <ul class="nav nav-tabs mb-3" id="langTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="en-tab" data-bs-toggle="tab" data-bs-target="#en" type="button"
+                            role="tab" aria-controls="en" aria-selected="true">English (Default)</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="id-tab" data-bs-toggle="tab" data-bs-target="#id" type="button"
+                            role="tab" aria-controls="id" aria-selected="false">Indonesia</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="langTabContent">
+                    <!-- English Tab -->
+                    <div class="tab-pane fade show active" id="en" role="tabpanel" aria-labelledby="en-tab">
+                        <div class="mb-3">
+                            <label for="title_en" class="form-label">Title (EN)</label>
+                            <input type="text" class="form-control @error('title.en') is-invalid @enderror" id="title_en"
+                                name="title[en]"
+                                value="{{ old('title.en', $article->getTranslation('title', 'en', false)) }}" required>
+                            @error('title.en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="excerpt_en" class="form-label">Excerpt (EN)</label>
+                            <textarea class="form-control @error('excerpt.en') is-invalid @enderror" id="excerpt_en"
+                                name="excerpt[en]"
+                                rows="2">{{ old('excerpt.en', $article->getTranslation('excerpt', 'en', false)) }}</textarea>
+                            <div class="form-text">Brief summary shown on listings.</div>
+                            @error('excerpt.en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content_en" class="form-label">Content (EN)</label>
+                            <textarea class="form-control summernote @error('content.en') is-invalid @enderror"
+                                id="content_en" name="content[en]"
+                                rows="10">{{ old('content.en', $article->getTranslation('content', 'en', false)) }}</textarea>
+                            @error('content.en')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Indonesian Tab -->
+                    <div class="tab-pane fade" id="id" role="tabpanel" aria-labelledby="id-tab">
+                        <div class="mb-3">
+                            <label for="title_id" class="form-label">Title (ID)</label>
+                            <input type="text" class="form-control @error('title.id') is-invalid @enderror" id="title_id"
+                                name="title[id]"
+                                value="{{ old('title.id', $article->getTranslation('title', 'id', false)) }}">
+                            @error('title.id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="excerpt_id" class="form-label">Excerpt (ID)</label>
+                            <textarea class="form-control @error('excerpt.id') is-invalid @enderror" id="excerpt_id"
+                                name="excerpt[id]"
+                                rows="2">{{ old('excerpt.id', $article->getTranslation('excerpt', 'id', false)) }}</textarea>
+                            <div class="form-text">Ringkasan singkat untuk tampilan daftar.</div>
+                            @error('excerpt.id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="content_id" class="form-label">Content (ID)</label>
+                            <textarea class="form-control summernote @error('content.id') is-invalid @enderror"
+                                id="content_id" name="content[id]"
+                                rows="10">{{ old('content.id', $article->getTranslation('content', 'id', false)) }}</textarea>
+                            @error('content.id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="excerpt" class="form-label">Excerpt</label>
-                    <textarea class="form-control @error('excerpt') is-invalid @enderror" id="excerpt" name="excerpt"
-                        rows="2">{{ old('excerpt', $article->excerpt) }}</textarea>
-                    <div class="form-text">Brief summary shown on listings.</div>
-                    @error('excerpt')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-3">
-                    <label for="content" class="form-label">Content</label>
-                    <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content"
-                        rows="10" required>{{ old('content', $article->content) }}</textarea>
-                    @error('content')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <hr>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -75,8 +131,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            $('#content').summernote({
-                placeholder: 'Write your article content here...',
+            $('.summernote').summernote({
+                placeholder: 'Write your content here...',
                 tabsize: 2,
                 height: 400,
                 toolbar: [

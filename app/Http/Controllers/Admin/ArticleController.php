@@ -24,9 +24,15 @@ class ArticleController extends Controller
     public function store(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'excerpt' => 'nullable|max:255',
-            'content' => 'required',
+            'title' => 'required|array',
+            'title.en' => 'required|max:255',
+            'title.id' => 'nullable|max:255',
+            'excerpt' => 'nullable|array',
+            'excerpt.en' => 'nullable|max:255',
+            'excerpt.id' => 'nullable|max:255',
+            'content' => 'required|array',
+            'content.en' => 'required',
+            'content.id' => 'nullable',
             'image' => 'nullable|image|max:2048', // Validate as image
             'published_at' => 'nullable|date',
         ]);
@@ -55,9 +61,15 @@ class ArticleController extends Controller
     public function update(\Illuminate\Http\Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'excerpt' => 'nullable|max:255',
-            'content' => 'required',
+            'title' => 'required|array',
+            'title.en' => 'required|max:255',
+            'title.id' => 'nullable|max:255',
+            'excerpt' => 'nullable|array',
+            'excerpt.en' => 'nullable|max:255',
+            'excerpt.id' => 'nullable|max:255',
+            'content' => 'required|array',
+            'content.en' => 'required',
+            'content.id' => 'nullable',
             'image' => 'nullable|image|max:2048',
             'published_at' => 'nullable|date',
         ]);

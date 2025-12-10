@@ -24,8 +24,12 @@ class ServiceController extends Controller
     public function store(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
+            'title' => 'required|array',
+            'title.en' => 'required|max:255',
+            'title.id' => 'nullable|max:255',
+            'description' => 'required|array',
+            'description.en' => 'required',
+            'description.id' => 'nullable',
             'icon' => 'nullable|max:255',
         ]);
 
@@ -48,8 +52,12 @@ class ServiceController extends Controller
     public function update(\Illuminate\Http\Request $request, string $id)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
+            'title' => 'required|array',
+            'title.en' => 'required|max:255',
+            'title.id' => 'nullable|max:255',
+            'description' => 'required|array',
+            'description.en' => 'required',
+            'description.id' => 'nullable',
             'icon' => 'nullable|max:255',
         ]);
 
