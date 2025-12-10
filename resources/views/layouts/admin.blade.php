@@ -244,10 +244,7 @@
             <!-- Modules Section -->
             <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Modules</div>
 
-            <a class="nav-link {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}"
-                href="{{ route('admin.settings.index') }}">
-                <i class="bi bi-gear"></i> Advanced
-            </a>
+
             <a class="nav-link {{ request()->routeIs('admin.services.*') ? 'active' : '' }}"
                 href="{{ route('admin.services.index') }}">
                 <i class="bi bi-activity"></i> Services
