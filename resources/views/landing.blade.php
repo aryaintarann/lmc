@@ -388,20 +388,80 @@
             margin-left: 8px !important;
         }
 
+        /* Language Switcher */
+        .nav-lang-btn {
+            border: 1px solid rgba(10, 37, 64, 0.1);
+            background: transparent;
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-lang-btn:hover,
+        .nav-lang-btn[aria-expanded="true"] {
+            background: rgba(10, 37, 64, 0.05);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .dropdown-menu-custom {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            margin-top: 12px !important;
+        }
+
+        .dropdown-item-custom {
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .dropdown-item-custom:hover,
+        .dropdown-item-custom:active {
+            background-color: var(--bg-soft);
+            color: var(--primary-color);
+        }
+
+        /* Questionnaire Modal & Buttons */
         .choice-btn {
-            padding: 1rem;
-            border-radius: var(--btn-radius);
-            border: 2px solid #e9ecef;
+            background: white;
+            padding: 1.25rem;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
             color: var(--text-main);
             font-weight: 600;
             text-align: left;
-            transition: 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            margin-bottom: 0; /* Override default */
         }
 
         .choice-btn:hover,
         .choice-btn.active {
             border-color: var(--primary-color);
-            background-color: var(--bg-soft);
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(10, 37, 64, 0.08);
+            color: var(--primary-color);
+        }
+
+        .choice-btn i.bi-chevron-right {
+            opacity: 0.3;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .choice-btn:hover i.bi-chevron-right {
+            opacity: 1;
+            transform: translateX(3px);
             color: var(--primary-color);
         }
 
@@ -430,44 +490,70 @@
     <div class="modal fade" id="questionnaireModal" tabindex="-1" data-bs-backdrop="static" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ __('Welcome to Legian Medical Clinic') }}</h5>
+                <div class="modal-header border-0 p-0">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <!-- ... (Modal content will be wrapped in next steps) ... -->
-                <div class="modal-body text-center">
-                    <div class="mb-4">
-                        <img src="img/lmc.png" class="mb-3" alt="Logo" style="height: 80px;">
-                        <h4 class="fw-bold text-dark">{{ __('How can we help you today?') }}</h4>
-                        <p class="text-muted">{{ __('Select an option to personalize your experience.') }}</p>
+                <div class="modal-body p-4 p-md-5 bg-soft">
+                    <div class="text-center mb-5">
+                        <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <img src="img/lmc.png" alt="Logo" style="height: 50px;">
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">{{ __('How can we help you today?') }}</h4>
+                        <p class="text-muted mb-0 small text-uppercase ls-1 fw-bold">{{ __('Select to personalize your experience') }}</p>
                     </div>
-                    <div class="d-grid gap-3">
-                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="services">
-                            <span class="d-flex align-items-center gap-3">
-                                <i class="bi bi-bandaid text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">{{ __('Check Services') }}</span>
-                            </span>
-                            <i class="bi bi-chevron-right text-muted"></i>
+
+                    <div class="d-grid gap-3" style="max-width: 450px; margin: 0 auto;">
+                        <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="services">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-primary bg-opacity-10 p-2 text-primary">
+                                    <i class="bi bi-bandaid fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark fw-bold">{{ __('Check Services') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('View our medical treatments') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
                         </button>
-                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="doctors">
-                            <span class="d-flex align-items-center gap-3">
-                                <i class="bi bi-people text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">{{ __('Find a Doctor') }}</span>
-                            </span>
-                            <i class="bi bi-chevron-right text-muted"></i>
+
+                        <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="doctors">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-info bg-opacity-10 p-2 text-info">
+                                    <i class="bi bi-people fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark fw-bold">{{ __('Find a Doctor') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('Meet our specialists') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
                         </button>
-                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="contact">
-                            <span class="d-flex align-items-center gap-3">
-                                <i class="bi bi-calendar-check text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">{{ __('Book Appointment') }}</span>
-                            </span>
-                            <i class="bi bi-chevron-right text-muted"></i>
+
+                        <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="contact">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-warning bg-opacity-10 p-2 text-warning">
+                                    <i class="bi bi-calendar-check fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark fw-bold">{{ __('Book Appointment') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('Schedule your visit') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
                         </button>
-                        <button class="btn btn-outline-light choice-btn d-flex align-items-center justify-content-between p-3" data-target="all">
-                            <span class="d-flex align-items-center gap-3">
-                                <i class="bi bi-grid text-primary fs-4"></i>
-                                <span class="text-dark fw-semibold">{{ __('See Everything') }}</span>
-                            </span>
-                            <i class="bi bi-chevron-right text-muted"></i>
+
+                        <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="all">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-secondary bg-opacity-10 p-2 text-secondary">
+                                    <i class="bi bi-grid fs-5"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark fw-bold">{{ __('See Everything') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('Browse full website') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
                         </button>
                     </div>
                 </div>
@@ -493,12 +579,24 @@
                     <li class="nav-item"><a class="nav-link" href="#contact">{{ __('Contact') }}</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-primary dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-translate me-1"></i> <span id="current-lang-label">{{ strtoupper(app()->getLocale()) }}</span>
+                            <button class="btn btn-sm nav-lang-btn rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-translate fs-5"></i>
+                                <span id="current-lang-label" class="ls-1">{{ strtoupper(app()->getLocale()) }}</span>
+                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.7rem; opacity: 0.7;"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-2">
-                                <li><a class="dropdown-item d-flex align-items-center fw-semibold py-2" href="{{ route('lang.switch', 'en') }}">🇺🇸 English</a></li>
-                                <li><a class="dropdown-item d-flex align-items-center fw-semibold py-2" href="{{ route('lang.switch', 'id') }}">🇮🇩 Indonesia</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-custom animate-up">
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'en') }}">
+                                        <span>English</span>
+                                        @if(app()->getLocale() == 'en') <i class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'id') }}">
+                                        <span>Indonesia</span>
+                                        @if(app()->getLocale() == 'id') <i class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
