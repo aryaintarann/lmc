@@ -27,8 +27,8 @@
                             <tr>
                                 <td>{{ $service->id }}</td>
                                 <td><i class="{{ $service->icon }} text-primary fs-5"></i></td>
-                                <td class="fw-bold">{{ strip_tags($service->title) }}</td>
-                                <td>{{ Str::limit(strip_tags($service->description), 60) }}</td>
+                                <td class="fw-bold">{{ $service->title }}</td>
+                                <td>{{ Str::limit($service->description, 60) }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('admin.services.edit', $service->id) }}"
                                         class="btn btn-sm btn-outline-primary me-1" title="Edit">

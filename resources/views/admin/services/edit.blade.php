@@ -11,20 +11,19 @@
 
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input id="title" type="hidden" name="title" value="{{ old('title', $service->title) }}">
-                    <trix-editor input="title"></trix-editor>
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
+                        value="{{ old('title', $service->title) }}" required>
                     @error('title')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <input id="description" type="hidden" name="description"
-                        value="{{ old('description', $service->description) }}">
-                    <trix-editor input="description"></trix-editor>
+                    <textarea class="form-control @error('description') is-invalid @enderror" id="description"
+                        name="description" rows="3" required>{{ old('description', $service->description) }}</textarea>
                     @error('description')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                        <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
@@ -156,11 +155,11 @@
                                 const col = document.createElement('div');
                                 col.className = 'col-6 col-sm-4 col-md-3 col-lg-2';
                                 col.innerHTML = `
-                                            <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
-                                                <i class="${icon} fs-3 text-primary mb-2"></i>
-                                                <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
-                                            </div>
-                                        `;
+                                                <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
+                                                    <i class="${icon} fs-3 text-primary mb-2"></i>
+                                                    <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
+                                                </div>
+                                            `;
                                 iconGrid.appendChild(col);
                             });
                         }

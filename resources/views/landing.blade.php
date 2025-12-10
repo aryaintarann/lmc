@@ -600,8 +600,8 @@
                                 <div class="icon-box">
                                     <i class="{{ $service->icon }} fs-3 text-primary"></i>
                                 </div>
-                                <div class="card-title fw-bold h5">{!! $service->title !!}</div>
-                                <div class="card-text text-muted">{!! $service->description !!}</div>
+                                <div class="card-title fw-bold h5">{{ $service->title }}</div>
+                                <div class="card-text text-muted">{{ $service->description }}</div>
                             </div>
                         </div>
                     </div>
@@ -649,22 +649,34 @@
         <section id="about" class="section-block">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <img src="https://placehold.co/600x400" class="img-fluid rounded-4 shadow-lg" alt="Clinic Interior"
-                        style="border-radius: var(--card-radius);">
+                    @if(isset($settings['about_image']))
+                        <img src="{{ asset('storage/' . $settings['about_image']) }}" class="img-fluid rounded-4 shadow-lg" alt="About Clinic"
+                            style="border-radius: var(--card-radius);">
+                    @else
+                        <img src="https://placehold.co/600x400" class="img-fluid rounded-4 shadow-lg" alt="Clinic Interior"
+                            style="border-radius: var(--card-radius);">
+                    @endif
                 </div>
                 <div class="col-lg-6">
                     <h2 class="section-title text-primary">{{ $settings['about_title'] ?? 'About Us' }}</h2>
-                    <h4 class="mb-3 fw-bold">{{ $settings['site_name'] ?? 'Legian Medical Clinic' }}</h4>
+                    <h4 class="mb-3 fw-bold">{{ $settings['about_subtitle'] ?? ($settings['site_name'] ?? 'Legian Medical Clinic') }}</h4>
                     <p class="text-muted lead mb-4">
                         {{ $settings['about_description'] ?? 'Legian Medical Clinic has been a pillar of health in the community.' }}
                     </p>
                     <ul class="list-unstyled text-muted">
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Experienced Medical
-                            Professionals</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Advanced Medical
-                            Technology</li>
-                        <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>Comfortable and Safe
-                            Environment</li>
+                        @php
+                            $features = isset($settings['about_features']) ? json_decode($settings['about_features'], true) : [];
+                            if(empty($features)) {
+                                $features = [
+                                    'Experienced Medical Professionals',
+                                    'Advanced Medical Technology',
+                                    'Comfortable and Safe Environment'
+                                ];
+                            }
+                        @endphp
+                        @foreach($features as $feature)
+                             <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>{{ $feature }}</li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

@@ -111,7 +111,8 @@ class SettingController extends Controller
     // Section: About
     public function about()
     {
-        $settings = \App\Models\Setting::whereIn('key', ['about_title', 'about_description'])->pluck('value', 'key');
+        $keys = ['about_title', 'about_subtitle', 'about_description', 'about_image', 'about_features'];
+        $settings = \App\Models\Setting::whereIn('key', $keys)->pluck('value', 'key');
         return view('admin.settings.about', compact('settings'));
     }
 
@@ -119,11 +120,34 @@ class SettingController extends Controller
     {
         $data = $request->validate([
             'about_title' => 'required|string|max:255',
+            'about_subtitle' => 'nullable|string|max:255',
             'about_description' => 'required|string',
+            'about_image' => 'nullable|image|max:2048',
+            'about_features' => 'nullable|array',
+            'about_features.*' => 'nullable|string|max:255',
         ]);
 
-        foreach ($data as $key => $value) {
-            \App\Models\Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+        // Handle Image Upload
+        if ($request->hasFile('about_image')) {
+            $path = $request->file('about_image')->store('settings', 'public');
+            \App\Models\Setting::updateOrCreate(['key' => 'about_image'], ['value' => $path]);
+        }
+
+        // Handle Features List (JSON)
+        if (isset($data['about_features'])) {
+            // Filter out empty lines
+            $features = array_filter($data['about_features'], function ($value) {
+                return !is_null($value) && $value !== '';
+            });
+            \App\Models\Setting::updateOrCreate(['key' => 'about_features'], ['value' => json_encode(array_values($features))]);
+        }
+
+        // Handle specific text fields
+        $fields = ['about_title', 'about_subtitle', 'about_description'];
+        foreach ($fields as $field) {
+            if (isset($data[$field])) {
+                \App\Models\Setting::updateOrCreate(['key' => $field], ['value' => $data[$field]]);
+            }
         }
 
         return redirect()->route('admin.settings.about')->with('success', 'About section updated successfully.');
