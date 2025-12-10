@@ -686,9 +686,9 @@
         <section id="contact" class="py-5 section-block" style="background-color: var(--bg-light);">
             <div class="container">
                 <div class="text-center mb-5">
-                    <span class="section-subtitle">Get in Touch</span>
-                    <h2 class="section-title">Contact Us</h2>
-                    <p class="text-muted">We are here to assist you. Reach out to us anytime.</p>
+                    <span class="section-subtitle">{{ $settings['contact_section_subtitle'] ?? 'Get in Touch' }}</span>
+                    <h2 class="section-title">{{ $settings['contact_section_title'] ?? 'Contact Us' }}</h2>
+                    <p class="text-muted">{{ $settings['contact_section_description'] ?? 'We are here to assist you. Reach out to us anytime.' }}</p>
                 </div>
                 <div class="row g-4 align-items-stretch">
                     <!-- Contact Info Card -->
@@ -697,8 +697,8 @@
                             style="background: var(--dark-blue)!important; border-radius: var(--card-radius);">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
-                                    <h3 class="fw-bold mb-4">Contact Information</h3>
-                                    <p class="mb-4 text-white-50">Reach out to us directly or visit our clinic.</p>
+                                    <h3 class="fw-bold mb-4">{{ $settings['contact_info_title'] ?? 'Contact Information' }}</h3>
+                                    <p class="mb-4 text-white-50">{{ $settings['contact_info_description'] ?? 'Reach out to us directly or visit our clinic.' }}</p>
 
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white rounded-circle me-3"
@@ -752,7 +752,7 @@
                         <div class="card border-0 h-100 overflow-hidden shadow-sm"
                             style="border-radius: var(--card-radius);">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.2057973752674!2d115.17112997575233!3d-8.671913391856384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd246d8995a5c6d%3A0xe7a4c7e3f7960fc5!2sLegian%2C%20Kuta%2C%20Badung%20Regency%2C%20Bali!5e0!3m2!1sen!2sid!4v1709476543210!5m2!1sen!2sid"
+                                src="{{ $settings['contact_map_url'] ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15773.66578051662!2d115.1764618!3d-8.7180415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd246b9a8ae1e5b%3A0xc3b821a3641031c5!2sLegian%20Area!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid' }}"
                                 width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen=""
                                 loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                             </iframe>

@@ -154,25 +154,43 @@ class SettingController extends Controller
     }
 
     // Section: Contact
+    // Section: Contact
     public function contact()
     {
-        $settings = \App\Models\Setting::whereIn('key', ['contact_address', 'contact_email', 'contact_phone'])->pluck('value', 'key');
+        $keys = [
+            'contact_phone',
+            'contact_email',
+            'contact_address',
+            'contact_section_subtitle',
+            'contact_section_title',
+            'contact_section_description',
+            'contact_info_title',
+            'contact_info_description',
+            'contact_map_url'
+        ];
+        $settings = \App\Models\Setting::whereIn('key', $keys)->pluck('value', 'key');
         return view('admin.settings.contact', compact('settings'));
     }
 
     public function updateContact(Request $request)
     {
         $data = $request->validate([
-            'contact_address' => 'required|string|max:255',
+            'contact_phone' => 'required|string|max:255',
             'contact_email' => 'required|email|max:255',
-            'contact_phone' => 'required|string|max:50',
+            'contact_address' => 'required|string',
+            'contact_section_subtitle' => 'nullable|string|max:255',
+            'contact_section_title' => 'nullable|string|max:255',
+            'contact_section_description' => 'nullable|string',
+            'contact_info_title' => 'nullable|string|max:255',
+            'contact_info_description' => 'nullable|string',
+            'contact_map_url' => 'nullable|string',
         ]);
 
         foreach ($data as $key => $value) {
             \App\Models\Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        return redirect()->route('admin.settings.contact')->with('success', 'Contact info updated successfully.');
+        return redirect()->route('admin.settings.contact')->with('success', 'Contact section updated successfully.');
     }
 
 }
