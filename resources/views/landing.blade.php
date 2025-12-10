@@ -774,9 +774,9 @@
             <div class="row g-4">
                 @foreach($landingArticles as $article)
                     <div class="col-md-4">
-                        <div class="article-card">
+                        <div class="article-card position-relative">
                             <div class="article-img-wrapper">
-                                <img src="{{ $article->image }}" alt="{{ $article->title }}">
+                                <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
                             </div>
                             <div class="card-body p-4">
                                 <span class="article-date">{{ $article->date }}</span>

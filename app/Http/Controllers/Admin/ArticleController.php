@@ -27,9 +27,14 @@ class ArticleController extends Controller
             'title' => 'required|max:255',
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|max:2048', // Validate as image
             'published_at' => 'nullable|date',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('articles', 'public');
+            $validated['image'] = $path;
+        }
 
         \App\Models\Article::create($validated);
 
@@ -53,11 +58,21 @@ class ArticleController extends Controller
             'title' => 'required|max:255',
             'excerpt' => 'nullable|max:255',
             'content' => 'required',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|max:2048',
             'published_at' => 'nullable|date',
         ]);
 
         $article = \App\Models\Article::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($article->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($article->image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
+            }
+            $path = $request->file('image')->store('articles', 'public');
+            $validated['image'] = $path;
+        }
+
         $article->update($validated);
 
         return redirect()->route('admin.articles.index')->with('success', 'Article updated successfully.');
@@ -66,6 +81,11 @@ class ArticleController extends Controller
     public function destroy(string $id)
     {
         $article = \App\Models\Article::findOrFail($id);
+
+        if ($article->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($article->image)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
+        }
+
         $article->delete();
 
         return redirect()->route('admin.articles.index')->with('success', 'Article deleted successfully.');

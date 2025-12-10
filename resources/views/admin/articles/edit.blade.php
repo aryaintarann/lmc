@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.articles.update', $article->id) }}" method="POST">
+            <form action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -39,10 +39,16 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="image" class="form-label">Image URL</label>
-                        <input type="url" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
-                            value="{{ old('image', $article->image) }}">
-                        <div class="form-text">Direct URL to the image.</div>
+                        <label for="image" class="form-label">Article Image</label>
+                        @if($article->image)
+                            <div class="mb-2">
+                                <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
+                                    alt="Current Image" class="img-thumbnail" style="height: 100px;">
+                            </div>
+                        @endif
+                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
+                            accept="image/*">
+                        <div class="form-text">Leave blank to keep current image.</div>
                         @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -65,4 +71,24 @@
             </form>
         </div>
     </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#content').summernote({
+                placeholder: 'Write your article content here...',
+                tabsize: 2,
+                height: 400,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
 @endsection

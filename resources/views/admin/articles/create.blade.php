@@ -5,7 +5,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('admin.articles.store') }}" method="POST">
+            <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-3">
@@ -38,10 +38,10 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="image" class="form-label">Image URL</label>
-                        <input type="url" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
-                            value="{{ old('image') }}">
-                        <div class="form-text">Direct URL to the image (e.g. https://placehold.co/600x400).</div>
+                        <label for="image" class="form-label">Article Image</label>
+                        <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
+                            accept="image/*">
+                        <div class="form-text">Upload an image for the article (Max 2MB).</div>
                         @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -63,4 +63,24 @@
             </form>
         </div>
     </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#content').summernote({
+                placeholder: 'Write your article content here...',
+                tabsize: 2,
+                height: 400,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
 @endsection

@@ -84,8 +84,9 @@
     <div class="container pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <img src="{{ $article->image }}" alt="{{ $article->title }}"
-                    class="img-fluid article-img w-100 object-fit-cover" style="height: 400px; object-fit: cover;">
+                <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
+                    alt="{{ $article->title }}" class="img-fluid article-img w-100 object-fit-cover"
+                    style="height: 400px; object-fit: cover;">
             </div>
         </div>
 
@@ -93,16 +94,27 @@
             <p class="lead fw-bold mb-4">{{ $article->excerpt }}</p>
 
             <div class="article-body">
-                {!! nl2br(e($article->content)) !!}
+                {!! $article->content !!}
             </div>
         </div>
+    </div>
 
-        <!-- Minimal Footer -->
-        <footer class="bg-dark text-white py-4 mt-5" style="background-color: var(--dark-blue) !important;">
-            <div class="container text-center">
-                <p class="text-white-50 small mb-0">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+    <!-- Minimal Footer -->
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5" style="background-color: var(--dark-blue) !important;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 text-center">
+                    <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
+                        style="height: 60px; filter: brightness(0) invert(1);">
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">We are committed to
+                        providing the best medical service with a personal
+                        touch. Your health is our priority.</p>
+                    <p class="text-white-50 small mt-4">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+                </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
 </body>
 

@@ -128,9 +128,10 @@
         <div class="row g-4">
             @foreach($articles as $article)
                 <div class="col-lg-4 col-md-6">
-                    <div class="article-card">
+                    <div class="article-card position-relative">
                         <div class="article-img-wrapper">
-                            <img src="{{ $article->image }}" alt="{{ $article->title }}">
+                            <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
+                                alt="{{ $article->title }}">
                         </div>
                         <div class="card-body p-4">
                             <span class="article-date">{{ $article->date }}</span>
@@ -146,9 +147,19 @@
     </div>
 
     <!-- Minimal Footer -->
-    <footer class="bg-dark text-white py-4 mt-5" style="background-color: var(--dark-blue) !important;">
-        <div class="container text-center">
-            <p class="text-white-50 small mb-0">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5" style="background-color: var(--dark-blue) !important;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 text-center">
+                    <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
+                        style="height: 60px; filter: brightness(0) invert(1);">
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">We are committed to
+                        providing the best medical service with a personal
+                        touch. Your health is our priority.</p>
+                    <p class="text-white-50 small mt-4">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+                </div>
+            </div>
         </div>
     </footer>
 
