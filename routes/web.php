@@ -40,6 +40,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
     Route::resource('doctors', \App\Http\Controllers\Admin\DoctorController::class);
     Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+
+    // Owner Only Routes
+    Route::middleware('role:owner')->group(function () {
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    });
 });
 
 require __DIR__ . '/auth.php';
