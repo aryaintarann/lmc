@@ -3,107 +3,51 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Header;
+use App\Models\Contact;
+use App\Models\About;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $settings = \App\Models\Setting::orderBy('key')->paginate(20);
-        return view('admin.settings.index', compact('settings'));
-    }
-
-    public function create()
-    {
-        // Settings are fixed keys generally, so create might not be needed, but we can allow it.
-        return view('admin.settings.create');
-    }
-
-    public function store(\Illuminate\Http\Request $request)
-    {
-        $validated = $request->validate([
-            'key' => 'required|unique:settings|max:255',
-            'value' => 'nullable',
-            'type' => 'required|in:text,image,textarea',
-        ]);
-
-        \App\Models\Setting::create($validated);
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting created successfully.');
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        $setting = \App\Models\Setting::findOrFail($id);
-        return view('admin.settings.edit', compact('setting'));
-    }
-
-    public function update(\Illuminate\Http\Request $request, string $id)
-    {
-        $validated = $request->validate([
-            'value' => 'nullable',
-        ]);
-
-        $setting = \App\Models\Setting::findOrFail($id);
-        $setting->update($validated);
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting updated successfully.');
-    }
-
-    public function destroy(string $id)
-    {
-        $setting = \App\Models\Setting::findOrFail($id);
-        $setting->delete();
-
-        return redirect()->route('admin.settings.index')->with('success', 'Setting deleted successfully.');
-    }
+    // ====================
+    // Header Management
+    // ====================
     // Section: Header
     public function header()
     {
-        $keys = [
-            'header_title',
-            'header_subtitle',
-            'header_badge',
-            'header_btn_text',
-            'header_btn_link',
-            'header_image'
-        ];
-        $settings = \App\Models\Setting::whereIn('key', $keys)->pluck('value', 'key');
-        return view('admin.settings.header', compact('settings'));
+        $header = Header::firstOrCreate([]);
+        return view('admin.settings.header', compact('header'));
     }
 
     public function updateHeader(Request $request)
     {
         $data = $request->validate([
-            'header_title' => 'required|string|max:255',
-            'header_subtitle' => 'required|string|max:255',
-            'header_badge' => 'nullable|string|max:255',
-            'header_btn_text' => 'nullable|string|max:50',
-            'header_btn_link' => 'nullable|string|max:255',
-            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'title.id' => 'required|string|max:255',
+            'title.en' => 'required|string|max:255',
+            'tagline.id' => 'required|string|max:255',
+            'tagline.en' => 'required|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Handle Image Upload
-        if ($request->hasFile('header_image')) {
-            $path = $request->file('header_image')->store('settings', 'public');
-            \App\Models\Setting::updateOrCreate(['key' => 'header_image'], ['value' => $path]);
+        $header = Header::firstOrCreate([]);
+
+        // Handle Logo Upload
+        if ($request->hasFile('logo')) {
+            // Delete old logo if exists
+            if ($header->logo) {
+                Storage::disk('public')->delete($header->logo);
+            }
+            $data['logo'] = $request->file('logo')->store('headers', 'public');
         }
 
-        // Update Text Fields
-        $textFields = ['header_title', 'header_subtitle', 'header_badge', 'header_btn_text', 'header_btn_link'];
-        foreach ($textFields as $key) {
-            if ($request->has($key)) {
-                \App\Models\Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key)]);
-            }
-        }
+        // Update title and tagline
+        $header->update([
+            'title' => ['id' => $data['title']['id'], 'en' => $data['title']['en']],
+            'tagline' => ['id' => $data['tagline']['id'], 'en' => $data['tagline']['en']],
+            'logo' => $data['logo'] ?? $header->logo,
+        ]);
 
         return redirect()->route('admin.settings.header')->with('success', 'Header updated successfully.');
     }
@@ -111,84 +55,78 @@ class SettingController extends Controller
     // Section: About
     public function about()
     {
-        $keys = ['about_title', 'about_subtitle', 'about_description', 'about_image', 'about_features'];
-        $settings = \App\Models\Setting::whereIn('key', $keys)->pluck('value', 'key');
-        return view('admin.settings.about', compact('settings'));
+        $about = About::firstOrCreate([]);
+        return view('admin.settings.about', compact('about'));
     }
 
     public function updateAbout(Request $request)
     {
         $data = $request->validate([
-            'about_title' => 'required|string|max:255',
-            'about_subtitle' => 'nullable|string|max:255',
-            'about_description' => 'required|string',
-            'about_image' => 'nullable|image|max:2048',
-            'about_features' => 'nullable|array',
-            'about_features.*' => 'nullable|string|max:255',
+            'title.id' => 'required|string|max:255',
+            'title.en' => 'required|string|max:255',
+            'description.id' => 'required|string',
+            'description.en' => 'required|string',
+            'vision.id' => 'nullable|string',
+            'vision.en' => 'nullable|string',
+            'mission.id' => 'nullable|string',
+            'mission.en' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
         ]);
 
+        $about = About::firstOrCreate([]);
+
         // Handle Image Upload
-        if ($request->hasFile('about_image')) {
-            $path = $request->file('about_image')->store('settings', 'public');
-            \App\Models\Setting::updateOrCreate(['key' => 'about_image'], ['value' => $path]);
-        }
-
-        // Handle Features List (JSON)
-        if (isset($data['about_features'])) {
-            // Filter out empty lines
-            $features = array_filter($data['about_features'], function ($value) {
-                return !is_null($value) && $value !== '';
-            });
-            \App\Models\Setting::updateOrCreate(['key' => 'about_features'], ['value' => json_encode(array_values($features))]);
-        }
-
-        // Handle specific text fields
-        $fields = ['about_title', 'about_subtitle', 'about_description'];
-        foreach ($fields as $field) {
-            if (isset($data[$field])) {
-                \App\Models\Setting::updateOrCreate(['key' => $field], ['value' => $data[$field]]);
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($about->image) {
+                Storage::disk('public')->delete($about->image);
             }
+            $data['image'] = $request->file('image')->store('abouts', 'public');
         }
+
+        // Update about data
+        $about->update([
+            'title' => ['id' => $data['title']['id'], 'en' => $data['title']['en']],
+            'description' => ['id' => $data['description']['id'], 'en' => $data['description']['en']],
+            'vision' => isset($data['vision']) ? ['id' => $data['vision']['id'] ?? '', 'en' => $data['vision']['en'] ?? ''] : null,
+            'mission' => isset($data['mission']) ? ['id' => $data['mission']['id'] ?? '', 'en' => $data['mission']['en'] ?? ''] : null,
+            'image' => $data['image'] ?? $about->image,
+        ]);
 
         return redirect()->route('admin.settings.about')->with('success', 'About section updated successfully.');
     }
 
     // Section: Contact
-    // Section: Contact
     public function contact()
     {
-        $keys = [
-            'contact_phone',
-            'contact_email',
-            'contact_address',
-            'contact_section_subtitle',
-            'contact_section_title',
-            'contact_section_description',
-            'contact_info_title',
-            'contact_info_description',
-            'contact_map_url'
-        ];
-        $settings = \App\Models\Setting::whereIn('key', $keys)->pluck('value', 'key');
-        return view('admin.settings.contact', compact('settings'));
+        $contact = Contact::firstOrCreate([]);
+        return view('admin.settings.contact', compact('contact'));
     }
 
     public function updateContact(Request $request)
     {
         $data = $request->validate([
-            'contact_phone' => 'required|string|max:255',
-            'contact_email' => 'required|email|max:255',
-            'contact_address' => 'required|string',
-            'contact_section_subtitle' => 'nullable|string|max:255',
-            'contact_section_title' => 'nullable|string|max:255',
-            'contact_section_description' => 'nullable|string',
-            'contact_info_title' => 'nullable|string|max:255',
-            'contact_info_description' => 'nullable|string',
-            'contact_map_url' => 'nullable|string',
+            'phone' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'address.id' => 'required|string',
+            'address.en' => 'required|string',
+            'whatsapp' => 'nullable|string|max:255',
+            'maps_embed' => 'nullable|string',
+            'facebook' => 'nullable|url|max:255',
+            'instagram' => 'nullable|url|max:255',
         ]);
 
-        foreach ($data as $key => $value) {
-            \App\Models\Setting::updateOrCreate(['key' => $key], ['value' => $value]);
-        }
+        $contact = Contact::firstOrCreate([]);
+        
+        $contact->update([
+            'phone' => $data['phone'],
+            'email' => $data['email'],
+            'address' => ['id' => $data['address']['id'], 'en' => $data['address']['en']],
+            'whatsapp' => $data['whatsapp'] ?? null,
+            'maps_embed' => $data['maps_embed'] ?? null,
+            'facebook' => $data['facebook'] ?? null,
+            'instagram' => $data['instagram'] ?? null,
+        ]);
 
         return redirect()->route('admin.settings.contact')->with('success', 'Contact section updated successfully.');
     }

@@ -60,15 +60,15 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="text-white-50">General Settings</h6>
-                            <h2 class="mb-0 fw-bold">{{ \App\Models\Setting::count() }}</h2>
+                            <h6 class="text-white-50">Total Users</h6>
+                            <h2 class="mb-0 fw-bold">{{ \App\Models\User::count() }}</h2>
                         </div>
-                        <i class="bi bi-gear fs-1 opacity-50"></i>
+                        <i class="bi bi-people fs-1 opacity-50"></i>
                     </div>
                 </div>
                 <div class="card-footer bg-white bg-opacity-10 border-0">
-                    <a href="{{ route('admin.settings.index') }}" class="text-white text-decoration-none small">Manage
-                        Config <i class="bi bi-arrow-right ms-1"></i></a>
+                    <a href="{{ route('admin.users.index') }}" class="text-white text-decoration-none small">Manage
+                        Users <i class="bi bi-arrow-right ms-1"></i></a>
                 </div>
             </div>
         </div>

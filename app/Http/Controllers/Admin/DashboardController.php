@@ -13,7 +13,7 @@ class DashboardController extends Controller
             'services' => \App\Models\Service::count(),
             'doctors' => \App\Models\Doctor::count(),
             'articles' => \App\Models\Article::count(),
-            'settings' => \App\Models\Setting::count(),
+            'users' => \App\Models\User::count(),
         ];
         $recentArticles = \App\Models\Article::latest()->take(5)->get();
 

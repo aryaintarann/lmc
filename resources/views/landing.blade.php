@@ -615,25 +615,22 @@
         <div class="container position-relative z-1">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-start animate-up">
-                    <span
-                        class="badge bg-white text-primary mb-3 px-3 py-2 rounded-pill shadow-sm fw-bold border border-light">
-                        {{ $settings['header_badge'] ?? __('Welcome to Legian Medical Clinic') }}
-                    </span>
                     <h1 class="display-3 fw-bolder mb-3 text-gradient-main" style="line-height: 1.2;">
-                        {{ $settings['header_title'] ?? __('Your Health, Our Top Priority') }}
+                        @php
+                            $locale = app()->getLocale();
+                            $title = $header && isset($header->title) ? ($header->title[$locale] ?? $header->title['id'] ?? '') : __('Your Health, Our Top Priority');
+                        @endphp
+                        {{ $title }}
                     </h1>
                     <p class="lead text-muted mb-4">
-                        {{ $settings['header_subtitle'] ?? __('Experience world-class healthcare with a personal touch.') }}
+                        @php
+                            $tagline = $header && isset($header->tagline) ? ($header->tagline[$locale] ?? $header->tagline['id'] ?? '') : __('Experience world-class healthcare with a personal touch.');
+                        @endphp
+                        {{ $tagline }}
                     </p>
                     <div class="d-flex gap-3">
-                        @php
-                            $btnLink = $settings['header_btn_link'] ?? '#contact';
-                            if (!Str::startsWith($btnLink, ['http://', 'https://', '#', '/'])) {
-                                $btnLink = 'https://' . $btnLink;
-                            }
-                        @endphp
-                        <a href="{{ $btnLink }}" class="btn btn-gradient btn-lg">
-                            {{ $settings['header_btn_text'] ?? __('Book Appointment') }}
+                        <a href="#contact" class="btn btn-gradient btn-lg">
+                            {{ __('Book Appointment') }}
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                         <a href="#services" class="btn btn-dark-blue btn-lg">{{ __('Our Services') }}</a>
@@ -652,8 +649,8 @@
                 </div>
                 <div class="col-lg-6 mt-5 mt-lg-0 animate-up delay-200">
                     <div class="position-relative">
-                        @if(isset($settings['header_image']))
-                            <img src="{{ asset('storage/' . $settings['header_image']) }}"
+                        @if($header && $header->logo)
+                            <img src="{{ asset('storage/' . $header->logo) }}"
                                 class="img-fluid rounded-4 shadow-lg position-relative z-2" alt="Medical Team"
                                 style="border-radius: 30px;">
                         @else
@@ -751,8 +748,8 @@
         <section id="about" class="section-block">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    @if(isset($settings['about_image']))
-                        <img src="{{ asset('storage/' . $settings['about_image']) }}" class="img-fluid rounded-4 shadow-lg" alt="About Clinic"
+                    @if($about && $about->image)
+                        <img src="{{ asset('storage/' . $about->image) }}" class="img-fluid rounded-4 shadow-lg" alt="About Clinic"
                             style="border-radius: var(--card-radius);">
                     @else
                         <img src="https://placehold.co/600x400" class="img-fluid rounded-4 shadow-lg" alt="Clinic Interior"
@@ -760,26 +757,23 @@
                     @endif
                 </div>
                 <div class="col-lg-6">
-                    <h2 class="section-title text-primary">{{ $settings['about_title'] ?? __('About Us') }}</h2>
-                    <h4 class="mb-3 fw-bold">{{ $settings['about_subtitle'] ?? ($settings['site_name'] ?? 'Legian Medical Clinic') }}</h4>
+                    @php
+                        $locale = app()->getLocale();
+                        $aboutTitle = $about && isset($about->title) ? ($about->title[$locale] ?? $about->title['id'] ?? '') : __('About Us');
+                        $aboutDesc = $about && isset($about->description) ? ($about->description[$locale] ?? $about->description['id'] ?? '') : __('Legian Medical Clinic has been a pillar of health in the community.');
+                    @endphp
+                    <h2 class="section-title text-primary">{{ $aboutTitle }}</h2>
                     <p class="text-muted lead mb-4">
-                        {{ $settings['about_description'] ?? __('Legian Medical Clinic has been a pillar of health in the community.') }}
+                        {{ $aboutDesc }}
                     </p>
-                    <ul class="list-unstyled text-muted">
-                        @php
-                            $features = isset($settings['about_features']) ? json_decode($settings['about_features'], true) : [];
-                            if(empty($features)) {
-                                $features = [
-                                    __('Experienced Medical Professionals'),
-                                    __('Advanced Medical Technology'),
-                                    __('Comfortable and Safe Environment')
-                                ];
-                            }
-                        @endphp
-                        @foreach($features as $feature)
-                             <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i>{{ $feature }}</li>
-                        @endforeach
-                    </ul>
+                    @if($about && $about->vision && ($about->vision[$locale] ?? $about->vision['id'] ?? ''))
+                        <h5 class="text-primary mb-2"><i class="bi bi-eye me-2"></i>{{ __('Vision') }}</h5>
+                        <p class="text-muted mb-3">{{ $about->vision[$locale] ?? $about->vision['id'] ?? '' }}</p>
+                    @endif
+                    @if($about && $about->mission && ($about->mission[$locale] ?? $about->mission['id'] ?? ''))
+                        <h5 class="text-primary mb-2"><i class="bi bi-flag me-2"></i>{{ __('Mission') }}</h5>
+                        <p class="text-muted mb-3">{{ $about->mission[$locale] ?? $about->mission['id'] ?? '' }}</p>
+                    @endif
                 </div>
             </div>
         </section>
@@ -788,9 +782,9 @@
         <section id="contact" class="py-5 section-block" style="background-color: var(--bg-light);">
             <div class="container">
                 <div class="text-center mb-5">
-                    <span class="section-subtitle">{{ $settings['contact_section_subtitle'] ?? __('Get in Touch') }}</span>
-                    <h2 class="section-title">{{ $settings['contact_section_title'] ?? __('Contact Us') }}</h2>
-                    <p class="text-muted">{{ $settings['contact_section_description'] ?? __('We are here to assist you. Reach out to us anytime.') }}</p>
+                    <span class="section-subtitle">{{ __('Get in Touch') }}</span>
+                    <h2 class="section-title">{{ __('Contact Us') }}</h2>
+                    <p class="text-muted">{{ __('We are here to assist you. Reach out to us anytime.') }}</p>
                 </div>
                 <div class="row g-4 align-items-stretch">
                     <!-- Contact Info Card -->
@@ -799,8 +793,8 @@
                             style="background: var(--dark-blue)!important; border-radius: var(--card-radius);">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>
-                                    <h3 class="fw-bold mb-4">{{ $settings['contact_info_title'] ?? __('Contact Information') }}</h3>
-                                    <p class="mb-4 text-white-50">{{ $settings['contact_info_description'] ?? __('Reach out to us directly or visit our clinic.') }}</p>
+                                    <h3 class="fw-bold mb-4">{{ __('Contact Information') }}</h3>
+                                    <p class="mb-4 text-white-50">{{ __('Reach out to us directly or visit our clinic.') }}</p>
 
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white rounded-circle me-3"
@@ -809,8 +803,7 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">{{ __('Phone') }}</small>
-                                            <span
-                                                class="fw-semibold">{{ $settings['contact_phone'] ?? '+62 361 755 123' }}</span>
+                                            <span class="fw-semibold">{{ $contact->phone ?? '+62 361 755 123' }}</span>
                                         </div>
                                     </div>
 
@@ -821,8 +814,7 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">{{ __('Email') }}</small>
-                                            <span class="fw-semibold">{{ $settings['contact_email'] ??
-                                                'info@legianclinic.com' }}</span>
+                                            <span class="fw-semibold">{{ $contact->email ?? 'info@legianclinic.com' }}</span>
                                         </div>
                                     </div>
 
@@ -833,16 +825,26 @@
                                         </div>
                                         <div>
                                             <small class="text-white-50 d-block">{{ __('Location') }}</small>
-                                            <span
-                                                class="fw-semibold">{{ $settings['contact_address'] ?? 'Jln. Legian No. 123, Bali' }}</span>
+                                            @php
+                                                $locale = app()->getLocale();
+                                                $address = $contact && isset($contact->address) ? ($contact->address[$locale] ?? $contact->address['id'] ?? '') : 'Jln. Legian No. 123, Bali';
+                                            @endphp
+                                            <span class="fw-semibold">{{ $address }}</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="mt-4">
                                     <div class="d-flex gap-3">
-                                        <a href="#" class="text-white fs-5"><i class="bi bi-facebook"></i></a>
-                                        <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
+                                        @if($contact && $contact->facebook)
+                                            <a href="{{ $contact->facebook }}" target="_blank" class="text-white fs-5 hover-white"><i class="bi bi-facebook"></i></a>
+                                        @endif
+                                        @if($contact && $contact->instagram)
+                                            <a href="{{ $contact->instagram }}" target="_blank" class="text-white fs-5 hover-white"><i class="bi bi-instagram"></i></a>
+                                        @endif
+                                        @if($contact && $contact->whatsapp)
+                                            <a href="https://wa.me/{{ str_replace([' ', '+', '-'], '', $contact->whatsapp) }}" target="_blank" class="text-white fs-5 hover-white"><i class="bi bi-whatsapp"></i></a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -853,11 +855,15 @@
                     <div class="col-lg-7">
                         <div class="card border-0 h-100 overflow-hidden shadow-sm"
                             style="border-radius: var(--card-radius);">
-                            <iframe
-                                src="{{ $settings['contact_map_url'] ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15773.66578051662!2d115.1764618!3d-8.7180415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd246b9a8ae1e5b%3A0xc3b821a3641031c5!2sLegian%20Area!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid' }}"
-                                width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen=""
-                                loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
+                            @if($contact && $contact->maps_embed)
+                                {!! $contact->maps_embed !!}
+                            @else
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15773.66578051662!2d115.1764618!3d-8.7180415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd246b9a8ae1e5b%3A0xc3b821a3641031c5!2sLegian%20Area!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+                                    width="100%" height="100%" style="border:0; min-height: 400px;" allowfullscreen=""
+                                    loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            @endif
                         </div>
                     </div>
                 </div>

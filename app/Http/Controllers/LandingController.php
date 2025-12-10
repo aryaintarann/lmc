@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Header;
+use App\Models\Contact;
+use App\Models\About;
+use App\Models\Service;
+use App\Models\Doctor;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
     public function index()
     {
-        $settings = \App\Models\Setting::pluck('value', 'key');
-        $services = \App\Models\Service::all();
-        $doctors = \App\Models\Doctor::all();
-        $articles = \App\Models\Article::whereNotNull('published_at')->latest('published_at')->get();
+        $header = Header::first();
+        $contact = Contact::first();
+        $about = About::first();
+        $services = Service::all();
+        $doctors = Doctor::all();
+        $articles = Article::whereNotNull('published_at')->latest('published_at')->get();
         $landingArticles = $articles->take(3);
         $totalArticles = $articles->count();
 
-        return view('landing', compact('settings', 'services', 'doctors', 'landingArticles', 'totalArticles'));
+        return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles'));
     }
 
     public function articles()

@@ -4,77 +4,78 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4">
                     <form action="{{ route('admin.settings.contact.update') }}" method="POST">
                         @csrf
 
-                        <h5 class="text-secondary border-bottom pb-2 mb-3">Section Headings</h5>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="contact_section_subtitle" class="form-label fw-bold small text-muted">Section
-                                    Subtitle</label>
-                                <input type="text" class="form-control" id="contact_section_subtitle"
-                                    name="contact_section_subtitle"
-                                    value="{{ $settings['contact_section_subtitle'] ?? 'Get in Touch' }}">
+                        {{-- Basic Contact Info --}}
+                        <h5 class="mb-3 text-primary"><i class="bi bi-telephone me-2"></i>Contact Details</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label fw-bold text-muted">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                    value="{{ $contact->phone ??' '' }}" required
+                                    placeholder="+62 361 755 123">
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="contact_section_title" class="form-label fw-bold small text-muted">Section
-                                    Title</label>
-                                <input type="text" class="form-control" id="contact_section_title"
-                                    name="contact_section_title"
-                                    value="{{ $settings['contact_section_title'] ?? 'Contact Us' }}">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label fw-bold text-muted">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ $contact->email ?? '' }}" required
+                                    placeholder="info@lmc.com">
                             </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="contact_section_description" class="form-label fw-bold small text-muted">Section
-                                Description</label>
-                            <textarea class="form-control" id="contact_section_description"
-                                name="contact_section_description"
-                                rows="2">{{ $settings['contact_section_description'] ?? 'We are here to assist you. Reach out to us anytime.' }}</textarea>
                         </div>
 
-                        <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4">Contact Details Box</h5>
-                        <div class="mb-3">
-                            <label for="contact_info_title" class="form-label fw-bold small text-muted">Box Title</label>
-                            <input type="text" class="form-control" id="contact_info_title" name="contact_info_title"
-                                value="{{ $settings['contact_info_title'] ?? 'Contact Information' }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="contact_info_description" class="form-label fw-bold small text-muted">Box
-                                Description</label>
-                            <textarea class="form-control" id="contact_info_description" name="contact_info_description"
-                                rows="2">{{ $settings['contact_info_description'] ?? 'Reach out to us directly or visit our clinic.' }}</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contact_phone" class="form-label fw-bold small text-muted"><i
-                                    class="bi bi-telephone me-2"></i>Phone Number</label>
-                            <input type="text" class="form-control" id="contact_phone" name="contact_phone"
-                                value="{{ $settings['contact_phone'] ?? '' }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="contact_email" class="form-label fw-bold small text-muted"><i
-                                    class="bi bi-envelope me-2"></i>Email Address</label>
-                            <input type="email" class="form-control" id="contact_email" name="contact_email"
-                                value="{{ $settings['contact_email'] ?? '' }}" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="contact_address" class="form-label fw-bold small text-muted"><i
-                                    class="bi bi-geo-alt me-2"></i>Physical Address</label>
-                            <textarea class="form-control" id="contact_address" name="contact_address" rows="2"
-                                required>{{ $settings['contact_address'] ?? '' }}</textarea>
+                        {{-- Address (Multi-language) --}}
+                        <h5 class="mb-3 text-primary"><i class="bi bi-geo-alt me-2"></i>Physical Address</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="address_id" class="form-label fw-bold text-muted">Address (Bahasa Indonesia)</label>
+                                <textarea class="form-control" id="address_id" name="address[id]" rows="3"
+                                    required>{{ $contact->address['id'] ?? '' }}</textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="address_en" class="form-label fw-bold text-muted">Address (English)</label>
+                                <textarea class="form-control" id="address_en" name="address[en]" rows="3"
+                                    required>{{ $contact->address['en'] ?? '' }}</textarea>
+                            </div>
                         </div>
 
-                        <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4">Google Map</h5>
+                        {{-- Additional Contact --}}
+                        <h5 class="mb-3 text-primary"><i class="bi bi-chat-dots me-2"></i>Additional Contact</h5>
                         <div class="mb-4">
-                            <label for="contact_map_url" class="form-label fw-bold small text-muted">Map Embed URL (src
-                                attribute only)</label>
-                            <input type="text" class="form-control" id="contact_map_url" name="contact_map_url"
-                                value="{{ $settings['contact_map_url'] ?? '' }}"
-                                placeholder="https://www.google.com/maps/embed?pb=...">
-                            <div class="form-text">Paste the URL from the 'src' attribute of the Google Maps Embed code.
+                            <label for="whatsapp" class="form-label fw-bold text-muted"><i class="bi bi-whatsapp me-2"></i>WhatsApp Number</label>
+                            <input type="text" class="form-control" id="whatsapp" name="whatsapp"
+                                value="{{ $contact->whatsapp ?? '' }}"
+                                placeholder="+62 812 3456 7890">
+                            <div class="form-text">Include country code, will be used for WhatsApp link</div>
+                        </div>
+
+                        {{-- Social Media --}}
+                        <h5 class="mb-3 text-primary"><i class="bi bi-share me-2"></i>Social Media</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="facebook" class="form-label fw-bold text-muted"><i class="bi bi-facebook me-2"></i>Facebook URL</label>
+                                <input type="url" class="form-control" id="facebook" name="facebook"
+                                    value="{{ $contact->facebook ?? '' }}"
+                                    placeholder="https://facebook.com/legianmedicalclinic">
                             </div>
+                            <div class="col-md-6">
+                                <label for="instagram" class="form-label fw-bold text-muted"><i class="bi bi-instagram me-2"></i>Instagram URL</label>
+                                <input type="url" class="form-control" id="instagram" name="instagram"
+                                    value="{{ $contact->instagram ?? '' }}"
+                                    placeholder="https://instagram.com/legianmedicalclinic">
+                            </div>
+                        </div>
+
+                        {{-- Google Maps--}}
+                        <h5 class="mb-3 text-primary"><i class="bi bi-map me-2"></i>Google Maps</h5>
+                        <div class="mb-4">
+                            <label for="maps_embed" class="form-label fw-bold text-muted">Maps Embed Code</label>
+                            <textarea class="form-control" id="maps_embed" name="maps_embed" rows="3"
+                                placeholder="<iframe src='https://www.google.com/maps/embed?pb=...' ...></iframe>">{{ $contact->maps_embed ?? '' }}</textarea>
+                            <div class="form-text">Paste the full embed code from Google Maps</div>
                         </div>
 
                         <div class="d-flex justify-content-end">
