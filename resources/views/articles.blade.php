@@ -110,19 +110,51 @@
 <body>
 
     <!-- Simple Navbar -->
-    <nav class="navbar navbar-light sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
-                <img src="img/lmc.png" alt="Legian Medical Clinic">
+                <img src="{{ asset('img/lmc.png') }}" alt="Legian Medical Clinic">
             </a>
-            <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4">Back to Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4">{{ __('Back to Home') }}</a>
+                    </li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-translate fs-5"></i>
+                                <span class="ls-1">{{ strtoupper(app()->getLocale()) }}</span>
+                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.7rem;"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'en') }}">
+                                        <span>English</span>
+                                        @if(app()->getLocale() == 'en') <i class="bi bi-check-circle-fill text-success"></i> @endif
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'id') }}">
+                                        <span>Indonesia</span>
+                                        @if(app()->getLocale() == 'id') <i class="bi bi-check-circle-fill text-success"></i> @endif
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
     <div class="container py-5">
         <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-dark">Health Insights</h1>
-            <p class="lead text-muted">Explore our full collection of health articles and updates.</p>
+            <h1 class="display-4 fw-bold text-dark">{{ __('Health Insights') }}</h1>
+            <p class="lead text-muted">{{ __('Explore our full collection of health articles and updates.') }}</p>
         </div>
 
         <div class="row g-4">
@@ -137,8 +169,7 @@
                             <span class="article-date">{{ $article->date }}</span>
                             <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
                             <p class="text-muted mb-4">{{ $article->excerpt }}</p>
-                            <a href="{{ route('articles.show', $article->id) }}" class="article-link stretched-link">Read
-                                More <i class="bi bi-arrow-right"></i></a>
+                            <a href="{{ route('articles.show', $article->id) }}" class="article-link stretched-link">{{ __('Read More') }} <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -154,15 +185,14 @@
                 <div class="col-12 text-center">
                     <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
                         style="height: 60px; filter: brightness(0) invert(1);">
-                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">We are committed to
-                        providing the best medical service with a personal
-                        touch. Your health is our priority.</p>
-                    <p class="text-white-50 small mt-4">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">{{ __('We are committed to providing the best medical service with a personal touch. Your health is our priority.') }}</p>
+                    <p class="text-white-50 small mt-4">&copy; {{ date('Y') }} {{ __('Legian Medical Clinic. All Rights Reserved.') }}</p>
                 </div>
             </div>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

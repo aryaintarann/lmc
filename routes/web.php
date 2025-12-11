@@ -47,6 +47,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     });
 });
 
+// Translation API Routes
+Route::post('/api/translate', [\App\Http\Controllers\TranslationController::class, 'translate'])->name('api.translate');
+Route::post('/api/translate-batch', [\App\Http\Controllers\TranslationController::class, 'translateBatch'])->name('api.translate.batch');
+
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'id'])) {
         session(['locale' => $locale]);

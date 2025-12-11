@@ -121,6 +121,23 @@ php artisan serve
 
 Visit: `http://localhost:8000`
 
+### 8. Google Cloud Translation Setup (Optional but Recommended)
+
+For auto-translation feature, follow the detailed guide in [GOOGLE_CLOUD_SETUP.md](GOOGLE_CLOUD_SETUP.md).
+
+**Quick Setup:**
+1. Create a Google Cloud project
+2. Enable Cloud Translation API
+3. Create Service Account and download JSON key
+4. Save key to `storage/app/google-cloud/service-account-key.json`
+5. Update `.env` with your project ID:
+   ```env
+   GOOGLE_CLOUD_PROJECT_ID=your-project-id
+   GOOGLE_CLOUD_KEY_FILE=google-cloud/service-account-key.json
+   ```
+
+**Without Google Cloud:** The app will still work, but dynamic content won't be auto-translated. Admin must manually provide translations for all content.
+
 ## 📚 Database Structure
 
 ### Core Tables
@@ -214,6 +231,25 @@ Access translated content:
 $service->title['id']; // Indonesian
 $service->title['en']; // English
 ```
+
+### ✨ Auto-Translation Feature
+
+**NEW:** The app now features automatic translation powered by **Google Cloud Translation API**!
+
+**How it works:**
+1. Admin creates content in their preferred language (e.g., Indonesian)
+2. When a visitor switches to English, content is automatically translated using Google Cloud
+3. Translations are cached for performance and to minimize API calls
+4. Manual translations can override auto-translations anytime
+
+**Benefits:**
+- ✅ No need to manually translate all content
+- ✅ Instant translation for new content
+- ✅ Free tier: 500,000 characters/month
+- ✅ Cached results for better performance
+
+**Setup:** Follow [GOOGLE_CLOUD_SETUP.md](GOOGLE_CLOUD_SETUP.md) for complete instructions.
+
 
 ## 🔐 Security
 

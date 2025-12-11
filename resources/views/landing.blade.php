@@ -918,10 +918,8 @@
                 <div class="col-12 text-center">
                     <img src="img/lmc.png" alt="Logo" class="mb-4"
                         style="height: 60px; filter: brightness(0) invert(1);">
-                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">We are committed to
-                        providing the best medical service with a personal
-                        touch. Your health is our priority.</p>
-                    <p class="text-white-50 small mt-4">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">{{ __('We are committed to providing the best medical service with a personal touch. Your health is our priority.') }}</p>
+                    <p class="text-white-50 small mt-4">&copy; {{ date('Y') }} {{ __('Legian Medical Clinic. All Rights Reserved.') }}</p>
                 </div>
             </div>
         </div>
@@ -986,6 +984,32 @@
                     dynamicContent.prepend(section);
                     section.scrollIntoView({ behavior: 'smooth' });
                 }
+            }
+        });
+
+        // Language Switch Handler with Auto-Translation
+        document.addEventListener('click', function(e) {
+            const langLink = e.target.closest('a[href*="lang/"]');
+            if (langLink) {
+                e.preventDefault();
+                
+                const href = langLink.getAttribute('href');
+                const newLang = href.split('/').pop(); // Extract 'en' or 'id'
+                const currentLang = '{{ app()->getLocale() }}';
+                
+                if (newLang === currentLang) {
+                    return; // Same language, do nothing
+                }
+                
+                // Determine source language (what admin entered)
+                // By default, assume admin enters in Indonesian
+                const sourceLang = 'id';
+                const targetLang = newLang;
+                
+                console.log(`Switching language from ${currentLang} to ${newLang}`);
+                
+                // Redirect to change session language
+                window.location.href = href;
             }
         });
     </script>
