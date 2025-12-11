@@ -11,7 +11,7 @@
                 <div class="mb-3">
                     <label for="key" class="form-label">Key</label>
                     <input type="text" class="form-control @error('key') is-invalid @enderror" id="key" name="key"
-                        value="{{ old('key') }}" required placeholder="e.g. footer_text">
+                        value="{{ old('key') }}" placeholder="e.g. footer_text">
                     <div class="form-text">Use lowercase and underscores.</div>
                     @error('key')
                         <div class="invalid-feedback">{{ $message }}</div>

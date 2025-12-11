@@ -28,7 +28,7 @@
                             <label for="title_en" class="form-label">Title (EN)</label>
                             <input type="text" class="form-control @error('title.en') is-invalid @enderror" id="title_en"
                                 name="title[en]"
-                                value="{{ old('title.en', $service->getTranslation('title', 'en', false)) }}" required>
+                                value="{{ old('title.en', $service->getTranslation('title', 'en', false)) }}">
                             @error('title.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -38,7 +38,7 @@
                             <label for="description_en" class="form-label">Description (EN)</label>
                             <textarea class="form-control @error('description.en') is-invalid @enderror" id="description_en"
                                 name="description[en]" rows="3"
-                                required>{{ old('description.en', $service->getTranslation('description', 'en', false)) }}</textarea>
+                               >{{ old('description.en', $service->getTranslation('description', 'en', false)) }}</textarea>
                             @error('description.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -78,7 +78,7 @@
                         <span class="input-group-text"><i id="icon-preview"
                                 class="{{ $service->icon ?: 'bi-activity' }} text-primary"></i></span>
                         <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon"
-                            value="{{ old('icon', $service->icon) }}" readonly required>
+                            value="{{ old('icon', $service->icon) }}" readonly>
                         <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"
                             data-bs-target="#iconModal">Change Icon</button>
                     </div>

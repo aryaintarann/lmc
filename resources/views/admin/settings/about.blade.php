@@ -16,13 +16,13 @@
                             <div class="col-md-6">
                                 <label for="title_id" class="form-label fw-bold text-muted">Title (Bahasa Indonesia)</label>
                                 <input type="text" class="form-control" id="title_id" name="title[id]"
-                                    value="{{ $about->title['id'] ?? '' }}" required
+                                    value="{{ $about->title['id'] ?? '' }}"
                                     placeholder="Tentang Kami">
                             </div>
                             <div class="col-md-6">
                                 <label for="title_en" class="form-label fw-bold text-muted">Title (English)</label>
                                 <input type="text" class="form-control" id="title_en" name="title[en]"
-                                    value="{{ $about->title['en'] ?? '' }}" required
+                                    value="{{ $about->title['en'] ?? '' }}"
                                     placeholder="About Us">
                             </div>
                         </div>
@@ -33,12 +33,12 @@
                             <div class="col-md-6">
                                 <label for="description_id" class="form-label fw-bold text-muted">Description (Bahasa Indonesia)</label>
                                 <textarea class="form-control" id="description_id" name="description[id]" rows="6"
-                                    required>{{ $about->description['id'] ?? '' }}</textarea>
+                                   >{{ $about->description['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="description_en" class="form-label fw-bold text-muted">Description (English)</label>
                                 <textarea class="form-control" id="description_en" name="description[en]" rows="6"
-                                    required>{{ $about->description['en'] ?? '' }}</textarea>
+                                   >{{ $about->description['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 

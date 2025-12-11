@@ -16,14 +16,14 @@
                             <div class="col-md-6">
                                 <label for="phone" class="form-label fw-bold text-muted">Phone Number</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                    value="{{ $contact->phone ??' '' }}" required
+                                    value="{{ $contact->phone ?? '' }}"
                                     placeholder="+62 361 755 123">
                             </div>
                             <div class="col-md-6">
                                 <label for="email" class="form-label fw-bold text-muted">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $contact->email ?? '' }}" required
-                                    placeholder="info@lmc.com">
+                                    value="{{ $contact->email ?? '' }}"
+                                    placeholder="clinic@example.com">
                             </div>
                         </div>
 
@@ -33,12 +33,12 @@
                             <div class="col-md-6">
                                 <label for="address_id" class="form-label fw-bold text-muted">Address (Bahasa Indonesia)</label>
                                 <textarea class="form-control" id="address_id" name="address[id]" rows="3"
-                                    required>{{ $contact->address['id'] ?? '' }}</textarea>
+                                   >{{ $contact->address['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="address_en" class="form-label fw-bold text-muted">Address (English)</label>
                                 <textarea class="form-control" id="address_en" name="address[en]" rows="3"
-                                    required>{{ $contact->address['en'] ?? '' }}</textarea>
+                                   >{{ $contact->address['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 

@@ -17,111 +17,103 @@ class AutoTranslateObserver
     }
 
     /**
-     * Handle the Model "retrieved" event.
-     * Auto-translate missing translations when a model is retrieved
+     * Handle the Model "saving" event.
+     * Auto-translate missing translations BEFORE saving to database
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
-    public function retrieved(Model $model)
+    public function saving(Model $model)
+    {
+        $this->autoTranslate($model);
+    }
+
+    /**
+     * Handle the Model "creating" event.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public function creating(Model $model)
+    {
+        $this->autoTranslate($model);
+    }
+
+    /**
+     * Handle the Model "updating" event.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public function updating(Model $model)
+    {
+        $this->autoTranslate($model);
+    }
+
+    /**
+     * Auto-translate missing translations
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    protected function autoTranslate(Model $model)
     {
         // Skip if model doesn't have translatable fields
         if (!property_exists($model, 'translatable') || empty($model->translatable)) {
             return;
         }
 
-        $currentLocale = app()->getLocale();
-        $fallbackLocale = config('app.fallback_locale', 'id');
-
-        // Skip if current locale is the fallback locale
-        if ($currentLocale === $fallbackLocale) {
-            return;
-        }
-
-        // Skip if already translated in this request (avoid duplicate API calls)
-        $modelKey = get_class($model) . '_' . $model->getKey();
-        if (isset($this->translatedInCurrentRequest[$modelKey])) {
-            return;
-        }
-
-        $hasChanges = false;
-
+        $locales = ['id', 'en'];
+        
         // Check each translatable attribute
         foreach ($model->translatable as $attribute) {
             try {
                 $translations = $model->getTranslations($attribute);
                 
-                // Skip if translation already exists for current locale
-                if (!empty($translations[$currentLocale])) {
-                    continue;
-                }
-
-                // Skip if no source text available
-                if (empty($translations[$fallbackLocale])) {
-                    continue;
-                }
-
-                $sourceText = $translations[$fallbackLocale];
+                // Check which locales are missing or empty
+                $missingLocales = [];
+                $sourceLocale = null;
+                $sourceText = null;
                 
-                // Skip empty or whitespace-only text
-                if (trim($sourceText) === '') {
-                    continue;
+                foreach ($locales as $locale) {
+                    $text = trim($translations[$locale] ?? '');
+                    
+                    if (empty($text)) {
+                        $missingLocales[] = $locale;
+                    } else if ($sourceText === null) {
+                        // Use first non-empty locale as source
+                        $sourceLocale = $locale;
+                        $sourceText = $text;
+                    }
                 }
-
-                // Translate automatically
-                $translatedText = $this->translationService->translate(
-                    $sourceText,
-                    $fallbackLocale,
-                    $currentLocale
-                );
-
-                // Quality check: if translation is identical to source, might be an error
-                // But still use it (could be proper noun or already in target language)
-                if ($translatedText === $sourceText) {
-                    Log::info("Translation returned same text for {$attribute}", [
-                        'model' => get_class($model),
-                        'id' => $model->getKey(),
-                        'text' => substr($sourceText, 0, 50),
-                    ]);
+                
+                // If we have source text and missing locales, translate
+                if ($sourceText && !empty($missingLocales)) {
+                    foreach ($missingLocales as $targetLocale) {
+                        $translatedText = $this->translationService->translate(
+                            $sourceText,
+                            $sourceLocale,
+                            $targetLocale
+                        );
+                        
+                        // Set translation directly on model
+                        $model->setTranslation($attribute, $targetLocale, $translatedText);
+                        
+                        Log::info("Auto-translated {$attribute} on save", [
+                            'model' => get_class($model),
+                            'from' => $sourceLocale,
+                            'to' => $targetLocale,
+                            'chars' => strlen($sourceText),
+                        ]);
+                    }
                 }
-
-                // Set the translation
-                $model->setTranslation($attribute, $currentLocale, $translatedText);
-                $hasChanges = true;
-
-                Log::info("Auto-translated {$attribute}", [
-                    'model' => get_class($model),
-                    'id' => $model->getKey(),
-                    'from' => $fallbackLocale,
-                    'to' => $currentLocale,
-                    'chars' => strlen($sourceText),
-                ]);
 
             } catch (\Exception $e) {
                 Log::error("Auto-translation failed for {$attribute}", [
                     'model' => get_class($model),
-                    'id' => $model->getKey(),
                     'error' => $e->getMessage(),
                 ]);
                 // Continue with other attributes even if one fails
-            }
-        }
-
-        // Save translations to database for future use
-        if ($hasChanges) {
-            try {
-                // Save without triggering events to avoid infinite loop
-                $model->saveQuietly();
-                
-                // Mark as translated in this request
-                $this->translatedInCurrentRequest[$modelKey] = true;
-                
-            } catch (\Exception $e) {
-                Log::error("Failed to save auto-translations", [
-                    'model' => get_class($model),
-                    'id' => $model->getKey(),
-                    'error' => $e->getMessage(),
-                ]);
             }
         }
     }

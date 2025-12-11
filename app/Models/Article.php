@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use Spatie\Translatable\HasTranslations;
-use App\Traits\AutoTranslates;
 
 class Article extends Model
 {
-    use HasTranslations, AutoTranslates;
+    use HasTranslations;
 
     protected $guarded = [];
 

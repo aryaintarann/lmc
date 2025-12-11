@@ -16,13 +16,13 @@
                             <div class="col-md-6">
                                 <label for="title_id" class="form-label fw-bold text-muted">Title (Bahasa Indonesia)</label>
                                 <input type="text" class="form-control" id="title_id" name="title[id]"
-                                    value="{{ $header->title['id'] ?? '' }}" required
+                                    value="{{ $header->title['id'] ?? '' }}"
                                     placeholder="Kesehatan Anda, Prioritas Kami">
                             </div>
                             <div class="col-md-6">
                                 <label for="title_en" class="form-label fw-bold text-muted">Title (English)</label>
                                 <input type="text" class="form-control" id="title_en" name="title[en]"
-                                    value="{{ $header->title['en'] ?? '' }}" required
+                                    value="{{ $header->title['en'] ?? '' }}"
                                     placeholder="Your Health, Our Priority">
                             </div>
                         </div>
@@ -32,13 +32,11 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label for="tagline_id" class="form-label fw-bold text-muted">Tagline (Bahasa Indonesia)</label>
-                                <textarea class="form-control" id="tagline_id" name="tagline[id]" rows="3"
-                                    required>{{ $header->tagline['id'] ?? '' }}</textarea>
+                                <textarea class="form-control" id="tagline_id" name="tagline[id]" rows="3">{{ $header->tagline['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="tagline_en" class="form-label fw-bold text-muted">Tagline (English)</label>
-                                <textarea class="form-control" id="tagline_en" name="tagline[en]" rows="3"
-                                    required>{{ $header->tagline['en'] ?? '' }}</textarea>
+                                <textarea class="form-control" id="tagline_en" name="tagline[en]" rows="3">{{ $header->tagline['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 

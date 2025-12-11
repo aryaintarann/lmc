@@ -26,7 +26,7 @@
                         <div class="mb-3">
                             <label for="title_en" class="form-label">Title (EN)</label>
                             <input type="text" class="form-control @error('title.en') is-invalid @enderror" id="title_en"
-                                name="title[en]" value="{{ old('title.en') }}" required>
+                                name="title[en]" value="{{ old('title.en') }}">
                             @error('title.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -35,7 +35,7 @@
                         <div class="mb-3">
                             <label for="description_en" class="form-label">Description (EN)</label>
                             <textarea class="form-control @error('description.en') is-invalid @enderror" id="description_en"
-                                name="description[en]" rows="3" required>{{ old('description.en') }}</textarea>
+                                name="description[en]" rows="3">{{ old('description.en') }}</textarea>
                             @error('description.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -72,7 +72,7 @@
                     <div class="input-group">
                         <span class="input-group-text"><i id="icon-preview" class="bi bi-activity text-primary"></i></span>
                         <input type="text" class="form-control @error('icon') is-invalid @enderror" id="icon" name="icon"
-                            value="{{ old('icon', 'bi-activity') }}" readonly required>
+                            value="{{ old('icon', 'bi-activity') }}" readonly>
                         <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"
                             data-bs-target="#iconModal">Change Icon</button>
                     </div>

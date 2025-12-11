@@ -28,7 +28,7 @@
                             <label for="title_en" class="form-label">Title (EN)</label>
                             <input type="text" class="form-control @error('title.en') is-invalid @enderror" id="title_en"
                                 name="title[en]"
-                                value="{{ old('title.en', $article->getTranslation('title', 'en', false)) }}" required>
+                                value="{{ old('title.en', $article->getTranslation('title', 'en', false)) }}">
                             @error('title.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
