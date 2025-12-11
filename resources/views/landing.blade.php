@@ -629,8 +629,17 @@
                         {{ $tagline }}
                     </p>
                     <div class="d-flex gap-3">
-                        <a href="#contact" class="btn btn-gradient btn-lg">
-                            {{ __('Book Appointment') }}
+                        @php
+                            $buttonText = $header && isset($header->button_text) ? ($header->button_text[$locale] ?? $header->button_text['id'] ?? '') : __('Book Appointment');
+                            $buttonUrl = $header && isset($header->button_url) ? $header->button_url : '#contact';
+                            
+                            // Check if URL is not an anchor link and doesn't have http/https
+                            if ($buttonUrl && !Str::startsWith($buttonUrl, ['http://', 'https://', '#'])) {
+                                $buttonUrl = 'https://' . $buttonUrl;
+                            }
+                        @endphp
+                        <a href="{{ $buttonUrl }}" class="btn btn-gradient btn-lg">
+                            {{ $buttonText }}
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                         <a href="#services" class="btn btn-dark-blue btn-lg">{{ __('Our Services') }}</a>
@@ -768,11 +777,11 @@
                     </p>
                     @if($about && $about->vision && ($about->vision[$locale] ?? $about->vision['id'] ?? ''))
                         <h5 class="text-primary mb-2"><i class="bi bi-eye me-2"></i>{{ __('Vision') }}</h5>
-                        <p class="text-muted mb-3">{{ $about->vision[$locale] ?? $about->vision['id'] ?? '' }}</p>
+                        <div class="text-muted mb-3">{!! $about->vision[$locale] ?? $about->vision['id'] ?? '' !!}</div>
                     @endif
                     @if($about && $about->mission && ($about->mission[$locale] ?? $about->mission['id'] ?? ''))
                         <h5 class="text-primary mb-2"><i class="bi bi-flag me-2"></i>{{ __('Mission') }}</h5>
-                        <p class="text-muted mb-3">{{ $about->mission[$locale] ?? $about->mission['id'] ?? '' }}</p>
+                        <div class="text-muted mb-3">{!! $about->mission[$locale] ?? $about->mission['id'] ?? '' !!}</div>
                     @endif
                 </div>
             </div>

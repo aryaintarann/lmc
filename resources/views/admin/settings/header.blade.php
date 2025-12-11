@@ -38,6 +38,26 @@
                                 <label for="tagline_en" class="form-label fw-bold text-muted">Tagline (English)</label>
                                 <textarea class="form-control" id="tagline_en" name="tagline[en]" rows="3">{{ $header->tagline['en'] ?? '' }}</textarea>
                             </div>
+                        {{-- Button Section --}}
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label for="button_text_id" class="form-label fw-bold text-muted">Button Text (ID)</label>
+                                <input type="text" class="form-control" id="button_text_id" name="button_text[id]"
+                                    value="{{ $header->button_text['id'] ?? '' }}"
+                                    placeholder="Buat Janji Temu">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="button_text_en" class="form-label fw-bold text-muted">Button Text (EN)</label>
+                                <input type="text" class="form-control" id="button_text_en" name="button_text[en]"
+                                    value="{{ $header->button_text['en'] ?? '' }}"
+                                    placeholder="Book Appointment">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="button_url" class="form-label fw-bold text-muted">Button URL</label>
+                                <input type="text" class="form-control" id="button_url" name="button_url"
+                                    value="{{ $header->button_url ?? '' }}"
+                                    placeholder="https://wa.me/...">
+                            </div>
                         </div>
 
                         {{-- Logo Section --}}

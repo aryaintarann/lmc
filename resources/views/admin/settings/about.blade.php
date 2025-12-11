@@ -47,11 +47,11 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label for="vision_id" class="form-label fw-bold text-muted">Vision (Bahasa Indonesia)</label>
-                                <textarea class="form-control" id="vision_id" name="vision[id]" rows="3">{{ $about->vision['id'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="vision_id" name="vision[id]" rows="3">{{ $about->vision['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="vision_en" class="form-label fw-bold text-muted">Vision (English)</label>
-                                <textarea class="form-control" id="vision_en" name="vision[en]" rows="3">{{ $about->vision['en'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="vision_en" name="vision[en]" rows="3">{{ $about->vision['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 
@@ -60,11 +60,11 @@
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <label for="mission_id" class="form-label fw-bold text-muted">Mission (Bahasa Indonesia)</label>
-                                <textarea class="form-control" id="mission_id" name="mission[id]" rows="3">{{ $about->mission['id'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="mission_id" name="mission[id]" rows="3">{{ $about->mission['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="mission_en" class="form-label fw-bold text-muted">Mission (English)</label>
-                                <textarea class="form-control" id="mission_en" name="mission[en]" rows="3">{{ $about->mission['en'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="mission_en" name="mission[en]" rows="3">{{ $about->mission['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 
@@ -94,4 +94,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 150,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['view', ['codeview']]
+                ]
+            });
+        });
+    </script>
 @endsection

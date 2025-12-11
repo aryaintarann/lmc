@@ -27,6 +27,9 @@ class SettingController extends Controller
             'tagline.id' => 'nullable|string|max:255',
             'tagline.en' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'button_text.id' => 'nullable|string|max:255',
+            'button_text.en' => 'nullable|string|max:255',
+            'button_url' => 'nullable|string|max:255',
         ]);
 
         // Ensure at least one language for title and tagline
@@ -36,9 +39,12 @@ class SettingController extends Controller
         if (empty($request->input('tagline.en')) && empty($request->input('tagline.id'))) {
             return back()->withErrors(['tagline' => 'Please provide tagline in at least one language.'])->withInput();
         }
+        if (empty($request->input('button_text.en')) && empty($request->input('button_text.id'))) {
+            return back()->withErrors(['button_text' => 'Please provide button text in at least one language.'])->withInput();
+        }
 
         // Auto-translate missing language fields
-        $data = TranslationHelper::autoTranslateFields($data, ['title', 'tagline'], $translationService);
+        $data = TranslationHelper::autoTranslateFields($data, ['title', 'tagline', 'button_text'], $translationService);
 
         $header = Header::firstOrCreate([]);
 
@@ -48,15 +54,12 @@ class SettingController extends Controller
             if ($header->logo) {
                 Storage::disk('public')->delete($header->logo);
             }
-            $data['logo'] = $request->file('logo')->store('headers', 'public');
+            $path = $request->file('logo')->store('settings', 'public');
+            $data['logo'] = $path;
         }
 
-        // Update title and tagline
-        $header->update([
-            'title' => ['id' => $data['title']['id'] ?? '', 'en' => $data['title']['en'] ?? ''],
-            'tagline' => ['id' => $data['tagline']['id'] ?? '', 'en' => $data['tagline']['en'] ?? ''],
-            'logo' => $data['logo'] ?? $header->logo,
-        ]);
+        $header->fill($data);
+        $header->save();
 
         return redirect()->route('admin.settings.header')->with('success', 'Header updated successfully.');
     }

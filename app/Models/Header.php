@@ -15,6 +15,8 @@ class Header extends Model
         'title',
         'tagline',
         'logo',
+        'button_text',
+        'button_url',
     ];
 
     /**
@@ -25,5 +27,6 @@ class Header extends Model
     protected $casts = [
         'title' => 'array',
         'tagline' => 'array',
+        'button_text' => 'array',
     ];
 }
