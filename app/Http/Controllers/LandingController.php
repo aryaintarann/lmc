@@ -19,7 +19,10 @@ class LandingController extends Controller
         $about = About::first();
         $services = Service::all();
         $doctors = Doctor::all();
-        $articles = Article::whereNotNull('published_at')->latest('published_at')->get();
+        $articles = Article::whereNotNull('published_at')
+            ->orderBy('trend_score', 'desc')
+            ->latest('published_at')
+            ->get();
         $landingArticles = $articles->take(3);
         $totalArticles = $articles->count();
 
@@ -28,7 +31,10 @@ class LandingController extends Controller
 
     public function articles()
     {
-        $articles = \App\Models\Article::whereNotNull('published_at')->latest('published_at')->get();
+        $articles = \App\Models\Article::whereNotNull('published_at')
+            ->orderBy('trend_score', 'desc')
+            ->latest('published_at')
+            ->get();
         return view('articles', compact('articles'));
     }
 

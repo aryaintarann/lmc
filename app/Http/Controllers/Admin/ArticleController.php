@@ -15,7 +15,7 @@ class ArticleController
      */
     public function index()
     {
-        $articles = Article::latest()->paginate(10);
+        $articles = Article::orderBy('trend_score', 'desc')->latest()->paginate(10);
         return view('admin.articles.index', compact('articles'));
     }
 
@@ -44,7 +44,7 @@ class ArticleController
         if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
             return back()->withErrors(['title' => 'Please provide title in at least one language.'])->withInput();
         }
-        
+
         if (empty($request->input('content.en')) && empty($request->input('content.id'))) {
             return back()->withErrors(['content' => 'Please provide content in at least one language.'])->withInput();
         }
@@ -93,7 +93,7 @@ class ArticleController
         if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
             return back()->withErrors(['title' => 'Please provide title in at least one language.'])->withInput();
         }
-        
+
         if (empty($request->input('content.en')) && empty($request->input('content.id'))) {
             return back()->withErrors(['content' => 'Please provide content in at least one language.'])->withInput();
         }
