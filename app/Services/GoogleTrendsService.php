@@ -53,11 +53,48 @@ class GoogleTrendsService
     }
 
     /**
-     * Placeholder for 'Related Queries' (Phase 2)
+     * Fetch related queries (autocomplete suggestions) for a topic.
+     * 
+     * @param string $topic Check for related keywords
+     * @param string $lang Language code (id, en, etc.)
+     * @return array List of suggestions
      */
-    public function fetchRelatedQueries(string $topic)
+    public function fetchRelatedQueries(string $topic, string $lang = 'id'): array
     {
-        // Implementation for Phase 2
-        return [];
+        // V2 Cache Key to force refresh with new GL parameters
+        return Cache::remember("google_suggest_v2_{$topic}_{$lang}", 3600, function () use ($topic, $lang) {
+            try {
+                // Map simple lang code to Google's hl (host language) and gl (geo location)
+                $params = [
+                    'id' => ['hl' => 'id', 'gl' => 'id'],
+                    'en' => ['hl' => 'en', 'gl' => 'us'], // Global defaults to US English data
+                ];
+
+                $config = $params[$lang] ?? $params['en'];
+
+                // Construct URL with proper localization
+                $url = "http://google.com/complete/search?output=toolbar&q=" . urlencode($topic) . "&hl={$config['hl']}&gl={$config['gl']}";
+
+                $response = Http::timeout(5)->get($url);
+
+                if ($response->successful()) {
+                    $xml = simplexml_load_string($response->body());
+                    $suggestions = [];
+
+                    if ($xml && isset($xml->CompleteSuggestion)) {
+                        foreach ($xml->CompleteSuggestion as $suggestion) {
+                            $suggestions[] = (string) $suggestion->suggestion['data'];
+                        }
+                    }
+
+                    return $suggestions;
+                }
+
+                return [];
+            } catch (\Exception $e) {
+                Log::error("Google Trends Autocomplete Error: " . $e->getMessage());
+                return [];
+            }
+        });
     }
 }

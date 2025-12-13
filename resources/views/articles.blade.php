@@ -121,26 +121,32 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="{{ url('/') }}" class="btn btn-outline-primary rounded-pill px-4">{{ __('Back to Home') }}</a>
+                        <a href="{{ url('/') }}"
+                            class="btn btn-outline-primary rounded-pill px-4">{{ __('Back to Home') }}</a>
                     </li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm btn-outline-primary rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-translate fs-5"></i>
                                 <span class="ls-1">{{ strtoupper(app()->getLocale()) }}</span>
                                 <i class="bi bi-chevron-down ms-1" style="font-size: 0.7rem;"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'en') }}">
+                                    <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                        href="{{ route('lang.switch', 'en') }}">
                                         <span>English</span>
-                                        @if(app()->getLocale() == 'en') <i class="bi bi-check-circle-fill text-success"></i> @endif
+                                        @if(app()->getLocale() == 'en') <i
+                                        class="bi bi-check-circle-fill text-success"></i> @endif
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'id') }}">
+                                    <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                        href="{{ route('lang.switch', 'id') }}">
                                         <span>Indonesia</span>
-                                        @if(app()->getLocale() == 'id') <i class="bi bi-check-circle-fill text-success"></i> @endif
+                                        @if(app()->getLocale() == 'id') <i
+                                        class="bi bi-check-circle-fill text-success"></i> @endif
                                     </a>
                                 </li>
                             </ul>
@@ -157,24 +163,54 @@
             <p class="lead text-muted">{{ __('Explore our full collection of health articles and updates.') }}</p>
         </div>
 
-        <div class="row g-4">
-            @foreach($articles as $article)
-                <div class="col-lg-4 col-md-6">
-                    <div class="article-card position-relative">
-                        <div class="article-img-wrapper">
-                            <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
-                                alt="{{ $article->title }}">
-                        </div>
-                        <div class="card-body p-4">
-                            <span class="article-date">{{ $article->date }}</span>
-                            <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
-                            <p class="text-muted mb-4">{{ $article->excerpt }}</p>
-                            <a href="{{ route('articles.show', $article->id) }}" class="article-link stretched-link">{{ __('Read More') }} <i class="bi bi-arrow-right"></i></a>
+        <div class="row g-4 justify-content-center mb-5">
+            <div class="col-md-6">
+                <form action="{{ route('articles.index') }}" method="GET"
+                    class="d-flex shadow-sm rounded-pill bg-white p-1">
+                    <input type="text" name="q" class="form-control border-0 rounded-pill ps-4"
+                        placeholder="{{ __('Search health articles...') }}" value="{{ request('q') }}"
+                        aria-label="Search">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        @if($articles->count() > 0)
+            <div class="row g-4">
+                @foreach($articles as $article)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="article-card position-relative">
+                            <div class="article-img-wrapper">
+                                <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
+                                    alt="{{ $article->title }}">
+                            </div>
+                            <div class="card-body p-4">
+                                <span class="article-date">{{ $article->date }}</span>
+                                <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
+                                <p class="text-muted mb-4">{{ $article->excerpt }}</p>
+                                <a href="{{ route('articles.show', $article->id) }}"
+                                    class="article-link stretched-link">{{ __('Read More') }} <i
+                                        class="bi bi-arrow-right"></i></a>
+                            </div>
                         </div>
                     </div>
+                @endforeach
+            </div>
+        @else
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="bi bi-search fs-1 text-muted opacity-25" style="font-size: 4rem !important;"></i>
                 </div>
-            @endforeach
-        </div>
+                <h4 class="fw-bold text-muted">{{ __('No articles found') }}</h4>
+                <p class="text-muted">{{ __('Try searching for something else or browse all articles.') }}</p>
+                @if(request('q'))
+                    <a href="{{ route('articles.index') }}"
+                        class="btn btn-outline-primary rounded-pill mt-3">{{ __('Clear Search') }}</a>
+                @endif
+            </div>
+        @endif
     </div>
 
     <!-- Minimal Footer -->
@@ -185,8 +221,11 @@
                 <div class="col-12 text-center">
                     <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
                         style="height: 60px; filter: brightness(0) invert(1);">
-                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">{{ __('We are committed to providing the best medical service with a personal touch. Your health is our priority.') }}</p>
-                    <p class="text-white-50 small mt-4">&copy; {{ date('Y') }} {{ __('Legian Medical Clinic. All Rights Reserved.') }}</p>
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">
+                        {{ __('We are committed to providing the best medical service with a personal touch. Your health is our priority.') }}
+                    </p>
+                    <p class="text-white-50 small mt-4">&copy; {{ date('Y') }}
+                        {{ __('Legian Medical Clinic. All Rights Reserved.') }}</p>
                 </div>
             </div>
         </div>

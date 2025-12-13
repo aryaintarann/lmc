@@ -17,6 +17,14 @@ class DashboardController extends Controller
         ];
         $recentArticles = \App\Models\Article::latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'recentArticles'));
+        // Zero Result Analysis: Top 5 Missing Keywords
+        $missingKeywords = \App\Models\SearchLog::where('results_count', 0)
+            ->select('query', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->groupBy('query')
+            ->orderByDesc('total')
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentArticles', 'missingKeywords'));
     }
 }

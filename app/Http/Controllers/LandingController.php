@@ -29,12 +29,33 @@ class LandingController extends Controller
         return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles'));
     }
 
-    public function articles()
+    public function articles(Request $request)
     {
-        $articles = \App\Models\Article::whereNotNull('published_at')
-            ->orderBy('trend_score', 'desc')
-            ->latest('published_at')
-            ->get();
+        $query = Article::whereNotNull('published_at');
+
+        // Search Filter
+        if ($search = $request->input('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('content', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+
+        $query->orderBy('trend_score', 'desc')
+            ->latest('published_at');
+
+        $articles = $query->get();
+
+        // 🔍 Zero Result Analysis Logging
+        if ($search) {
+            \App\Models\SearchLog::create([
+                'query' => $search,
+                'results_count' => $articles->count(),
+                'ip_address' => $request->ip()
+            ]);
+        }
+
         return view('articles', compact('articles'));
     }
 

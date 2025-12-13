@@ -45,6 +45,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::middleware('role:owner')->group(function () {
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     });
+
+    // Keyword Suggestions API
+    Route::get('keywords/suggest', [\App\Http\Controllers\Admin\KeywordSuggestionController::class, 'suggest'])->name('keywords.suggest');
 });
 
 // Translation API Routes

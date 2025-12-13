@@ -571,12 +571,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#hero">{{ __('Home') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">{{ __('Services') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#doctors">{{ __('Doctors') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">{{ __('Contact') }}</a></li>
+                    
+                    <!-- Search Trigger -->
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn btn-sm btn-link nav-link text-decoration-none" onclick="toggleNavbarSearch()" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </li>
+
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <div class="dropdown">
                             <button class="btn btn-sm nav-lang-btn rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -603,7 +612,33 @@
                 </ul>
             </div>
         </div>
+        
+        <!-- Navbar Search Bar Overlay -->
+        <div id="navbar-search-bar" class="w-100 bg-white border-top py-2 d-none position-absolute start-0" style="top: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div class="container">
+                <form action="{{ route('articles.index') }}" method="GET" class="d-flex align-items-center">
+                    <i class="bi bi-search text-muted me-2"></i>
+                    <input type="text" name="q" id="nav-search-input" class="form-control border-0 bg-transparent shadow-none" placeholder="{{ __('Search articles...') }}" autocomplete="off">
+                    <button type="button" class="btn-close ms-2" onclick="toggleNavbarSearch()"></button>
+                </form>
+            </div>
+        </div>
     </nav>
+    
+    <script>
+        function toggleNavbarSearch() {
+            const searchBar = document.getElementById('navbar-search-bar');
+            const input = document.getElementById('nav-search-input');
+            
+            if (searchBar.classList.contains('d-none')) {
+                searchBar.classList.remove('d-none');
+                searchBar.classList.add('animate-up'); // Add animation class
+                setTimeout(() => input.focus(), 100);
+            } else {
+                searchBar.classList.add('d-none');
+            }
+        }
+    </script>
 
 
     <!-- Hero Section -->
