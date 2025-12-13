@@ -20,7 +20,7 @@ class TranslationService
         try {
             $keyFilePath = storage_path('app/' . config('services.google_cloud.key_file'));
             $this->projectId = config('services.google_cloud.project_id');
-            
+
             if (!file_exists($keyFilePath)) {
                 Log::warning('Google Cloud key file not found: ' . $keyFilePath);
                 $this->translate = null;
@@ -29,6 +29,14 @@ class TranslationService
 
             $this->translate = new TranslationServiceClient([
                 'credentials' => $keyFilePath,
+                'transport' => 'rest',
+                'transportConfig' => [
+                    'rest' => [
+                        'http' => [
+                            'verify' => false
+                        ]
+                    ]
+                ]
             ]);
         } catch (\Exception $e) {
             Log::error('Google Cloud Translation initialization failed: ' . $e->getMessage());
@@ -60,7 +68,7 @@ class TranslationService
         if ($this->cacheEnabled) {
             $cacheKey = $this->getCacheKey($text, $sourceLang, $targetLang);
             $cached = Cache::get($cacheKey);
-            
+
             if ($cached !== null) {
                 return $cached;
             }
@@ -74,7 +82,7 @@ class TranslationService
 
         try {
             $parent = $this->translate->locationName($this->projectId, $this->location);
-            
+
             // Create request object
             $request = new TranslateTextRequest([
                 'parent' => $parent,
@@ -82,7 +90,7 @@ class TranslationService
                 'target_language_code' => $targetLang,
                 'source_language_code' => $sourceLang,
             ]);
-            
+
             $response = $this->translate->translateText($request);
 
             $translations = $response->getTranslations();
@@ -136,7 +144,7 @@ class TranslationService
             if ($this->cacheEnabled) {
                 $cacheKey = $this->getCacheKey($text, $sourceLang, $targetLang);
                 $cached = Cache::get($cacheKey);
-                
+
                 if ($cached !== null) {
                     $results[$index] = $cached;
                     continue;
@@ -164,7 +172,7 @@ class TranslationService
         try {
             // v3 API: Translate all at once using contents array
             $parent = $this->translate->locationName($this->projectId, $this->location);
-            
+
             // Create request object
             $request = new TranslateTextRequest([
                 'parent' => $parent,
@@ -172,7 +180,7 @@ class TranslationService
                 'target_language_code' => $targetLang,
                 'source_language_code' => $sourceLang,
             ]);
-            
+
             $response = $this->translate->translateText($request);
 
             $translations = $response->getTranslations();
@@ -182,7 +190,7 @@ class TranslationService
                 $index = $toTranslateIndexes[$i];
                 $originalText = $toTranslate[$i];
                 $translatedText = $translation->getTranslatedText() ?? $originalText;
-                
+
                 $results[$index] = $translatedText;
 
                 // Cache the result

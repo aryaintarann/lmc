@@ -15,7 +15,11 @@ class SettingController extends Controller
 {
     public function header()
     {
-        $header = Header::firstOrCreate([]);
+        $header = Header::firstOrCreate([], [
+            'title' => ['en' => 'Default Title', 'id' => 'Judul Default'],
+            'tagline' => ['en' => 'Default Tagline', 'id' => 'Slogan Default'],
+            'button_text' => ['en' => 'Start', 'id' => 'Mulai'],
+        ]);
         return view('admin.settings.header', compact('header'));
     }
 
@@ -46,7 +50,11 @@ class SettingController extends Controller
         // Auto-translate missing language fields
         $data = TranslationHelper::autoTranslateFields($data, ['title', 'tagline', 'button_text'], $translationService);
 
-        $header = Header::firstOrCreate([]);
+        $header = Header::firstOrCreate([], [
+            'title' => ['en' => 'Default Title', 'id' => 'Judul Default'],
+            'tagline' => ['en' => 'Default Tagline', 'id' => 'Slogan Default'],
+            'button_text' => ['en' => 'Start', 'id' => 'Mulai'],
+        ]);
 
         // Handle Logo Upload
         if ($request->hasFile('logo')) {
@@ -66,7 +74,10 @@ class SettingController extends Controller
 
     public function about()
     {
-        $about = About::firstOrCreate([]);
+        $about = About::firstOrCreate([], [
+            'title' => ['en' => 'About Us', 'id' => 'Tentang Kami'],
+            'description' => ['en' => 'Description here.', 'id' => 'Deskripsi di sini.'],
+        ]);
         return view('admin.settings.about', compact('about'));
     }
 
@@ -95,7 +106,10 @@ class SettingController extends Controller
         // Auto-translate missing language fields
         $data = TranslationHelper::autoTranslateFields($data, ['title', 'description', 'vision', 'mission'], $translationService);
 
-        $about = About::firstOrCreate([]);
+        $about = About::firstOrCreate([], [
+            'title' => ['en' => 'About Us', 'id' => 'Tentang Kami'],
+            'description' => ['en' => 'Description here.', 'id' => 'Deskripsi di sini.'],
+        ]);
 
         // Handle Image Upload
         if ($request->hasFile('image')) {
@@ -120,7 +134,11 @@ class SettingController extends Controller
 
     public function contact()
     {
-        $contact = Contact::firstOrCreate([]);
+        $contact = Contact::firstOrCreate([], [
+            'address' => ['en' => 'Address here', 'id' => 'Alamat di sini'],
+            'phone' => '-',
+            'email' => 'admin@example.com',
+        ]);
         return view('admin.settings.contact', compact('contact'));
     }
 
@@ -145,8 +163,12 @@ class SettingController extends Controller
         // Auto-translate missing language fields
         $data = TranslationHelper::autoTranslateFields($data, ['address'], $translationService);
 
-        $contact = Contact::firstOrCreate([]);
-        
+        $contact = Contact::firstOrCreate([], [
+            'address' => ['en' => 'Address here', 'id' => 'Alamat di sini'],
+            'phone' => '-',
+            'email' => 'admin@example.com',
+        ]);
+
         $contact->update([
             'phone' => $data['phone'],
             'email' => $data['email'],
