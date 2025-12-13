@@ -89,6 +89,7 @@ class TranslationService
                 'contents' => [$text],
                 'target_language_code' => $targetLang,
                 'source_language_code' => $sourceLang,
+                'mime_type' => 'text/html', // Ensure HTML tags are preserved
             ]);
 
             $response = $this->translate->translateText($request);
@@ -179,6 +180,7 @@ class TranslationService
                 'contents' => $toTranslate,
                 'target_language_code' => $targetLang,
                 'source_language_code' => $sourceLang,
+                'mime_type' => 'text/html',
             ]);
 
             $response = $this->translate->translateText($request);
