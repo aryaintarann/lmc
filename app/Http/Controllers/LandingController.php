@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
-    public function index()
+    public function index(\App\Services\SchemaService $schemaService)
     {
         $header = Header::first();
         $contact = Contact::first();
@@ -26,7 +26,10 @@ class LandingController extends Controller
         $landingArticles = $articles->take(3);
         $totalArticles = $articles->count();
 
-        return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles'));
+        $schema = $schemaService->getOrganizationSchema()->toScript() .
+            $schemaService->getMedicalClinicSchema()->toScript();
+
+        return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles', 'schema'));
     }
 
     public function articles(Request $request)
@@ -59,10 +62,26 @@ class LandingController extends Controller
         return view('articles', compact('articles'));
     }
 
-    public function show($id)
+    public function show($id, \App\Services\GoogleAnalyticsService $analytics, \App\Services\SchemaService $schemaService)
     {
         $article = \App\Models\Article::whereNotNull('published_at')->findOrFail($id);
-        return view('article_show', compact('article'));
+
+        $schema = $schemaService->getArticleSchema($article)->toScript();
+
+        // High Exit Rate Optimization
+        $highBouncePages = $analytics->getHighBouncePages();
+        $isHighBounce = in_array("/articles/{$id}", $highBouncePages);
+
+        $relatedArticles = [];
+        if ($isHighBounce) {
+            $relatedArticles = \App\Models\Article::where('id', '!=', $id)
+                ->whereNotNull('published_at')
+                ->inRandomOrder()
+                ->take(3)
+                ->get();
+        }
+
+        return view('article_show', compact('article', 'isHighBounce', 'relatedArticles', 'schema'));
     }
 
     public function setPreference(Request $request)

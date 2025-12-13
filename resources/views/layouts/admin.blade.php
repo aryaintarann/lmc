@@ -226,7 +226,14 @@
                 <i class="bi bi-speedometer2"></i> Dashboard
             </a>
             <!-- Content Section -->
-            <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Content</div>
+            <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Analysis</div>
+
+            <a class="nav-link {{ request()->routeIs('admin.analytics.index') ? 'active' : '' }}"
+                href="{{ route('admin.analytics.index') }}">
+                <i class="bi bi-graph-up-arrow"></i> Analytics
+            </a>
+
+            <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Page Content</div>
 
             <a class="nav-link {{ request()->routeIs('admin.settings.header') ? 'active' : '' }}"
                 href="{{ route('admin.settings.header') }}">

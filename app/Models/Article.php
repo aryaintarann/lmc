@@ -22,4 +22,16 @@ class Article extends Model
     {
         return $this->published_at ? $this->published_at->format('M d, Y') : '';
     }
+
+    public function getProcessedContentAttribute()
+    {
+        // Resolve the service from the container
+        $linkService = app(\App\Services\InternalLinkService::class);
+
+        // Get the current translated content
+        $content = $this->content;
+
+        // Return processed content with internal links
+        return $linkService->linkKeywords($content);
+    }
 }

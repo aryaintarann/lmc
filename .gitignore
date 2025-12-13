@@ -25,3 +25,8 @@ Thumbs.db
 
 # Google Cloud Credentials
 /storage/app/google-cloud/*.json
+/storage/app/analytics/*.json
+cacert.pem
+*.zip
+*.sql
+*.tar.gz

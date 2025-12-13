@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
 
+    // Analytics Dashboard
+    Route::get('/analytics', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('analytics.index');
+
     // Config Management
     Route::get('settings/header', [\App\Http\Controllers\Admin\SettingController::class, 'header'])->name('settings.header');
     Route::post('settings/header', [\App\Http\Controllers\Admin\SettingController::class, 'updateHeader'])->name('settings.header.update');
