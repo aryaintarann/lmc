@@ -1046,7 +1046,7 @@
                 const sourceLang = 'id';
                 const targetLang = newLang;
                 
-                console.log(`Switching language from ${currentLang} to ${newLang}`);
+
                 
                 // Redirect to change session language
                 window.location.href = href;

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Article;
-use App\Models\Service;
 use App\Models\Doctor;
+use App\Models\Service;
+use Illuminate\Database\Seeder;
 
 class MockTranslationSeeder extends Seeder
 {
@@ -36,8 +36,8 @@ class MockTranslationSeeder extends Seeder
             $titleEn = $article->getTranslation('title', 'en');
             $excerptEn = $article->getTranslation('excerpt', 'en');
 
-            $article->setTranslation('title', 'id', $dictionary[$titleEn] ?? '[ID] ' . $titleEn);
-            $article->setTranslation('excerpt', 'id', $dictionary[$excerptEn] ?? '[ID] ' . $excerptEn);
+            $article->setTranslation('title', 'id', $dictionary[$titleEn] ?? '[ID] '.$titleEn);
+            $article->setTranslation('excerpt', 'id', $dictionary[$excerptEn] ?? '[ID] '.$excerptEn);
             $article->setTranslation('content', 'id', 'Konten artikel dalam Bahasa Indonesia...');
             $article->save();
         }
@@ -47,8 +47,8 @@ class MockTranslationSeeder extends Seeder
             $titleEn = $service->getTranslation('title', 'en');
             $descEn = $service->getTranslation('description', 'en');
 
-            $service->setTranslation('title', 'id', $dictionary[$titleEn] ?? '[ID] ' . $titleEn);
-            $service->setTranslation('description', 'id', $dictionary[$descEn] ?? '[ID] ' . $descEn);
+            $service->setTranslation('title', 'id', $dictionary[$titleEn] ?? '[ID] '.$titleEn);
+            $service->setTranslation('description', 'id', $dictionary[$descEn] ?? '[ID] '.$descEn);
             $service->save();
         }
 
@@ -57,9 +57,9 @@ class MockTranslationSeeder extends Seeder
             $specEn = $doctor->getTranslation('specialty', 'en');
             $bioEn = $doctor->getTranslation('bio', 'en');
 
-            $doctor->setTranslation('specialty', 'id', $dictionary[$specEn] ?? '[ID] ' . $specEn);
+            $doctor->setTranslation('specialty', 'id', $dictionary[$specEn] ?? '[ID] '.$specEn);
             if ($bioEn) {
-                $doctor->setTranslation('bio', 'id', $dictionary[$bioEn] ?? '[ID] ' . $bioEn);
+                $doctor->setTranslation('bio', 'id', $dictionary[$bioEn] ?? '[ID] '.$bioEn);
             }
             $doctor->save();
         }

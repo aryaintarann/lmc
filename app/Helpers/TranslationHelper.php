@@ -8,10 +8,9 @@ class TranslationHelper
 {
     /**
      * Auto-translate missing language fields
-     * 
-     * @param array $data Request data with translatable fields
-     * @param array $fields List of field names to check (e.g., ['title', 'description'])
-     * @param TranslationService $translationService
+     *
+     * @param  array  $data  Request data with translatable fields
+     * @param  array  $fields  List of field names to check (e.g., ['title', 'description'])
      * @return array Data with all translations filled
      */
     public static function autoTranslateFields(array $data, array $fields, TranslationService $translationService): array
@@ -20,7 +19,7 @@ class TranslationHelper
 
         foreach ($fields as $field) {
             // Skip if field doesn't exist in data
-            if (!isset($data[$field]) || !is_array($data[$field])) {
+            if (! isset($data[$field]) || ! is_array($data[$field])) {
                 continue;
             }
 
@@ -42,9 +41,9 @@ class TranslationHelper
                     // Check if it really has text or critical media tags
                     if (
                         empty($cleanText) &&
-                        !str_contains($text, '<img') &&
-                        !str_contains($text, '<iframe') &&
-                        !str_contains($text, '<video')
+                        ! str_contains($text, '<img') &&
+                        ! str_contains($text, '<iframe') &&
+                        ! str_contains($text, '<video')
                     ) {
                         $isEmpty = true;
                     }
@@ -52,7 +51,7 @@ class TranslationHelper
 
                 if ($isEmpty) {
                     $missingLocales[] = $locale;
-                } else if ($sourceText === null) {
+                } elseif ($sourceText === null) {
                     // Use first non-empty locale as source
                     $sourceLocale = $locale;
                     $sourceText = $text;
@@ -60,7 +59,7 @@ class TranslationHelper
             }
 
             // If we have source text and missing locales, translate
-            if ($sourceText && !empty($missingLocales)) {
+            if ($sourceText && ! empty($missingLocales)) {
                 foreach ($missingLocales as $targetLocale) {
                     try {
                         $translatedText = $translationService->translate(

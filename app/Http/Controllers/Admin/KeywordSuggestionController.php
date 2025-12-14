@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class KeywordSuggestionController extends Controller
 {
     protected $trendsService;
+
     protected $translationService;
 
     public function __construct(GoogleTrendsService $trendsService, TranslationService $translationService)
@@ -21,7 +22,7 @@ class KeywordSuggestionController extends Controller
     public function suggest(Request $request)
     {
         $request->validate([
-            'topic' => 'required|string|min:2'
+            'topic' => 'required|string|min:2',
         ]);
 
         $topic = $request->input('topic');
@@ -70,14 +71,15 @@ class KeywordSuggestionController extends Controller
                 'terjemahan',
                 'wallpaper',
                 'hot',
-                'sex'
+                'sex',
             ];
 
             foreach ($keywords as $k) {
                 // Skip if contains banned words
                 foreach ($bannedWords as $bad) {
-                    if (stripos($k, $bad) !== false)
+                    if (stripos($k, $bad) !== false) {
                         continue 2;
+                    }
                 }
 
                 $wordCount = str_word_count($k);
@@ -86,6 +88,7 @@ class KeywordSuggestionController extends Controller
                 // e.g. "How long does dengue fever last"
                 if ($wordCount >= 4) {
                     $titles[] = ucwords($k);
+
                     continue;
                 }
 
@@ -93,6 +96,7 @@ class KeywordSuggestionController extends Controller
                 $isQuestion = preg_match('/^(apa|kenapa|bagaimana|siapa|kapan|how|why|what|when|who|cara|tips|is|are|can|does)/i', $k);
                 if ($wordCount >= 3 && $isQuestion) {
                     $titles[] = ucwords($k);
+
                     continue;
                 }
 
@@ -112,6 +116,7 @@ class KeywordSuggestionController extends Controller
 
             // Remove duplicates and limit
             $titles = array_unique($titles);
+
             return array_slice($titles, 0, 8);
         };
 
@@ -122,12 +127,12 @@ class KeywordSuggestionController extends Controller
             'topic' => $topic,
             'id' => [
                 'suggestions' => $suggestionsID,
-                'titles' => $titlesID
+                'titles' => $titlesID,
             ],
             'en' => [
                 'suggestions' => $suggestionsEN,
-                'titles' => $titlesEN
-            ]
+                'titles' => $titlesEN,
+            ],
         ]);
     }
 }

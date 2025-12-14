@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-
-use Illuminate\Console\Command;
 use App\Services\TrendAnalysisService;
+use Illuminate\Console\Command;
 
 class AnalyzeTrends extends Command
 {
@@ -27,13 +26,14 @@ class AnalyzeTrends extends Command
      */
     public function handle(TrendAnalysisService $service)
     {
-        $this->info("Starting Trend Analysis...");
+        $this->info('Starting Trend Analysis...');
 
         try {
             $service->analyzeAndUpdateScores();
-            $this->info("Analysis completed successfully. Article scores updated.");
+            $this->info('Analysis completed successfully. Article scores updated.');
         } catch (\Exception $e) {
-            $this->error("Analysis failed: " . $e->getMessage());
+            $this->error('Analysis failed: '.$e->getMessage());
+
             return 1;
         }
 

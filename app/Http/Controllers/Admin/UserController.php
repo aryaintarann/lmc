@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,6 +12,7 @@ class UserController extends Controller
     public function index()
     {
         $users = \App\Models\User::latest()->paginate(10);
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -57,6 +57,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = \App\Models\User::findOrFail($id);
+
         return view('admin.users.edit', compact('user'));
     }
 
@@ -69,7 +70,7 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'role' => 'required|in:owner,admin',
             'password' => 'nullable|confirmed|min:8',
         ]);

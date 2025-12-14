@@ -25,13 +25,14 @@ class CheckContentDecayCommand extends Command
      */
     public function handle(\App\Services\GoogleAnalyticsService $analytics)
     {
-        $this->info("🔍 Starting Content Decay Analysis...");
+        $this->info('🔍 Starting Content Decay Analysis...');
 
         // 1. Get published articles
         $articles = \App\Models\Article::whereNotNull('published_at')->get();
 
         if ($articles->isEmpty()) {
-            $this->warn("No published articles found.");
+            $this->warn('No published articles found.');
+
             return;
         }
 
@@ -53,15 +54,17 @@ class CheckContentDecayCommand extends Command
 
             // Determine Status
             $status = '✅ Stable';
-            if ($change < -30)
+            if ($change < -30) {
                 $status = '⚠️ Decay Alert';
-            if ($change > 0)
+            }
+            if ($change > 0) {
                 $status = '📈 Growing';
+            }
 
             $results[] = [
                 'Title' => \Illuminate\Support\Str::limit($article->title, 40),
-                'Change' => $change . '%',
-                'Status' => $status
+                'Change' => $change.'%',
+                'Status' => $status,
             ];
         }
 
@@ -73,6 +76,6 @@ class CheckContentDecayCommand extends Command
             $results
         );
 
-        $this->info("✅ Analysis Complete!");
+        $this->info('✅ Analysis Complete!');
     }
 }

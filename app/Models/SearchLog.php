@@ -12,6 +12,6 @@ class SearchLog extends Model
     protected $fillable = [
         'query',
         'results_count',
-        'ip_address'
+        'ip_address',
     ];
 }

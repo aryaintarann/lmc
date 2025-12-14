@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Services\GoogleAnalyticsService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use App\Services\GoogleAnalyticsService;
 
 class CheckContentDecay implements ShouldQueue
 {

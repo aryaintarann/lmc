@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
@@ -61,7 +61,8 @@ Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'id'])) {
         session(['locale' => $locale]);
     }
+
     return back();
 })->name('lang.switch');
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

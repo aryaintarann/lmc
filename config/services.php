@@ -40,5 +40,4 @@ return [
         'key_file' => env('GOOGLE_CLOUD_KEY_FILE', 'google-cloud/service-account-key.json'),
     ],
 
-
 ];

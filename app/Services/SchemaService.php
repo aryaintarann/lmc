@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Spatie\SchemaOrg\Schema;
 use App\Models\Article;
-use App\Models\Doctor;
+use Spatie\SchemaOrg\Schema;
 
 class SchemaService
 {
@@ -16,7 +15,7 @@ class SchemaService
             ->logo(url('/images/logo.png')) // Adjust path to actual logo
             ->sameAs([
                 'https://www.facebook.com/lombokmedicalcenter',
-                'https://www.instagram.com/lombokmedicalcenter'
+                'https://www.instagram.com/lombokmedicalcenter',
             ])
             ->contactPoint(
                 Schema::contactPoint()
@@ -53,7 +52,7 @@ class SchemaService
                 Schema::openingHoursSpecification()
                     ->dayOfWeek(['Saturday', 'Sunday'])
                     ->opens('09:00')
-                    ->closes('17:00')
+                    ->closes('17:00'),
             ]);
     }
 
@@ -62,7 +61,7 @@ class SchemaService
         return Schema::article()
             ->headline($article->title)
             ->description($article->excerpt)
-            ->image($article->image ? url('storage/' . $article->image) : url('/images/default-article.jpg'))
+            ->image($article->image ? url('storage/'.$article->image) : url('/images/default-article.jpg'))
             ->author(Schema::person()->name('LMC Team')) // Or specific author if available
             ->datePublished($article->published_at)
             ->dateModified($article->updated_at)

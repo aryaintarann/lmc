@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Header;
-use App\Models\Contact;
-use App\Models\About;
 use App\Helpers\TranslationHelper;
+use App\Http\Controllers\Controller;
+use App\Models\About;
+use App\Models\Contact;
+use App\Models\Header;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +20,7 @@ class SettingController extends Controller
             'tagline' => ['en' => 'Default Tagline', 'id' => 'Slogan Default'],
             'button_text' => ['en' => 'Start', 'id' => 'Mulai'],
         ]);
+
         return view('admin.settings.header', compact('header'));
     }
 
@@ -78,6 +79,7 @@ class SettingController extends Controller
             'title' => ['en' => 'About Us', 'id' => 'Tentang Kami'],
             'description' => ['en' => 'Description here.', 'id' => 'Deskripsi di sini.'],
         ]);
+
         return view('admin.settings.about', compact('about'));
     }
 
@@ -139,6 +141,7 @@ class SettingController extends Controller
             'phone' => '-',
             'email' => 'admin@example.com',
         ]);
+
         return view('admin.settings.contact', compact('contact'));
     }
 
@@ -181,5 +184,4 @@ class SettingController extends Controller
 
         return redirect()->route('admin.settings.contact')->with('success', 'Contact section updated successfully.');
     }
-
 }

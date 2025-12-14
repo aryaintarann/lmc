@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
@@ -13,6 +12,7 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = \App\Models\Doctor::latest()->paginate(10);
+
         return view('admin.doctors.index', compact('doctors'));
     }
 
@@ -48,6 +48,7 @@ class DoctorController extends Controller
     public function edit(string $id)
     {
         $doctor = \App\Models\Doctor::findOrFail($id);
+
         return view('admin.doctors.edit', compact('doctor'));
     }
 

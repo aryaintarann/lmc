@@ -10,20 +10,25 @@ use Illuminate\Support\Facades\Log;
 class TranslationService
 {
     protected $translate;
+
     protected $projectId;
+
     protected $location = 'global';
+
     protected $cacheEnabled = true;
+
     protected $cacheDuration = 60 * 24 * 30; // 30 days in minutes
 
     public function __construct()
     {
         try {
-            $keyFilePath = storage_path('app/' . config('services.google_cloud.key_file'));
+            $keyFilePath = storage_path('app/'.config('services.google_cloud.key_file'));
             $this->projectId = config('services.google_cloud.project_id');
 
-            if (!file_exists($keyFilePath)) {
-                Log::warning('Google Cloud key file not found: ' . $keyFilePath);
+            if (! file_exists($keyFilePath)) {
+                Log::warning('Google Cloud key file not found: '.$keyFilePath);
                 $this->translate = null;
+
                 return;
             }
 
@@ -33,13 +38,13 @@ class TranslationService
                 'transportConfig' => [
                     'rest' => [
                         'http' => [
-                            'verify' => false
-                        ]
-                    ]
-                ]
+                            'verify' => false,
+                        ],
+                    ],
+                ],
             ]);
         } catch (\Exception $e) {
-            Log::error('Google Cloud Translation initialization failed: ' . $e->getMessage());
+            Log::error('Google Cloud Translation initialization failed: '.$e->getMessage());
             $this->translate = null;
         }
     }
@@ -47,9 +52,9 @@ class TranslationService
     /**
      * Translate a single text
      *
-     * @param string $text Text to translate
-     * @param string $sourceLang Source language code (e.g., 'en', 'id')
-     * @param string $targetLang Target language code
+     * @param  string  $text  Text to translate
+     * @param  string  $sourceLang  Source language code (e.g., 'en', 'id')
+     * @param  string  $targetLang  Target language code
      * @return string Translated text or original text if translation fails
      */
     public function translate(string $text, string $sourceLang, string $targetLang): string
@@ -75,8 +80,9 @@ class TranslationService
         }
 
         // If translation client is not available, return original text
-        if (!$this->translate) {
+        if (! $this->translate) {
             Log::warning('Translation client not available, returning original text');
+
             return $text;
         }
 
@@ -105,7 +111,7 @@ class TranslationService
 
             return $translatedText;
         } catch (\Exception $e) {
-            Log::error('Translation failed: ' . $e->getMessage(), [
+            Log::error('Translation failed: '.$e->getMessage(), [
                 'text' => $text,
                 'source' => $sourceLang,
                 'target' => $targetLang,
@@ -119,9 +125,9 @@ class TranslationService
     /**
      * Translate multiple texts at once (more efficient)
      *
-     * @param array $texts Array of texts to translate
-     * @param string $sourceLang Source language code
-     * @param string $targetLang Target language code
+     * @param  array  $texts  Array of texts to translate
+     * @param  string  $sourceLang  Source language code
+     * @param  string  $targetLang  Target language code
      * @return array Array of translated texts (maintains order)
      */
     public function translateBatch(array $texts, string $sourceLang, string $targetLang): array
@@ -139,6 +145,7 @@ class TranslationService
         foreach ($texts as $index => $text) {
             if (empty(trim($text))) {
                 $results[$index] = $text;
+
                 continue;
             }
 
@@ -148,6 +155,7 @@ class TranslationService
 
                 if ($cached !== null) {
                     $results[$index] = $cached;
+
                     continue;
                 }
             }
@@ -163,10 +171,11 @@ class TranslationService
         }
 
         // If translation client is not available, return original texts
-        if (!$this->translate) {
+        if (! $this->translate) {
             foreach ($toTranslateIndexes as $i => $index) {
                 $results[$index] = $toTranslate[$i];
             }
+
             return $results;
         }
 
@@ -202,7 +211,7 @@ class TranslationService
                 }
             }
         } catch (\Exception $e) {
-            Log::error('Batch translation failed: ' . $e->getMessage());
+            Log::error('Batch translation failed: '.$e->getMessage());
 
             // Return original texts on error
             foreach ($toTranslateIndexes as $i => $index) {
@@ -215,14 +224,9 @@ class TranslationService
 
     /**
      * Generate cache key for translation
-     *
-     * @param string $text
-     * @param string $sourceLang
-     * @param string $targetLang
-     * @return string
      */
     protected function getCacheKey(string $text, string $sourceLang, string $targetLang): string
     {
-        return 'translation:' . md5($text . '|' . $sourceLang . '|' . $targetLang);
+        return 'translation:'.md5($text.'|'.$sourceLang.'|'.$targetLang);
     }
 }

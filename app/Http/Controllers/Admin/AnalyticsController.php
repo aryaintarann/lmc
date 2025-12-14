@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class AnalyticsController extends Controller
 {
@@ -19,7 +18,7 @@ class AnalyticsController extends Controller
                 $decayData[] = [
                     'title' => $article->title,
                     'change' => $change,
-                    'id' => $article->id
+                    'id' => $article->id,
                 ];
             }
         }
@@ -33,9 +32,9 @@ class AnalyticsController extends Controller
             if (isset($matches[1])) {
                 return \App\Models\Article::find($matches[1]);
             }
+
             return null;
         })->filter();
-
 
         // 3. Search Terms (Already have widget, but we can show more detail here)
         $searchLogs = \App\Models\SearchLog::selectRaw('query, count(*) as total, sum(case when results_count = 0 then 1 else 0 end) as zero_results')

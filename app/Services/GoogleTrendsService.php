@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 
 class GoogleTrendsService
 {
     /**
      * Fetch daily trending searches from Google Trends RSS Feed.
-     * 
-     * @param string $geo Country code (default: ID for Indonesia)
+     *
+     * @param  string  $geo  Country code (default: ID for Indonesia)
      * @return array List of trending keywords
      */
     public function fetchDailyTrends(string $geo = 'ID'): array
@@ -25,13 +25,15 @@ class GoogleTrendsService
                 $response = Http::timeout(10)->get($rssUrl);
 
                 if ($response->failed()) {
-                    Log::error("Failed to fetch Google Trends RSS: " . $response->body());
+                    Log::error('Failed to fetch Google Trends RSS: '.$response->body());
+
                     return [];
                 }
 
                 $xml = simplexml_load_string($response->body());
                 if ($xml === false) {
-                    Log::error("Failed to parse Google Trends XML");
+                    Log::error('Failed to parse Google Trends XML');
+
                     return [];
                 }
 
@@ -46,7 +48,8 @@ class GoogleTrendsService
                 return array_slice($keywords, 0, 20); // Return top 20 trends
 
             } catch (\Exception $e) {
-                Log::error("Google Trends Service Error: " . $e->getMessage());
+                Log::error('Google Trends Service Error: '.$e->getMessage());
+
                 return [];
             }
         });
@@ -54,9 +57,9 @@ class GoogleTrendsService
 
     /**
      * Fetch related queries (autocomplete suggestions) for a topic.
-     * 
-     * @param string $topic Check for related keywords
-     * @param string $lang Language code (id, en, etc.)
+     *
+     * @param  string  $topic  Check for related keywords
+     * @param  string  $lang  Language code (id, en, etc.)
      * @return array List of suggestions
      */
     public function fetchRelatedQueries(string $topic, string $lang = 'id'): array
@@ -73,7 +76,7 @@ class GoogleTrendsService
                 $config = $params[$lang] ?? $params['en'];
 
                 // Construct URL with proper localization
-                $url = "http://google.com/complete/search?output=toolbar&q=" . urlencode($topic) . "&hl={$config['hl']}&gl={$config['gl']}";
+                $url = 'http://google.com/complete/search?output=toolbar&q='.urlencode($topic)."&hl={$config['hl']}&gl={$config['gl']}";
 
                 $response = Http::timeout(5)->get($url);
 
@@ -92,7 +95,8 @@ class GoogleTrendsService
 
                 return [];
             } catch (\Exception $e) {
-                Log::error("Google Trends Autocomplete Error: " . $e->getMessage());
+                Log::error('Google Trends Autocomplete Error: '.$e->getMessage());
+
                 return [];
             }
         });

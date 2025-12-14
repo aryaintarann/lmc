@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Header;
-use App\Models\Contact;
 use App\Models\About;
-use App\Models\Service;
-use App\Models\Doctor;
 use App\Models\Article;
+use App\Models\Contact;
+use App\Models\Doctor;
+use App\Models\Header;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -26,7 +26,7 @@ class LandingController extends Controller
         $landingArticles = $articles->take(3);
         $totalArticles = $articles->count();
 
-        $schema = $schemaService->getOrganizationSchema()->toScript() .
+        $schema = $schemaService->getOrganizationSchema()->toScript().
             $schemaService->getMedicalClinicSchema()->toScript();
 
         return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles', 'schema'));
@@ -55,7 +55,7 @@ class LandingController extends Controller
             \App\Models\SearchLog::create([
                 'query' => $search,
                 'results_count' => $articles->count(),
-                'ip_address' => $request->ip()
+                'ip_address' => $request->ip(),
             ]);
         }
 

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Article;
 use App\Helpers\TranslationHelper;
+use App\Models\Article;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ArticleController
 {
@@ -16,6 +15,7 @@ class ArticleController
     public function index()
     {
         $articles = Article::orderBy('trend_score', 'desc')->latest()->paginate(10);
+
         return view('admin.articles.index', compact('articles'));
     }
 
@@ -70,6 +70,7 @@ class ArticleController
     public function edit(string $id)
     {
         $article = \App\Models\Article::findOrFail($id);
+
         return view('admin.articles.edit', compact('article'));
     }
 

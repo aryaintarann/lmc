@@ -18,7 +18,6 @@ class TranslationController extends Controller
     /**
      * Translate text via AJAX
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function translate(Request $request)
@@ -63,7 +62,6 @@ class TranslationController extends Controller
     /**
      * Translate multiple texts via AJAX (batch)
      *
-     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function translateBatch(Request $request)
