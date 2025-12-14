@@ -983,15 +983,19 @@
                 history.scrollRestoration = 'manual';
             }
             window.scrollTo(0, 0);
-            localStorage.clear();
 
-            // Always show modal on refresh
-            modal.show();
+            // Show modal only if no preference is saved
+            if (!localStorage.getItem('lmc_user_preference')) {
+                modal.show();
+            }
 
             // Handle choice buttons
             document.querySelectorAll('.choice-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const targetId = this.getAttribute('data-target');
+
+                    // Save preference
+                    localStorage.setItem('lmc_user_preference', targetId);
 
                     // Optimistic UI update
                     reorderSections(targetId);
@@ -1015,19 +1019,9 @@
                 if (topSectionId === 'all') return; // Do nothing for 'all', just show default layout
 
                 const section = document.getElementById(topSectionId);
-                const heroSection = document.getElementById('hero');
-                const dynamicContent = document.getElementById('dynamic-content');
 
-                if (section && heroSection) {
-                    // Move the selected section to BEFORE the hero section (as requested "diatas header")
-                    // We target the parent of hero (which is body) and insert before hero
-                    heroSection.parentNode.insertBefore(section, heroSection);
-
-                    // Smooth scroll to it
-                    section.scrollIntoView({ behavior: 'smooth' });
-                } else if (section && !heroSection) {
-                    // Fallback if hero is missing, prepend to dynamic content
-                    dynamicContent.prepend(section);
+                if (section) {
+                    // Smooth scroll to the section
                     section.scrollIntoView({ behavior: 'smooth' });
                 }
             }

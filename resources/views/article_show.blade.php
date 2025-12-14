@@ -9,14 +9,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            /* Palette */
+            /* Palette: LMC Brand (Dark Navy & Gold/White) */
             --primary-gradient: linear-gradient(135deg, #0a2540 0%, #1c4966 100%);
             --primary-color: #0a2540;
             --secondary-color: #1c4966;
+            --accent-warm: #c5a059;
             --dark-blue: #051626;
             --text-main: #344767;
             --text-muted: #7b809a;
             --bg-soft: #f5f7fa;
+            --card-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+            --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --card-radius: 20px;
             --btn-radius: 50px;
         }
 
@@ -24,16 +28,124 @@
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             background-color: white;
+            overflow-x: hidden;
         }
 
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Navbar */
         .navbar {
             backdrop-filter: blur(20px);
             background-color: rgba(255, 255, 255, 0.85) !important;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
         }
 
-        .navbar-brand img {
-            height: 50px;
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-main) !important;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--primary-color);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .navbar-toggler {
+            border: none;
+            border-radius: var(--btn-radius);
+            padding: 0.5rem 0.75rem;
+            background-color: transparent;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: 2px solid var(--primary-color);
+        }
+
+        /* Language Switcher */
+        .nav-lang-btn {
+            border: 1px solid rgba(10, 37, 64, 0.1);
+            background: transparent;
+            color: var(--primary-color);
+            font-weight: 700;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-lang-btn:hover,
+        .nav-lang-btn[aria-expanded="true"] {
+            background: rgba(10, 37, 64, 0.05);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-1px);
+        }
+
+        .dropdown-menu-custom {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            margin-top: 12px !important;
+        }
+
+        .dropdown-item-custom {
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .dropdown-item-custom:hover,
+        .dropdown-item-custom:active {
+            background-color: var(--bg-soft);
+            color: var(--primary-color);
+        }
+
+        /* Helpers */
+        .ls-1 {
+            letter-spacing: 1px;
         }
 
         .article-header {
@@ -65,16 +177,95 @@
 
 <body>
 
-    <!-- Simple Navbar -->
-    <nav class="navbar navbar-light sticky-top">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('img/lmc.png') }}" alt="Legian Medical Clinic">
+                <img src="{{ asset('img/lmc.png') }}" alt="Legian Medical Clinic" height="50">
             </a>
-            <a href="{{ route('articles.index') }}" class="btn btn-outline-primary rounded-pill px-4"><i
-                    class="bi bi-arrow-left me-2"></i>Back to Articles</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#hero') }}">{{ __('Home') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#about') }}">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#services') }}">{{ __('Services') }}</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#doctors') }}">{{ __('Doctors') }}</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#contact') }}">{{ __('Contact') }}</a></li>
+
+                    <!-- Search Trigger -->
+                    <li class="nav-item ms-lg-2">
+                        <button class="btn btn-sm btn-link nav-link text-decoration-none" onclick="toggleNavbarSearch()"
+                            type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </li>
+
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <div class="dropdown">
+                            <button class="btn btn-sm nav-lang-btn rounded-pill" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-translate fs-5"></i>
+                                <span id="current-lang-label" class="ls-1">{{ strtoupper(app()->getLocale()) }}</span>
+                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.7rem; opacity: 0.7;"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-custom animate-up">
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between"
+                                        href="{{ route('lang.switch', 'en') }}">
+                                        <span>English</span>
+                                        @if(app()->getLocale() == 'en') <i
+                                        class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between"
+                                        href="{{ route('lang.switch', 'id') }}">
+                                        <span>Indonesia</span>
+                                        @if(app()->getLocale() == 'id') <i
+                                        class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Navbar Search Bar Overlay -->
+        <div id="navbar-search-bar" class="w-100 bg-white border-top py-2 d-none position-absolute start-0"
+            style="top: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <div class="container">
+                <form action="{{ route('articles.index') }}" method="GET" class="d-flex align-items-center">
+                    <i class="bi bi-search text-muted me-2"></i>
+                    <input type="text" name="q" id="nav-search-input"
+                        class="form-control border-0 bg-transparent shadow-none"
+                        placeholder="{{ __('Search articles...') }}" autocomplete="off" value="{{ request('q') }}">
+                    <button type="button" class="btn-close ms-2" onclick="toggleNavbarSearch()"></button>
+                </form>
+            </div>
         </div>
     </nav>
+
+    <script>
+        function toggleNavbarSearch() {
+            const searchBar = document.getElementById('navbar-search-bar');
+            const input = document.getElementById('nav-search-input');
+
+            if (searchBar.classList.contains('d-none')) {
+                searchBar.classList.remove('d-none');
+                searchBar.classList.add('animate-up'); // Add animation class
+                setTimeout(() => input.focus(), 100);
+            } else {
+                searchBar.classList.add('d-none');
+            }
+        }
+    </script>
 
     <header class="article-header">
         <div class="container">
