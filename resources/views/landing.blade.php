@@ -984,10 +984,8 @@
             }
             window.scrollTo(0, 0);
 
-            // Show modal only if no preference is saved
-            if (!localStorage.getItem('lmc_user_preference')) {
-                modal.show();
-            }
+            // Show modal on every refresh as requested
+            modal.show();
 
             // Handle choice buttons
             document.querySelectorAll('.choice-btn').forEach(btn => {
