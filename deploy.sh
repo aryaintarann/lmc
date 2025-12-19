@@ -14,8 +14,11 @@ echo "--- Starting Deployment Setup ---"
 # 1. Update and Install Dependencies
 echo "--- Installing Dependencies ---"
 sudo apt-get update
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt-get update
 sudo apt-get install -y nginx git unzip sqlite3 acl
-sudo apt-get install -y php8.2 php8.2-fpm php8.2-mbstring php8.2-xml php8.2-bcmath php8.2-curl php8.2-sqlite3 php8.2-intl php8.2-common php8.2-cli
+sudo apt-get install -y php8.4 php8.4-fpm php8.4-mbstring php8.4-xml php8.4-bcmath php8.4-curl php8.4-sqlite3 php8.4-intl php8.4-common php8.4-cli
 
 # 2. Install Composer
 if ! command -v composer &> /dev/null; then
@@ -99,7 +102,7 @@ server {
     
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
     }
     
     location ~ /\.ht {
