@@ -11,7 +11,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -21,24 +23,34 @@
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
         }
 
         .bg-navy {
-            background-color: #0a2540;
+            background-color: #2E4D36;
         }
 
         .text-gold {
-            color: #c5a059;
+            color: #C5A059;
         }
 
         .btn-navy {
-            background-color: #0a2540;
+            background-color: #C5A059;
             transition: all 0.3s ease;
         }
 
         .btn-navy:hover {
-            background-color: #153a5b;
+            background-color: #B39048;
+            /* Darker Gold */
             transform: translateY(-1px);
         }
     </style>
@@ -93,7 +105,7 @@
                             </div>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
                                 autocomplete="username"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0a2540] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2E4D36] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
                                 placeholder="Enter your email">
                         </div>
                         <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-xs" />
@@ -109,7 +121,7 @@
                             </div>
                             <input id="password" type="password" name="password" required
                                 autocomplete="current-password"
-                                class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0a2540] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
+                                class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2E4D36] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
                                 placeholder="Enter your password">
                             <button type="button" onclick="togglePassword()"
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -123,12 +135,12 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <input id="remember_me" type="checkbox" name="remember"
-                                class="h-4 w-4 text-[#0a2540] focus:ring-[#0a2540] border-gray-300 rounded">
+                                class="h-4 w-4 text-[#2E4D36] focus:ring-[#2E4D36] border-gray-300 rounded">
                             <label for="remember_me" class="ml-2 block text-sm text-gray-700">Remember Me</label>
                         </div>
 
                         @if (Route::has('password.request'))
-                            <a class="text-sm font-medium text-[#0a2540] hover:text-[#c5a059] transition-colors"
+                            <a class="text-sm font-medium text-[#2E4D36] hover:text-[#C5A059] transition-colors"
                                 href="{{ route('password.request') }}">
                                 {{ __('Forgot Password?') }}
                             </a>
@@ -138,7 +150,7 @@
                     <!-- Submit Button -->
                     <div>
                         <button type="submit"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white btn-navy focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0a2540]">
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white btn-navy focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#C5A059]">
                             Login
                         </button>
                     </div>

@@ -11,28 +11,76 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            /* Palette: LMC Brand (Dark Navy & Gold/White) */
-            --primary-gradient: linear-gradient(135deg, #0a2540 0%, #1c4966 100%);
-            --primary-color: #0a2540;
-            --secondary-color: #1c4966;
-            --accent-warm: #c5a059;
-            /* Gold/Bronze accent often found in medical logos */
-            --dark-blue: #051626;
-            /* Even darker for contrast */
-            --text-main: #344767;
+            /* Palette: LMC Brand (Forest Green & Gold/White) */
+            --primary-gradient: linear-gradient(135deg, #2E4D36 0%, #1A2E22 100%);
+            --primary-color: #2E4D36;
+            --secondary-color: #1A2E22;
+            --accent-warm: #C5A059;
+            /* Gold/Bronze accent */
+            --dark-blue: #1A2E22;
+            /* Very Dark Green for contrast */
+            --text-main: #2E4D36;
             --text-muted: #7b809a;
-            --bg-soft: #f5f7fa;
+            --bg-soft: #F8F9FA;
             --card-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
             --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             --card-radius: 20px;
             --btn-radius: 50px;
         }
 
+        /* Bootstrap Overrides */
+        .text-primary, .link-primary {
+            color: var(--primary-color) !important;
+        }
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        .btn-primary {
+            background-color: var(--accent-warm) !important;
+            border-color: var(--accent-warm) !important;
+            color: #ffffff !important;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #a38446 !important; /* Darker Gold */
+            border-color: #a38446 !important;
+        }
+        .btn-outline-primary {
+             color: var(--accent-warm) !important;
+             border-color: var(--accent-warm) !important;
+        }
+        .btn-outline-primary:hover {
+             background-color: var(--accent-warm) !important;
+             color: white !important;
+        }
+        .text-secondary {
+            color: var(--secondary-color) !important;
+        }
+        .bg-secondary {
+            background-color: var(--secondary-color) !important;
+        }
+        .text-info { color: var(--secondary-color) !important; }
+        .bg-info { background-color: var(--secondary-color) !important; }
+        .text-warning { color: var(--accent-warm) !important; }
+        .bg-warning { background-color: var(--accent-warm) !important; }
+        .text-success { color: var(--primary-color) !important; }
+        .bg-success { background-color: var(--primary-color) !important; }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-main);
             background-color: #f8f9fa;
             overflow-x: hidden;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        h2, h3, h4, h5, h6, .display-1, .display-2, .display-3, .display-4, .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
         }
 
         /* Animations */
@@ -109,7 +157,7 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background: var(--primary-color);
+            background: var(--accent-warm);
             transition: all 0.3s;
             transform: translateX(-50%);
         }
@@ -146,7 +194,7 @@
             right: -10%;
             width: 55%;
             height: 110%;
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.15), rgba(13, 202, 240, 0.2));
+            background: linear-gradient(135deg, rgba(46, 77, 54, 0.15), rgba(26, 46, 34, 0.2));
             border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             z-index: 0;
             filter: blur(40px);
@@ -159,7 +207,7 @@
             left: -10%;
             width: 45%;
             height: 90%;
-            background: linear-gradient(135deg, rgba(255, 0, 150, 0.05), rgba(0, 204, 255, 0.08));
+            background: linear-gradient(135deg, rgba(197, 160, 89, 0.05), rgba(46, 77, 54, 0.08));
             border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             z-index: 0;
             filter: blur(50px);
@@ -167,7 +215,7 @@
         }
 
         .text-gradient-main {
-            background: linear-gradient(90deg, #0a2540 0%, #0d6efd 100%);
+            background: linear-gradient(90deg, #2E4D36 0%, #1A2E22 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -238,6 +286,7 @@
         }
 
         .service-card:hover h5,
+        .service-card:hover .card-title,
         .service-card:hover p,
         .service-card:hover i {
             color: white !important;
@@ -254,7 +303,7 @@
         .icon-box {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(13, 202, 240, 0.1));
+            background: linear-gradient(135deg, rgba(46, 77, 54, 0.1), rgba(197, 160, 89, 0.1));
             border-radius: 24px;
             display: flex;
             align-items: center;
@@ -271,21 +320,21 @@
         }
 
         .btn-gradient {
-            background: linear-gradient(90deg, #0d6efd 0%, #0dcaf0 100%);
+            background: linear-gradient(90deg, #C5A059 0%, #D4AF37 100%);
             color: white;
             border: none;
             padding: 12px 30px;
             font-weight: 600;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(13, 202, 240, 0.4);
+            box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4);
             transition: all 0.3s;
         }
 
         .btn-gradient:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(13, 110, 253, 0.5);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.6);
             color: white;
-            background: linear-gradient(90deg, #0b5ed7 0%, #0aa2c0 100%);
+            background: linear-gradient(90deg, #B39048 0%, #C5A059 100%);
         }
 
         .btn-dark-blue {
@@ -300,9 +349,10 @@
 
         .btn-dark-blue:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(10, 37, 64, 0.4);
+            box-shadow: 0 8px 25px rgba(26, 46, 34, 0.4);
             color: white;
-            background: #153a5b;
+            background: var(--primary-color);
+            border-color: var(--primary-color);
         }
 
         /* Modal */
@@ -402,11 +452,23 @@
             gap: 8px;
         }
 
+        /* Contact Card */
+        .contact-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2) !important;
+            z-index: 10;
+            position: relative;
+        }
+
         .nav-lang-btn:hover,
         .nav-lang-btn[aria-expanded="true"] {
-            background: rgba(10, 37, 64, 0.05);
-            color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            background-color: var(--accent-warm) !important;
+            color: #ffffff !important;
+            border-color: var(--accent-warm) !important;
             transform: translateY(-1px);
         }
 
@@ -482,7 +544,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
     <!-- Schema Markup -->
     {!! $schema !!}
 </head>
@@ -509,8 +571,8 @@
                     <div class="d-grid gap-3" style="max-width: 450px; margin: 0 auto;">
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="services">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle bg-primary bg-opacity-10 p-2 text-primary">
-                                    <i class="bi bi-bandaid fs-5"></i>
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-bandaid fs-4"></i>
                                 </div>
                                 <div>
                                     <span class="d-block text-dark fw-bold">{{ __('Check Services') }}</span>
@@ -522,8 +584,8 @@
 
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="doctors">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle bg-info bg-opacity-10 p-2 text-info">
-                                    <i class="bi bi-people fs-5"></i>
+                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-people fs-4"></i>
                                 </div>
                                 <div>
                                     <span class="d-block text-dark fw-bold">{{ __('Find a Doctor') }}</span>
@@ -535,8 +597,8 @@
 
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="contact">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle bg-warning bg-opacity-10 p-2 text-warning">
-                                    <i class="bi bi-calendar-check fs-5"></i>
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-calendar-check fs-4"></i>
                                 </div>
                                 <div>
                                     <span class="d-block text-dark fw-bold">{{ __('Book Appointment') }}</span>
@@ -548,8 +610,8 @@
 
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="all">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="rounded-circle bg-secondary bg-opacity-10 p-2 text-secondary">
-                                    <i class="bi bi-grid fs-5"></i>
+                                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-grid fs-4"></i>
                                 </div>
                                 <div>
                                     <span class="d-block text-dark fw-bold">{{ __('See Everything') }}</span>
@@ -814,11 +876,11 @@
                         {{ $aboutDesc }}
                     </p>
                     @if($about && $about->vision && ($about->vision[$locale] ?? $about->vision['id'] ?? ''))
-                        <h5 class="text-primary mb-2"><i class="bi bi-eye me-2"></i>{{ __('Vision') }}</h5>
+                        <h5 class="text-primary mb-2">{{ __('Vision') }}</h5>
                         <div class="text-muted mb-3">{!! $about->vision[$locale] ?? $about->vision['id'] ?? '' !!}</div>
                     @endif
                     @if($about && $about->mission && ($about->mission[$locale] ?? $about->mission['id'] ?? ''))
-                        <h5 class="text-primary mb-2"><i class="bi bi-flag me-2"></i>{{ __('Mission') }}</h5>
+                        <h5 class="text-primary mb-2">{{ __('Mission') }}</h5>
                         <div class="text-muted mb-3">{!! $about->mission[$locale] ?? $about->mission['id'] ?? '' !!}</div>
                     @endif
                 </div>
@@ -836,7 +898,7 @@
                 <div class="row g-4 align-items-stretch">
                     <!-- Contact Info Card -->
                     <div class="col-lg-5">
-                        <div class="card bg-dark text-white border-0 h-100 p-4"
+                        <div class="card contact-card bg-dark text-white border-0 h-100 p-4"
                             style="background: var(--dark-blue)!important; border-radius: var(--card-radius);">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <div>

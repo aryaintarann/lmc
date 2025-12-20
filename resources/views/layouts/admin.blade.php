@@ -7,14 +7,16 @@
     <title>Admin Panel - Legian Medical Clinic</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             /* LMC Palette */
-            --primary-gradient: linear-gradient(135deg, #0a2540 0%, #1c4966 100%);
-            --primary-color: #0a2540;
-            --secondary-color: #1c4966;
-            --accent-warm: #c5a059;
+            --primary-gradient: linear-gradient(135deg, #2E4D36 0%, #1A2E22 100%);
+            --primary-color: #2E4D36;
+            --secondary-color: #1A2E22;
+            --accent-warm: #C5A059;
             --bg-soft: #f5f7fa;
             --sidebar-width: 260px;
             --card-radius: 20px;
@@ -24,8 +26,19 @@
 
         body {
             background-color: var(--bg-soft);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             color: #344767;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .sidebar-brand,
+        .card-header {
+            font-family: 'Outfit', sans-serif;
         }
 
         /* Sidebar Styles */
@@ -154,8 +167,9 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(10, 37, 64, 0.3);
-            background: linear-gradient(135deg, #1c4966 0%, #0a2540 100%);
+            box-shadow: 0 6px 12px rgba(46, 77, 54, 0.3);
+            background: linear-gradient(135deg, #1A2E22 0%, #2E4D36 100%);
+            border-color: transparent;
         }
 
         .btn-secondary {

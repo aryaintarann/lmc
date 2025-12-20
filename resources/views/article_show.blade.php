@@ -9,26 +9,109 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
-            /* Palette: LMC Brand (Dark Navy & Gold/White) */
-            --primary-gradient: linear-gradient(135deg, #0a2540 0%, #1c4966 100%);
-            --primary-color: #0a2540;
-            --secondary-color: #1c4966;
-            --accent-warm: #c5a059;
-            --dark-blue: #051626;
-            --text-main: #344767;
+            /* Palette: LMC Brand (Forest Green & Gold/White) */
+            --primary-gradient: linear-gradient(135deg, #2E4D36 0%, #1A2E22 100%);
+            --primary-color: #2E4D36;
+            --secondary-color: #1A2E22;
+            --accent-warm: #C5A059;
+            --dark-blue: #1A2E22;
+            --text-main: #2E4D36;
             --text-muted: #7b809a;
-            --bg-soft: #f5f7fa;
+            --bg-soft: #F8F9FA;
             --card-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
             --card-hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             --card-radius: 20px;
             --btn-radius: 50px;
         }
 
+        /* Bootstrap Overrides */
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-warm) !important;
+            border-color: var(--accent-warm) !important;
+            color: #ffffff !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #a38446 !important;
+            /* Darker Gold */
+            border-color: #a38446 !important;
+        }
+
+        .btn-outline-primary {
+            color: var(--accent-warm) !important;
+            border-color: var(--accent-warm) !important;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--accent-warm) !important;
+            color: white !important;
+        }
+
+        .text-secondary {
+            color: var(--secondary-color) !important;
+        }
+
+        .bg-secondary {
+            background-color: var(--secondary-color) !important;
+        }
+
+        .text-info {
+            color: var(--secondary-color) !important;
+        }
+
+        .bg-info {
+            background-color: var(--secondary-color) !important;
+        }
+
+        .text-warning {
+            color: var(--accent-warm) !important;
+        }
+
+        .bg-warning {
+            background-color: var(--accent-warm) !important;
+        }
+
+        .text-success {
+            color: var(--primary-color) !important;
+        }
+
+        .bg-success {
+            background-color: var(--primary-color) !important;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-main);
             background-color: white;
             overflow-x: hidden;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+        }
+
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .display-1,
+        .display-2,
+        .display-3,
+        .display-4,
+        .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
         }
 
         /* Animations */
@@ -79,7 +162,7 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background: var(--primary-color);
+            background: var(--accent-warm);
             transition: all 0.3s;
             transform: translateX(-50%);
         }
@@ -115,9 +198,9 @@
 
         .nav-lang-btn:hover,
         .nav-lang-btn[aria-expanded="true"] {
-            background: rgba(10, 37, 64, 0.05);
-            color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            background-color: var(--accent-warm) !important;
+            color: #ffffff !important;
+            border-color: var(--accent-warm) !important;
             transform: translateY(-1px);
         }
 
@@ -171,6 +254,10 @@
     </style>
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
     <!-- Schema Markup -->
     {!! $schema !!}
 </head>
