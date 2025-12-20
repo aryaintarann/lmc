@@ -1076,8 +1076,10 @@
                     localStorage.setItem('lmc_user_preference', targetId);
 
                     // Optimistic UI update
-                    reorderSections(targetId);
                     modal.hide();
+                    setTimeout(() => {
+                        reorderSections(targetId);
+                    }, 300);
 
                     // AJAX Request
                     fetch('{{ route("preferences.set") }}', {
