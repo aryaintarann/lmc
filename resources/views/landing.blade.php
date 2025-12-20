@@ -182,10 +182,15 @@
         /* Hero */
         .hero-section {
             position: relative;
-            padding: 140px 0 100px;
-            /* Increased top padding for better breathing room */
+            padding: 100px 0 60px; /* Default for mobile */
             background: linear-gradient(180deg, rgba(240, 247, 255, 0.7) 0%, #ffffff 100%);
             overflow: hidden;
+        }
+
+        @media (min-width: 992px) {
+            .hero-section {
+                padding: 140px 0 100px; /* Desktop padding */
+            }
         }
 
         .hero-bg-blob {
@@ -360,6 +365,10 @@
             border: none;
             border-radius: 24px;
             overflow: hidden;
+        }
+
+        .modal {
+            z-index: 1060; /* Ensure it's above everything including navbar */
         }
 
         .modal-header {
@@ -559,7 +568,7 @@
                     <button type="button" class="btn-close position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <!-- ... (Modal content will be wrapped in next steps) ... -->
-                <div class="modal-body p-4 p-md-5 bg-soft">
+                <div class="modal-body p-3 p-md-5 bg-soft">
                     <div class="text-center mb-5">
                         <div class="bg-white rounded-circle shadow-sm d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
                             <img src="img/lmc.png" alt="Logo" style="height: 50px;">
@@ -714,7 +723,7 @@
         <div class="hero-bg-blob-2"></div>
         <div class="container position-relative z-1">
             <div class="row align-items-center">
-                <div class="col-lg-6 text-start animate-up">
+                <div class="col-lg-6 text-center text-lg-start animate-up">
                     <h1 class="display-3 fw-bolder mb-3 text-gradient-main" style="line-height: 1.2;">
                         @php
                             $locale = app()->getLocale();
@@ -728,7 +737,7 @@
                         @endphp
                         {{ $tagline }}
                     </p>
-                    <div class="d-flex gap-3">
+                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center justify-content-lg-start">
                         @php
                             $buttonText = $header && isset($header->button_text) ? ($header->button_text[$locale] ?? $header->button_text['id'] ?? '') : __('Book Appointment');
                             $buttonUrl = $header && isset($header->button_url) ? $header->button_url : '#contact';
@@ -742,9 +751,17 @@
                             {{ $buttonText }}
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>
-                        <a href="#services" class="btn btn-dark-blue btn-lg">{{ __('Our Services') }}</a>
+                        <a href="#services" class="btn btn-dark-blue btn-lg width-full-mobile">{{ __('Our Services') }}</a>
                     </div>
-                    <div class="mt-5 d-flex gap-4">
+                    
+                    <style>
+                        @media (max-width: 768px) {
+                            .width-full-mobile {
+                                width: 100%;
+                            }
+                        }
+                    </style>
+                    <div class="mt-5 d-flex gap-4 justify-content-center justify-content-lg-start">
                         <div class="d-flex align-items-center">
                             <h2 class="fw-bold mb-0 text-dark">10+</h2>
                             <p class="mb-0 ms-2 text-muted small lh-1">{{ __('Years of') }}<br>{{ __('Service') }}</p>
@@ -865,7 +882,7 @@
                             style="border-radius: var(--card-radius);">
                     @endif
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 text-center text-lg-start">
                     @php
                         $locale = app()->getLocale();
                         $aboutTitle = $about && isset($about->title) ? ($about->title[$locale] ?? $about->title['id'] ?? '') : __('About Us');

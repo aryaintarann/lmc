@@ -251,6 +251,12 @@
             line-height: 1.8;
             color: var(--text-main);
         }
+
+        @media (max-width: 767.98px) {
+            .article-content {
+                text-align: center;
+            }
+        }
     </style>
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -413,25 +419,25 @@
         </div>
     @endif
 
-    <div class="container pb-5">
-
-        <!-- Minimal Footer -->
-        <!-- Footer -->
-        <footer class="bg-dark text-white pt-5 pb-4 mt-5" style="background-color: var(--dark-blue) !important;">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-12 text-center">
-                        <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
-                            style="height: 60px; filter: brightness(0) invert(1);">
-                        <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">We are committed to
-                            providing the best medical service with a personal
-                            touch. Your health is our priority.</p>
-                        <p class="text-white-50 small mt-4">&copy; 2024 Legian Medical Clinic. All Rights Reserved.</p>
-                    </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5" style="background-color: var(--dark-blue) !important;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 text-center">
+                    <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="mb-4"
+                        style="height: 60px; filter: brightness(0) invert(1);">
+                    <p class="text-white-50 mb-4" style="max-width: 600px; margin: 0 auto;">
+                        {{ __('We are committed to providing the best medical service with a personal touch. Your health is our priority.') }}
+                    </p>
+                    <p class="text-white-50 small mt-4">&copy; {{ date('Y') }}
+                        {{ __('Legian Medical Clinic. All Rights Reserved.') }}
+                    </p>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
