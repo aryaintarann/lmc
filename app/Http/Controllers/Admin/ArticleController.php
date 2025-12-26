@@ -7,6 +7,10 @@ use App\Models\Article;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\Admin\StoreArticleRequest;
+use App\Http\Requests\Admin\UpdateArticleRequest;
+use App\Services\ImageService;
+
 class ArticleController
 {
     /**
@@ -14,7 +18,7 @@ class ArticleController
      */
     public function index()
     {
-        $articles = Article::orderBy('trend_score', 'desc')->latest()->paginate(10);
+        $articles = Article::trending()->latest()->paginate(10);
 
         return view('admin.articles.index', compact('articles'));
     }
@@ -24,37 +28,15 @@ class ArticleController
         return view('admin.articles.create');
     }
 
-    public function store(Request $request, TranslationService $translationService)
+    public function store(StoreArticleRequest $request, TranslationService $translationService, ImageService $imageService)
     {
-        $validated = $request->validate([
-            'title' => 'required|array',
-            'title.en' => 'nullable|max:255',
-            'title.id' => 'nullable|max:255',
-            'excerpt' => 'nullable|array',
-            'excerpt.en' => 'nullable|max:255',
-            'excerpt.id' => 'nullable|max:255',
-            'content' => 'nullable|array',
-            'content.en' => 'nullable',
-            'content.id' => 'nullable',
-            'image' => 'nullable|image|max:2048',
-            'published_at' => 'nullable|date',
-        ]);
-
-        // Ensure at least one language is provided for title and content
-        if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
-            return back()->withErrors(['title' => 'Please provide title in at least one language.'])->withInput();
-        }
-
-        if (empty($request->input('content.en')) && empty($request->input('content.id'))) {
-            return back()->withErrors(['content' => 'Please provide content in at least one language.'])->withInput();
-        }
+        $validated = $request->validated();
 
         // Auto-translate missing language fields
         $validated = TranslationHelper::autoTranslateFields($validated, ['title', 'excerpt', 'content'], $translationService);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('articles', 'public');
-            $validated['image'] = $path;
+            $validated['image'] = $imageService->upload($request->file('image'), 'articles');
         }
 
         Article::create($validated);
@@ -67,50 +49,20 @@ class ArticleController
         //
     }
 
-    public function edit(string $id)
+    public function edit(Article $article)
     {
-        $article = \App\Models\Article::findOrFail($id);
-
         return view('admin.articles.edit', compact('article'));
     }
 
-    public function update(Request $request, string $id, TranslationService $translationService)
+    public function update(UpdateArticleRequest $request, Article $article, TranslationService $translationService, ImageService $imageService)
     {
-        $validated = $request->validate([
-            'title' => 'required|array',
-            'title.en' => 'nullable|max:255',
-            'title.id' => 'nullable|max:255',
-            'excerpt' => 'nullable|array',
-            'excerpt.en' => 'nullable|max:255',
-            'excerpt.id' => 'nullable|max:255',
-            'content' => 'nullable|array',
-            'content.en' => 'nullable',
-            'content.id' => 'nullable',
-            'image' => 'nullable|image|max:2048',
-            'published_at' => 'nullable|date',
-        ]);
-
-        // Ensure at least one language is provided for title and content
-        if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
-            return back()->withErrors(['title' => 'Please provide title in at least one language.'])->withInput();
-        }
-
-        if (empty($request->input('content.en')) && empty($request->input('content.id'))) {
-            return back()->withErrors(['content' => 'Please provide content in at least one language.'])->withInput();
-        }
+        $validated = $request->validated();
 
         // Auto-translate missing language fields
         $validated = TranslationHelper::autoTranslateFields($validated, ['title', 'excerpt', 'content'], $translationService);
 
-        $article = Article::findOrFail($id);
-
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($article->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($article->image)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
-            }
-            $path = $request->file('image')->store('articles', 'public');
-            $validated['image'] = $path;
+            $validated['image'] = $imageService->upload($request->file('image'), 'articles', $article->image);
         }
 
         $article->update($validated);
@@ -118,12 +70,10 @@ class ArticleController
         return redirect()->route('admin.articles.index')->with('success', 'Article updated successfully.');
     }
 
-    public function destroy(string $id)
+    public function destroy(Article $article, ImageService $imageService)
     {
-        $article = \App\Models\Article::findOrFail($id);
-
-        if ($article->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($article->image)) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($article->image);
+        if ($article->image) {
+            $imageService->delete($article->image);
         }
 
         $article->delete();

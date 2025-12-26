@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     });
 
     // Keyword Suggestions API
-    Route::get('keywords/suggest', [\App\Http\Controllers\Admin\KeywordSuggestionController::class, 'suggest'])->name('keywords.suggest');
+    Route::get('keywords/suggest', \App\Http\Controllers\Admin\KeywordSuggestionController::class)->name('keywords.suggest');
 });
 
 // Translation API Routes
@@ -65,4 +65,4 @@ Route::get('lang/{locale}', function ($locale) {
     return back();
 })->name('lang.switch');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
