@@ -230,6 +230,7 @@
 </head>
 
 <body>
+    @php /** @var \App\Models\User $user */ $user = Auth::user(); @endphp
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -279,7 +280,7 @@
                 <i class="bi bi-newspaper"></i> Articles
             </a>
 
-            @if(Auth::user()->role === 'owner')
+            @if($user->role === 'owner')
                 <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Administration</div>
                 <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
                     href="{{ route('admin.users.index') }}">
@@ -304,10 +305,10 @@
                 <h4 class="mb-0 fw-bold">@yield('header')</h4>
             </div>
             <div class="d-flex align-items-center">
-                <span class="me-3 text-muted">Welcome, {{ Auth::user()->name }}</span>
+                <span class="me-3 text-muted">Welcome, {{ $user->name }}</span>
                 <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
                     style="width: 40px; height: 40px;">
-                    {{ substr(Auth::user()->name, 0, 1) }}
+                    {{ substr($user->name, 0, 1) }}
                 </div>
             </div>
         </div>
