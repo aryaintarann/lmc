@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@php /** @var \App\Models\User $user */ @endphp
 
 @section('header', 'Edit User')
 

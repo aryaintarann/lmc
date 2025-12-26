@@ -64,7 +64,7 @@ class LandingController extends Controller
 
     public function show($id, \App\Services\GoogleAnalyticsService $analytics, \App\Services\SchemaService $schemaService)
     {
-        $article = \App\Models\Article::whereNotNull('published_at')->findOrFail($id);
+        $article = Article::whereNotNull('published_at')->findOrFail($id);
 
         $schema = $schemaService->getArticleSchema($article)->toScript();
 
@@ -73,7 +73,7 @@ class LandingController extends Controller
         $isHighBounce = in_array("/articles/{$id}", $highBouncePages);
 
         // Always fetch recommended articles (excluding current)
-        $relatedArticles = \App\Models\Article::where('id', '!=', $id)
+        $relatedArticles = Article::where('id', '!=', $id)
             ->whereNotNull('published_at')
             ->orderBy('trend_score', 'desc')
             ->take(3)
