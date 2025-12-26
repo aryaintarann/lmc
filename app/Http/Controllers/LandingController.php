@@ -26,7 +26,7 @@ class LandingController extends Controller
         $landingArticles = $articles->take(3);
         $totalArticles = $articles->count();
 
-        $schema = $schemaService->getOrganizationSchema()->toScript().
+        $schema = $schemaService->getOrganizationSchema()->toScript() .
             $schemaService->getMedicalClinicSchema()->toScript();
 
         return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles', 'schema'));
@@ -72,14 +72,12 @@ class LandingController extends Controller
         $highBouncePages = $analytics->getHighBouncePages();
         $isHighBounce = in_array("/articles/{$id}", $highBouncePages);
 
-        $relatedArticles = [];
-        if ($isHighBounce) {
-            $relatedArticles = \App\Models\Article::where('id', '!=', $id)
-                ->whereNotNull('published_at')
-                ->inRandomOrder()
-                ->take(3)
-                ->get();
-        }
+        // Always fetch recommended articles (excluding current)
+        $relatedArticles = \App\Models\Article::where('id', '!=', $id)
+            ->whereNotNull('published_at')
+            ->orderBy('trend_score', 'desc')
+            ->take(3)
+            ->get();
 
         return view('article_show', compact('article', 'isHighBounce', 'relatedArticles', 'schema'));
     }
