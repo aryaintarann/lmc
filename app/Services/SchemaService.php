@@ -43,12 +43,12 @@ class SchemaService
             ->openingHoursSpecification([
                 Schema::openingHoursSpecification()
                     ->dayOfWeek(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
-                    ->opens('08:00')
-                    ->closes('21:00'),
+                    ->opens(new \DateTime('08:00'))
+                    ->closes(new \DateTime('21:00')),
                 Schema::openingHoursSpecification()
                     ->dayOfWeek(['Saturday', 'Sunday'])
-                    ->opens('09:00')
-                    ->closes('17:00'),
+                    ->opens(new \DateTime('09:00'))
+                    ->closes(new \DateTime('17:00')),
             ]);
     }
 

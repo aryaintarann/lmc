@@ -385,38 +385,60 @@
         </div>
     </div>
 
-    @if(isset($isHighBounce) && $isHighBounce && isset($relatedArticles) && count($relatedArticles) > 0)
-        <!-- Exit Rate Optimizer Widget -->
-        <div class="container mt-5">
-            <div class="p-5 bg-light rounded-4 position-relative overflow-hidden shadow-sm">
-                <div class="position-absolute top-0 start-0 w-100 h-100 opacity-50" style="background: var(--bg-soft);">
+    @if(isset($relatedArticles) && count($relatedArticles) > 0)
+        <!-- Recommended Articles Widget -->
+        <section class="py-5" style="background: linear-gradient(135deg, var(--bg-soft) 0%, #ffffff 100%);">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <span class="badge rounded-pill mb-3 px-4 py-2 fw-bold"
+                        style="background-color: var(--accent-warm); color: white;">
+                        <i class="bi bi-bookmark-star me-2"></i>{{ __('Recommended') }}
+                    </span>
+                    <h2 class="fw-bold text-dark mb-2">{{ __('You Might Also Like') }}</h2>
+                    <p class="text-muted">{{ __('Explore more articles that might interest you') }}</p>
                 </div>
-                <div class="position-relative z-1">
-                    <div class="text-center mb-4">
-                        <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill fw-bold">Recommended for
-                            You</span>
-                        <h3 class="fw-bold text-dark">{{ __('Before you go, check these out!') }}</h3>
-                        <p class="text-muted">{{ __('Based on what others are reading right now.') }}</p>
-                    </div>
 
-                    <div class="row g-4">
-                        @foreach($relatedArticles as $rel)
-                            <div class="col-md-4">
-                                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="row g-4">
+                    @foreach($relatedArticles as $rel)
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative"
+                                style="transition: all 0.3s ease;">
+                                <div class="position-relative">
                                     <img src="{{ Str::startsWith($rel->image, 'http') ? $rel->image : asset('storage/' . $rel->image) }}"
-                                        class="card-img-top" style="height: 180px; object-fit: cover;" alt="{{ $rel->title }}">
-                                    <div class="card-body">
-                                        <h6 class="fw-bold mb-2">{{ Str::limit($rel->title, 40) }}</h6>
-                                        <a href="{{ route('articles.show', $rel->id) }}"
-                                            class="stretched-link btn btn-sm btn-outline-primary rounded-pill">{{ __('Read Article') }}</a>
+                                        class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $rel->title }}">
+                                    <div class="position-absolute bottom-0 start-0 end-0 p-3"
+                                        style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                                        <span class="badge bg-white text-dark rounded-pill small">
+                                            <i
+                                                class="bi bi-calendar3 me-1"></i>{{ $rel->published_at ? $rel->published_at->format('M d, Y') : '' }}
+                                        </span>
                                     </div>
                                 </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="fw-bold mb-3" style="color: var(--text-main); line-height: 1.4;">
+                                        {{ Str::limit($rel->title, 60) }}
+                                    </h5>
+                                    <p class="text-muted small mb-3 flex-grow-1">
+                                        {{ Str::limit($rel->excerpt, 100) }}
+                                    </p>
+                                    <a href="{{ route('articles.show', $rel->id) }}"
+                                        class="btn btn-sm btn-outline-primary rounded-pill align-self-start">
+                                        {{ __('Read Article') }} <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- View All Articles Button -->
+                <div class="text-center mt-5">
+                    <a href="{{ route('articles.index') }}" class="btn btn-primary rounded-pill px-4 py-2">
+                        <i class="bi bi-grid me-2"></i>{{ __('View All Articles') }}
+                    </a>
                 </div>
             </div>
-        </div>
+        </section>
     @endif
 
     <!-- Footer -->

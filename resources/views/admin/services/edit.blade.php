@@ -3,6 +3,7 @@
 @section('header', 'Edit Service')
 
 @section('content')
+    @php /** @var \App\Models\Service $service */ @endphp
     <div class="card">
         <div class="card-body">
             <form action="{{ route('admin.services.update', $service->id) }}" method="POST">
@@ -37,8 +38,8 @@
                         <div class="mb-3">
                             <label for="description_en" class="form-label">Description (EN)</label>
                             <textarea class="form-control @error('description.en') is-invalid @enderror" id="description_en"
-                                name="description[en]" rows="3"
-                               >{{ old('description.en', $service->getTranslation('description', 'en', false)) }}</textarea>
+                                name="description[en]"
+                                rows="3">{{ old('description.en', $service->getTranslation('description', 'en', false)) }}</textarea>
                             @error('description.en')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -208,11 +209,11 @@
                     const col = document.createElement('div');
                     col.className = 'col-6 col-sm-4 col-md-3 col-lg-2';
                     col.innerHTML = `
-                                                <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
-                                                    <i class="${icon} fs-3 text-primary mb-2"></i>
-                                                    <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
-                                                </div>
-                                            `;
+                                                    <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
+                                                        <i class="${icon} fs-3 text-primary mb-2"></i>
+                                                        <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
+                                                    </div>
+                                                `;
                     iconGrid.appendChild(col);
                 });
             }
