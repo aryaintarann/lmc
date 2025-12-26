@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Admin\StoreDoctorRequest;
+use App\Http\Requests\Admin\UpdateDoctorRequest;
+use App\Models\Doctor;
+use App\Services\ImageService;
+
 class DoctorController extends Controller
 {
     /**
@@ -21,21 +26,15 @@ class DoctorController extends Controller
         return view('admin.doctors.create');
     }
 
-    public function store(\Illuminate\Http\Request $request)
+    public function store(StoreDoctorRequest $request, ImageService $imageService)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'specialty' => 'required|max:255',
-            'bio' => 'nullable',
-            'image' => 'nullable|image|max:2048', // Validate as image file, max 2MB
-        ]);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('doctors', 'public');
-            $validated['image'] = $path;
+            $validated['image'] = $imageService->upload($request->file('image'), 'doctors');
         }
 
-        \App\Models\Doctor::create($validated);
+        Doctor::create($validated);
 
         return redirect()->route('admin.doctors.index')->with('success', 'Doctor added successfully.');
     }
@@ -45,32 +44,21 @@ class DoctorController extends Controller
         //
     }
 
-    public function edit(string $id)
+    public function edit(Doctor $doctor)
     {
-        $doctor = \App\Models\Doctor::findOrFail($id);
-
         return view('admin.doctors.edit', compact('doctor'));
     }
 
-    public function update(\Illuminate\Http\Request $request, string $id)
+    public function update(UpdateDoctorRequest $request, Doctor $doctor, ImageService $imageService)
     {
-        $validated = $request->validate([
-            'name' => 'required|max:255',
-            'specialty' => 'required|max:255',
-            'bio' => 'nullable',
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        $doctor = \App\Models\Doctor::findOrFail($id);
+        $validated = $request->validated();
 
         if ($request->hasFile('image')) {
-            // Delete old image if it exists and is a file (not an external URL)
-            if ($doctor->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($doctor->image)) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($doctor->image);
-            }
-
-            $path = $request->file('image')->store('doctors', 'public');
-            $validated['image'] = $path;
+            $validated['image'] = $imageService->upload(
+                $request->file('image'),
+                'doctors',
+                $doctor->image
+            );
         }
 
         $doctor->update($validated);
@@ -78,13 +66,11 @@ class DoctorController extends Controller
         return redirect()->route('admin.doctors.index')->with('success', 'Doctor updated successfully.');
     }
 
-    public function destroy(string $id)
+    public function destroy(Doctor $doctor, ImageService $imageService)
     {
-        $doctor = \App\Models\Doctor::findOrFail($id);
-
         // Delete image if it exists in storage
-        if ($doctor->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($doctor->image)) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($doctor->image);
+        if ($doctor->image) {
+            $imageService->delete($doctor->image);
         }
 
         $doctor->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TranslateRequest;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,25 +21,13 @@ class TranslationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function translate(Request $request)
+    public function translate(TranslateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'text' => 'required|string',
-            'source_lang' => 'required|string|in:en,id',
-            'target_lang' => 'required|string|in:en,id',
-        ]);
+        $validated = $request->validated();
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $text = $request->input('text');
-        $sourceLang = $request->input('source_lang');
-        $targetLang = $request->input('target_lang');
+        $text = $validated['text'];
+        $sourceLang = $validated['source_lang'];
+        $targetLang = $validated['target_lang'];
 
         try {
             $translated = $this->translationService->translate($text, $sourceLang, $targetLang);

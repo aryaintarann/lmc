@@ -22,6 +22,11 @@ class Article extends Model
         return $this->published_at ? $this->published_at->format('M d, Y') : '';
     }
 
+    public function scopeTrending($query)
+    {
+        return $query->orderBy('trend_score', 'desc');
+    }
+
     public function getProcessedContentAttribute()
     {
         // Resolve the service from the container

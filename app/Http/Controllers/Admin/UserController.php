@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\User;
+
 class UserController extends Controller
 {
     /**
@@ -27,18 +31,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(\Illuminate\Http\Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:8',
-            'role' => 'required|in:owner,admin',
-        ]);
+        $validated = $request->validated();
 
         $validated['password'] = bcrypt($validated['password']);
 
-        \App\Models\User::create($validated);
+        User::create($validated);
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
@@ -54,26 +53,17 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        $user = \App\Models\User::findOrFail($id);
-
         return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(\Illuminate\Http\Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $user = \App\Models\User::findOrFail($id);
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'role' => 'required|in:owner,admin',
-            'password' => 'nullable|confirmed|min:8',
-        ]);
+        $validated = $request->validated();
 
         if ($request->filled('password')) {
             $validated['password'] = bcrypt($validated['password']);
@@ -89,10 +79,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        $user = \App\Models\User::findOrFail($id);
-
         if ($user->id === auth()->id()) {
             return back()->with('error', 'You cannot delete yourself.');
         }

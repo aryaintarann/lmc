@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UpdateAboutRequest;
+use App\Http\Requests\Admin\UpdateContactRequest;
+use App\Http\Requests\Admin\UpdateHeaderRequest;
 use App\Models\About;
 use App\Models\Contact;
 use App\Models\Header;
+use App\Services\ImageService;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -24,18 +27,9 @@ class SettingController extends Controller
         return view('admin.settings.header', compact('header'));
     }
 
-    public function updateHeader(Request $request, TranslationService $translationService)
+    public function updateHeader(UpdateHeaderRequest $request, TranslationService $translationService, ImageService $imageService)
     {
-        $data = $request->validate([
-            'title.id' => 'nullable|string|max:255',
-            'title.en' => 'nullable|string|max:255',
-            'tagline.id' => 'nullable|string|max:255',
-            'tagline.en' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'button_text.id' => 'nullable|string|max:255',
-            'button_text.en' => 'nullable|string|max:255',
-            'button_url' => 'nullable|string|max:255',
-        ]);
+        $data = $request->validated();
 
         // Ensure at least one language for title and tagline
         if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
@@ -59,12 +53,7 @@ class SettingController extends Controller
 
         // Handle Logo Upload
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if ($header->logo) {
-                Storage::disk('public')->delete($header->logo);
-            }
-            $path = $request->file('logo')->store('settings', 'public');
-            $data['logo'] = $path;
+            $data['logo'] = $imageService->upload($request->file('logo'), 'settings', $header->logo);
         }
 
         $header->fill($data);
@@ -83,19 +72,9 @@ class SettingController extends Controller
         return view('admin.settings.about', compact('about'));
     }
 
-    public function updateAbout(Request $request, TranslationService $translationService)
+    public function updateAbout(UpdateAboutRequest $request, TranslationService $translationService, ImageService $imageService)
     {
-        $data = $request->validate([
-            'title.id' => 'nullable|string|max:255',
-            'title.en' => 'nullable|string|max:255',
-            'description.id' => 'nullable|string',
-            'description.en' => 'nullable|string',
-            'vision.id' => 'nullable|string',
-            'vision.en' => 'nullable|string',
-            'mission.id' => 'nullable|string',
-            'mission.en' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
+        $data = $request->validated();
 
         // Ensure at least one language for title and description
         if (empty($request->input('title.en')) && empty($request->input('title.id'))) {
@@ -115,11 +94,7 @@ class SettingController extends Controller
 
         // Handle Image Upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($about->image) {
-                Storage::disk('public')->delete($about->image);
-            }
-            $data['image'] = $request->file('image')->store('abouts', 'public');
+            $data['image'] = $imageService->upload($request->file('image'), 'abouts', $about->image);
         }
 
         // Update about data
@@ -145,18 +120,9 @@ class SettingController extends Controller
         return view('admin.settings.contact', compact('contact'));
     }
 
-    public function updateContact(Request $request, TranslationService $translationService)
+    public function updateContact(UpdateContactRequest $request, TranslationService $translationService)
     {
-        $data = $request->validate([
-            'phone' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'address.id' => 'nullable|string',
-            'address.en' => 'nullable|string',
-            'whatsapp' => 'nullable|string|max:255',
-            'maps_embed' => 'nullable|string',
-            'facebook' => 'nullable|url|max:255',
-            'instagram' => 'nullable|url|max:255',
-        ]);
+        $data = $request->validated();
 
         // Ensure at least one language for address
         if (empty($request->input('address.en')) && empty($request->input('address.id'))) {

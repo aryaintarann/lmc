@@ -24,7 +24,7 @@ class GoogleAnalyticsService
 
             } catch (\Exception $e) {
                 // Fallback / Log error if no credentials
-                Log::warning('GA4 Error (Popular Pages): '.$e->getMessage());
+                Log::warning('GA4 Error (Popular Pages): ' . $e->getMessage());
 
                 return [];
             }
@@ -38,7 +38,7 @@ class GoogleAnalyticsService
     public function getPageViewsForPath(string $path, Period $period): int
     {
         // Cache key specific to path and period duration
-        $cacheKey = 'ga4_views_'.md5($path.$period->startDate->format('Ymd').$period->endDate->format('Ymd'));
+        $cacheKey = 'ga4_views_' . md5($path . $period->startDate->format('Ymd') . $period->endDate->format('Ymd'));
 
         return Cache::remember($cacheKey, 3600, function () use ($period) {
             try {
@@ -64,7 +64,7 @@ class GoogleAnalyticsService
      */
     public function calculateTrafficChange(string $path): int
     {
-        return Cache::remember('ga4_change_'.md5($path), 86400, function () use ($path) {
+        return Cache::remember('ga4_change_' . md5($path), 86400, function () use ($path) {
             try {
                 // 1. Get Current Month Data (Last 30 days)
                 $currentData = Analytics::fetchMostVisitedPage(Period::days(30), 100);
@@ -97,14 +97,40 @@ class GoogleAnalyticsService
      */
     public function getHighBouncePages(int $limit = 10): array
     {
-        return Cache::remember('ga4_high_bounce', 3600, function () {
+        return Cache::remember('ga4_high_bounce', 3600, function () use ($limit) {
             try {
-                // Real implementation would use:
-                // Analytics::get(Period::days(30), ['screenPageViews', 'bounceRate'], ['pagePath']);
+                // Fetch page data with bounce rate metric from GA4
+                // Using Spatie Analytics to run a custom query
+                $period = Period::days(30);
 
-                // For MVP/Mock:
-                return [];
+                // Get page views with engagement metrics
+                $response = Analytics::get(
+                    $period,
+                    ['screenPageViews', 'bounceRate', 'engagementRate'],
+                    ['pagePath'],
+                    $limit * 2 // Fetch more to filter
+                );
+
+                $highBouncePages = [];
+
+                foreach ($response as $row) {
+                    $pagePath = $row['pagePath'] ?? '';
+                    $bounceRate = floatval($row['bounceRate'] ?? 0);
+
+                    // Only include article pages with bounce rate > 50%
+                    if ($bounceRate > 0.5 && str_contains($pagePath, '/articles/')) {
+                        $highBouncePages[] = $pagePath;
+                    }
+
+                    if (count($highBouncePages) >= $limit) {
+                        break;
+                    }
+                }
+
+                return $highBouncePages;
+
             } catch (\Exception $e) {
+                Log::warning('GA4 Error (High Bounce Pages): ' . $e->getMessage());
                 return [];
             }
         });
