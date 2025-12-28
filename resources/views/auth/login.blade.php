@@ -15,15 +15,21 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
+        :root {
+            --primary-color: #2E4D36;
+            --secondary-color: #1A2E22;
+            --accent-warm: #C5A059;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
         }
 
         h1,
@@ -36,125 +42,182 @@
         }
 
         .bg-navy {
-            background-color: #2E4D36;
+            background: linear-gradient(135deg, #2E4D36 0%, #1A2E22 100%);
         }
 
         .text-gold {
-            color: #C5A059;
+            color: var(--accent-warm);
         }
 
-        .btn-navy {
-            background-color: #C5A059;
+        .btn-brand {
+            background-color: var(--accent-warm);
+            border: none;
             transition: all 0.3s ease;
         }
 
-        .btn-navy:hover {
+        .btn-brand:hover {
             background-color: #B39048;
-            /* Darker Gold */
             transform: translateY(-1px);
+        }
+
+        .card-login {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 77, 54, 0.15);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .brand-side {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-side::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .input-with-icon {
+            padding-left: 40px;
+        }
+
+        .link-primary-custom {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .link-primary-custom:hover {
+            color: var(--accent-warm);
         }
     </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+<body class="d-flex align-items-center justify-content-center p-3 p-md-4">
 
-    <!-- Main Card -->
-    <div
-        class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row h-auto md:h-[600px]">
+    <div class="card card-login w-100" style="max-width: 900px;">
+        <div class="row g-0">
+            <!-- Left Side: Branding -->
+            <div
+                class="col-lg-5 bg-navy brand-side d-none d-lg-flex flex-column align-items-center justify-content-center p-5 text-center">
+                <div class="position-relative z-1">
+                    <div class="bg-white bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4"
+                        style="width: 100px; height: 100px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                        <img src="{{ asset('img/lmc.png') }}" alt="Logo" style="height: 60px;" class="drop-shadow">
+                    </div>
 
-        <!-- Left Side: Branding -->
-        <div
-            class="md:w-1/2 bg-navy flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
-            <!-- Background Element (Optional decoration) -->
-            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                <i class="bi bi-hospital text-[300px] absolute -top-10 -left-10 text-white"></i>
+                    <h1 class="text-white fw-bold mb-2" style="font-size: 1.75rem;">Legian Medical Clinic</h1>
+                    <p class="text-gold fw-medium text-uppercase small" style="letter-spacing: 2px;">Premium Care,
+                        Trusted Health</p>
+                </div>
             </div>
 
-            <div class="relative z-10">
-                <div
-                    class="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mb-6 mx-auto backdrop-blur-sm border border-white/20">
-                    <img src="{{ asset('img/lmc.png') }}" alt="Logo" class="h-14 w-auto drop-shadow-md">
-                </div>
+            <!-- Right Side: Login Form -->
+            <div class="col-lg-7 p-4 p-md-5">
+                <div class="mx-auto" style="max-width: 400px;">
+                    <!-- Mobile Logo -->
+                    <div class="text-center d-lg-none mb-4">
+                        <img src="{{ asset('img/lmc.png') }}" alt="Logo" height="50">
+                    </div>
 
-                <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">Legian Medical Clinic</h1>
-                <p class="text-gold font-medium tracking-widest uppercase text-sm">Premium Care, Trusted Health</p>
-            </div>
-        </div>
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-dark mb-2">Login</h2>
+                        <p class="text-muted small">Welcome! Please enter your details.</p>
+                    </div>
 
-        <!-- Right Side: Login Form -->
-        <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white relative">
-            <div class="w-full max-w-md mx-auto">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Login Anggota</h2>
-                    <p class="text-gray-500 text-sm">Welcome back! Please enter your details.</p>
-                </div>
+                    <!-- Session Status -->
+                    @if (session('status'))
+                        <div class="alert alert-success mb-4" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-                <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
 
-                <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                    @csrf
-
-                    <!-- Email Address -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <div class="relative">
-                            <div
-                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                <i class="bi bi-envelope"></i>
+                        <!-- Email Address -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-medium">Email</label>
+                            <div class="position-relative">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input id="email" type="email" name="email" value="{{ old('email') }}"
+                                    class="form-control input-with-icon py-2 @error('email') is-invalid @enderror"
+                                    placeholder="Enter your email" required autofocus autocomplete="username">
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                                autocomplete="username"
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2E4D36] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
-                                placeholder="Enter your email">
                         </div>
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-xs" />
-                    </div>
 
-                    <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <div class="relative">
-                            <div
-                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                <i class="bi bi-lock"></i>
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-medium">Password</label>
+                            <div class="position-relative">
+                                <i class="bi bi-lock input-icon"></i>
+                                <input id="password" type="password" name="password"
+                                    class="form-control input-with-icon py-2 @error('password') is-invalid @enderror"
+                                    placeholder="Enter your password" required autocomplete="current-password">
+                                <button type="button" onclick="togglePassword()"
+                                    class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-muted pe-3"
+                                    style="z-index: 5;">
+                                    <i class="bi bi-eye" id="toggleIcon"></i>
+                                </button>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <input id="password" type="password" name="password" required
-                                autocomplete="current-password"
-                                class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2E4D36] focus:border-transparent text-gray-900 placeholder-gray-400 sm:text-sm transition-all shadow-sm"
-                                placeholder="Enter your password">
-                            <button type="button" onclick="togglePassword()"
-                                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
-                                <i class="bi bi-eye" id="toggleIcon"></i>
-                            </button>
-                        </div>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500 text-xs" />
-                    </div>
-
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input id="remember_me" type="checkbox" name="remember"
-                                class="h-4 w-4 text-[#2E4D36] focus:ring-[#2E4D36] border-gray-300 rounded">
-                            <label for="remember_me" class="ml-2 block text-sm text-gray-700">Remember Me</label>
                         </div>
 
-                        @if (Route::has('password.request'))
-                            <a class="text-sm font-medium text-[#2E4D36] hover:text-[#C5A059] transition-colors"
-                                href="{{ route('password.request') }}">
-                                {{ __('Forgot Password?') }}
-                            </a>
-                        @endif
-                    </div>
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember_me">
+                                <label class="form-check-label small" for="remember_me">Remember Me</label>
+                            </div>
 
-                    <!-- Submit Button -->
-                    <div>
-                        <button type="submit"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white btn-navy focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#C5A059]">
+                            @if (Route::has('password.request'))
+                                <a class="link-primary-custom small fw-medium" href="{{ route('password.request') }}">
+                                    Forgot Password?
+                                </a>
+                            @endif
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-brand text-white w-100 py-2 fw-bold">
                             Login
                         </button>
+                    </form>
+
+                    <!-- Back to home -->
+                    <div class="text-center mt-4">
+                        <a href="/" class="text-muted text-decoration-none small">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Home
+                        </a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
