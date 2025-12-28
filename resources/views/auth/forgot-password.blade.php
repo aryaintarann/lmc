@@ -1,25 +1,43 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="text-center mb-4">
+        <h4 class="fw-bold text-dark mb-2">{{ __('Forgot Password?') }}</h4>
+        <p class="text-muted small">
+            {{ __('No problem. Just let us know your email address and we will email you a password reset link.') }}
+        </p>
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <div class="alert alert-success mb-4" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <form method="POST" action="{{ route('password.email') }}">
         @csrf
 
         <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mb-4">
+            <label for="email" class="form-label fw-medium">{{ __('Email') }}</label>
+            <div class="position-relative">
+                <input id="email" type="email" name="email" value="{{ old('email') }}"
+                    class="form-control py-2 @error('email') is-invalid @enderror" placeholder="Enter your email"
+                    required autofocus>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
+        <button type="submit" class="btn btn-brand text-white w-100 py-2 fw-bold">
+            {{ __('Email Password Reset Link') }}
+        </button>
+
+        <div class="text-center mt-4">
+            <a href="{{ route('login') }}" class="text-decoration-none small"
+                style="color: var(--primary-color, #2E4D36);">
+                <i class="bi bi-arrow-left me-1"></i> {{ __('Back to Login') }}
+            </a>
         </div>
     </form>
 </x-guest-layout>
