@@ -549,6 +549,113 @@
         .hover-white:hover {
             color: white !important;
         }
+
+        /* Gallery Section */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--card-radius);
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(26, 46, 34, 0.8), transparent);
+            padding: 2rem 1.5rem 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-carousel .carousel-control-prev,
+        .gallery-carousel .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            opacity: 1;
+            top: 50%;
+            transform: translateY(-50%);
+            position: absolute;
+        }
+
+        .gallery-carousel .carousel-control-prev {
+            left: -70px;
+        }
+
+        .gallery-carousel .carousel-control-next {
+            right: -70px;
+        }
+
+        .gallery-carousel .carousel-control-prev-icon,
+        .gallery-carousel .carousel-control-next-icon {
+            filter: invert(1) grayscale(100) brightness(0.2);
+            width: 20px;
+            height: 20px;
+        }
+
+        .gallery-carousel .carousel-control-prev:hover,
+        .gallery-carousel .carousel-control-next:hover {
+            background: var(--accent-warm);
+        }
+
+        .gallery-carousel .carousel-control-prev:hover .carousel-control-prev-icon,
+        .gallery-carousel .carousel-control-next:hover .carousel-control-next-icon {
+            filter: invert(1) grayscale(100) brightness(1);
+        }
+
+        .gallery-carousel .carousel-indicators {
+            bottom: -50px;
+        }
+
+        .gallery-carousel .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            opacity: 0.3;
+            border: none;
+        }
+
+        .gallery-carousel .carousel-indicators button.active {
+            opacity: 1;
+            background-color: var(--accent-warm);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-carousel .carousel-control-prev,
+            .gallery-carousel .carousel-control-next {
+                display: none;
+            }
+
+            .gallery-item img {
+                height: 220px;
+            }
+        }
     </style>
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -648,6 +755,7 @@
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#hero">{{ __('Home') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">{{ __('Gallery') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">{{ __('Services') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#doctors">{{ __('Doctors') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
@@ -900,6 +1008,128 @@
                         <h5 class="text-primary mb-2">{{ __('Mission') }}</h5>
                         <div class="text-muted mb-3">{!! $about->mission[$locale] ?? $about->mission['id'] ?? '' !!}</div>
                     @endif
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section-block bg-soft rounded-5 my-5 px-4">
+            <div class="text-center mb-5">
+                <span class="section-subtitle">{{ __('Our Facilities') }}</span>
+                <h2 class="section-title">{{ __('Gallery') }}</h2>
+                <p class="text-muted" style="max-width: 600px; margin: 0 auto;">{{ __('Take a virtual tour of our modern clinic and facilities.') }}</p>
+            </div>
+            
+            <div class="position-relative" style="padding: 0 80px;">
+                <div id="galleryCarousel" class="carousel slide gallery-carousel" data-bs-ride="carousel">
+                    <!-- Indicators -->
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+
+                    <div class="carousel-inner">
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop" alt="{{ __('Reception Area') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Reception Area') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&h=400&fit=crop" alt="{{ __('Consultation Room') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Consultation Room') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&h=400&fit=crop" alt="{{ __('Laboratory') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Laboratory') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop" alt="{{ __('Waiting Area') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Waiting Area') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=600&h=400&fit=crop" alt="{{ __('Treatment Room') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Treatment Room') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&h=400&fit=crop" alt="{{ __('Medical Equipment') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Medical Equipment') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-item">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=400&fit=crop" alt="{{ __('Pharmacy') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Pharmacy') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&h=400&fit=crop" alt="{{ __('Emergency Room') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Emergency Room') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="gallery-item">
+                                        <img src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&h=400&fit=crop" alt="{{ __('Parking Area') }}">
+                                        <div class="gallery-overlay">
+                                            <h6 class="text-white mb-0 fw-bold">{{ __('Parking Area') }}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">{{ __('Previous') }}</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">{{ __('Next') }}</span>
+                    </button>
                 </div>
             </div>
         </section>
