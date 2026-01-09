@@ -872,17 +872,7 @@
                             }
                         }
                     </style>
-                    <div class="mt-5 d-flex gap-4 justify-content-center justify-content-lg-start">
-                        <div class="d-flex align-items-center">
-                            <h2 class="fw-bold mb-0 text-dark">10+</h2>
-                            <p class="mb-0 ms-2 text-muted small lh-1">{{ __('Years of') }}<br>{{ __('Service') }}</p>
-                        </div>
-                        <div class="border-start border-2"></div>
-                        <div class="d-flex align-items-center">
-                            <h2 class="fw-bold mb-0 text-dark">24/7</h2>
-                            <p class="mb-0 ms-2 text-muted small lh-1">{{ __('Emergency') }}<br>{{ __('Support') }}</p>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="col-lg-6 mt-5 mt-lg-0 animate-up delay-200">
                     <div class="position-relative">
@@ -903,7 +893,7 @@
                                     <i class="bi bi-shield-check-fill"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-0 fw-bold">{{ __('Certified Clinic') }}</h6>
+                                    <h6 class="mb-0 fw-bold">{{ __('Trusted for Over 10 Years') }}</h6>
                                 </div>
                             </div>
                         </div>
