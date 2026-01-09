@@ -752,7 +752,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#hero">{{ __('Home') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#gallery">{{ __('Gallery') }}</a></li>
@@ -760,9 +760,12 @@
                     <li class="nav-item"><a class="nav-link" href="#doctors">{{ __('Doctors') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">{{ __('Contact') }}</a></li>
-                    
+                </ul>
+                
+                <!-- Right side: Search & Language -->
+                <ul class="navbar-nav align-items-center">
                     <!-- Search Trigger -->
-                    <li class="nav-item ms-lg-2">
+                    <li class="nav-item">
                         <button class="btn btn-sm btn-link nav-link text-decoration-none" onclick="toggleNavbarSearch()" type="button">
                             <i class="bi bi-search"></i>
                         </button>
