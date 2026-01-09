@@ -1020,118 +1020,61 @@
                 <p class="text-muted" style="max-width: 600px; margin: 0 auto;">{{ __('Take a virtual tour of our modern clinic and facilities.') }}</p>
             </div>
             
-            <div class="position-relative" style="padding: 0 80px;">
-                <div id="galleryCarousel" class="carousel slide gallery-carousel" data-bs-ride="carousel">
-                    <!-- Indicators -->
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @if($galleries->count() > 0)
+                @php
+                    $galleryChunks = $galleries->chunk(3);
+                @endphp
+                <div class="position-relative" style="padding: 0 80px;">
+                    <div id="galleryCarousel" class="carousel slide gallery-carousel" data-bs-ride="carousel">
+                        <!-- Indicators -->
+                        <div class="carousel-indicators">
+                            @foreach($galleryChunks as $index => $chunk)
+                                <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="{{ $index }}" 
+                                    class="{{ $index === 0 ? 'active' : '' }}" 
+                                    {{ $index === 0 ? 'aria-current="true"' : '' }} 
+                                    aria-label="Slide {{ $index + 1 }}"></button>
+                            @endforeach
+                        </div>
+
+                        <div class="carousel-inner">
+                            @foreach($galleryChunks as $index => $chunk)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <div class="row g-4">
+                                        @foreach($chunk as $gallery)
+                                            <div class="col-md-4">
+                                                <div class="gallery-item">
+                                                    <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}">
+                                                    <div class="gallery-overlay">
+                                                        <h6 class="text-white mb-0 fw-bold">{{ $gallery->title }}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Navigation Arrows -->
+                        @if($galleryChunks->count() > 1)
+                            <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">{{ __('Previous') }}</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">{{ __('Next') }}</span>
+                            </button>
+                        @endif
                     </div>
-
-                    <div class="carousel-inner">
-                        <!-- Slide 1 -->
-                        <div class="carousel-item active">
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop" alt="{{ __('Reception Area') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Reception Area') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1666214280557-f1b5022eb634?w=600&h=400&fit=crop" alt="{{ __('Consultation Room') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Consultation Room') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=600&h=400&fit=crop" alt="{{ __('Laboratory') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Laboratory') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Slide 2 -->
-                        <div class="carousel-item">
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop" alt="{{ __('Waiting Area') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Waiting Area') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=600&h=400&fit=crop" alt="{{ __('Treatment Room') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Treatment Room') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&h=400&fit=crop" alt="{{ __('Medical Equipment') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Medical Equipment') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Slide 3 -->
-                        <div class="carousel-item">
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=600&h=400&fit=crop" alt="{{ __('Pharmacy') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Pharmacy') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=600&h=400&fit=crop" alt="{{ __('Emergency Room') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Emergency Room') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="gallery-item">
-                                        <img src="https://images.unsplash.com/photo-1504439468489-c8920d796a29?w=600&h=400&fit=crop" alt="{{ __('Parking Area') }}">
-                                        <div class="gallery-overlay">
-                                            <h6 class="text-white mb-0 fw-bold">{{ __('Parking Area') }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Arrows -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">{{ __('Previous') }}</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">{{ __('Next') }}</span>
-                    </button>
                 </div>
-            </div>
+            @else
+                <!-- Fallback: No gallery images in database -->
+                <div class="text-center py-5">
+                    <i class="bi bi-images text-muted" style="font-size: 4rem;"></i>
+                    <p class="text-muted mt-3">{{ __('Gallery images coming soon.') }}</p>
+                </div>
+            @endif
         </section>
 
         <!-- Contact Section -->

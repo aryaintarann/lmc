@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
     Route::resource('doctors', \App\Http\Controllers\Admin\DoctorController::class);
     Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+    Route::resource('gallery', \App\Http\Controllers\Admin\GalleryController::class)->except(['show']);
 
     // Owner Only Routes
     Route::middleware('role:owner')->group(function () {

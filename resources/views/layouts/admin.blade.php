@@ -279,6 +279,10 @@
                 href="{{ route('admin.articles.index') }}">
                 <i class="bi bi-newspaper"></i> Articles
             </a>
+            <a class="nav-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}"
+                href="{{ route('admin.gallery.index') }}">
+                <i class="bi bi-images"></i> Gallery
+            </a>
 
             @if($user->role === 'owner')
                 <div class="sidebar-heading mt-3 mb-2 px-3 text-white-50 small text-uppercase">Administration</div>
