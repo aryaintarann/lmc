@@ -6,6 +6,7 @@ use App\Models\About;
 use App\Models\Article;
 use App\Models\Contact;
 use App\Models\Doctor;
+use App\Models\Gallery;
 use App\Models\Header;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class LandingController extends Controller
         $about = About::first();
         $services = Service::all();
         $doctors = Doctor::all();
+        $galleries = Gallery::active()->ordered()->get();
         $articles = Article::whereNotNull('published_at')
             ->orderBy('trend_score', 'desc')
             ->latest('published_at')
@@ -29,7 +31,7 @@ class LandingController extends Controller
         $schema = $schemaService->getOrganizationSchema()->toScript() .
             $schemaService->getMedicalClinicSchema()->toScript();
 
-        return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'landingArticles', 'totalArticles', 'schema'));
+        return view('landing', compact('header', 'contact', 'about', 'services', 'doctors', 'galleries', 'landingArticles', 'totalArticles', 'schema'));
     }
 
     public function articles(Request $request)

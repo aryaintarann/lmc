@@ -1,9 +1,3 @@
-{{--
-This navigation component is no longer used.
-The application uses layouts/admin.blade.php for authenticated users
-which has its own sidebar navigation.
---}}
-
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="{{ route('admin.dashboard') }}">
@@ -28,7 +22,7 @@ which has its own sidebar navigation.
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        {{ Auth::user()->name }}
+                        {{ auth()->user()?->name ?? 'Guest' }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>

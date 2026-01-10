@@ -145,7 +145,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i>
-                            {{ Auth::user()->name }}
+                            @php /** @var \App\Models\User $user */ $user = Auth::user(); @endphp
+                            {{ $user->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
