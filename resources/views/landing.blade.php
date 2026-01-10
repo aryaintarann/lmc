@@ -872,7 +872,10 @@
                             }
                         }
                     </style>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 684281805be73869ed436c9b34e12dea9ea543ef
                 </div>
                 <div class="col-lg-6 mt-5 mt-lg-0 animate-up delay-200">
                     <div class="position-relative">

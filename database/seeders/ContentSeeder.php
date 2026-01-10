@@ -13,11 +13,6 @@ class ContentSeeder extends Seeder
     {
         // Services
         \App\Models\Service::create([
-            'title' => 'Emergency Care',
-            'description' => '24/7 rapid response team ready to handle any medical emergencies.',
-            'icon' => 'bi-activity',
-        ]);
-        \App\Models\Service::create([
             'title' => 'Pharmacy',
             'description' => 'Fully stocked in-house pharmacy with prescription and OTC medications.',
             'icon' => 'bi-capsule',
