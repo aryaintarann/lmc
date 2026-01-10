@@ -1,3 +1,4 @@
+@php /** @var \App\Models\User $user */ @endphp
 <p class="text-muted mb-4">
     {{ __("Update your account's profile information and email address.") }}
 </p>
