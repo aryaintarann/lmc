@@ -1149,6 +1149,22 @@
                                             <span class="fw-semibold">{{ $address }}</span>
                                         </div>
                                     </div>
+
+                                    @if($contact && $contact->operating_hours)
+                                        <div class="d-flex align-items-start mb-4">
+                                            <div class="d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white rounded-circle me-3"
+                                                style="width: 50px; height: 50px; min-width: 50px; font-size: 1.2rem;">
+                                                <i class="bi bi-clock-fill"></i>
+                                            </div>
+                                            <div>
+                                                <small class="text-white-50 d-block">{{ __('Operating Hours') }}</small>
+                                                @php
+                                                    $operatingHours = $contact->getTranslation('operating_hours', $locale) ?? 'Mon-Sat: 8:00 AM - 8:00 PM';
+                                                @endphp
+                                                <span class="fw-semibold" style="white-space: pre-line;">{{ $operatingHours }}</span>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="mt-4">

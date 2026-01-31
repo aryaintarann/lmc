@@ -130,7 +130,7 @@ class SettingController extends Controller
         }
 
         // Auto-translate missing language fields
-        $data = TranslationHelper::autoTranslateFields($data, ['address'], $translationService);
+        $data = TranslationHelper::autoTranslateFields($data, ['address', 'operating_hours'], $translationService);
 
         $contact = Contact::firstOrCreate([], [
             'address' => ['en' => 'Address here', 'id' => 'Alamat di sini'],
@@ -142,6 +142,7 @@ class SettingController extends Controller
             'phone' => $data['phone'],
             'email' => $data['email'],
             'address' => ['id' => $data['address']['id'] ?? '', 'en' => $data['address']['en'] ?? ''],
+            'operating_hours' => isset($data['operating_hours']) ? ['id' => $data['operating_hours']['id'] ?? '', 'en' => $data['operating_hours']['en'] ?? ''] : null,
             'whatsapp' => $data['whatsapp'] ?? null,
             'maps_embed' => $data['maps_embed'] ?? null,
             'facebook' => $data['facebook'] ?? null,

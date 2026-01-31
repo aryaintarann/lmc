@@ -1,11 +1,15 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Contact extends Model
 {
+    use HasTranslations;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -15,6 +19,7 @@ class Contact extends Model
         'address',
         'phone',
         'email',
+        'operating_hours',
         'whatsapp',
         'maps_embed',
         'facebook',
@@ -29,4 +34,11 @@ class Contact extends Model
     protected $casts = [
         'address' => 'array',
     ];
+
+    /**
+     * The attributes that are translatable.
+     *
+     * @var array
+     */
+    public $translatable = ['operating_hours'];
 }

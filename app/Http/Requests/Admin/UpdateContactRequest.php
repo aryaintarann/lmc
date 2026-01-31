@@ -18,6 +18,8 @@ class UpdateContactRequest extends FormRequest
             'email' => 'required|email|max:255',
             'address.id' => 'nullable|string',
             'address.en' => 'nullable|string',
+            'operating_hours.id' => 'nullable|string',
+            'operating_hours.en' => 'nullable|string',
             'whatsapp' => 'nullable|string|max:255',
             'maps_embed' => 'nullable|string',
             'facebook' => 'nullable|url|max:255',

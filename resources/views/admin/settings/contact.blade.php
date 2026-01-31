@@ -50,6 +50,25 @@
                             <div class="form-text">Include country code, will be used for WhatsApp link</div>
                         </div>
 
+                        {{-- Operating Hours (Multi-language) --}}
+                        <h5 class="mb-3 text-dark">Operating Hours</h5>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="operating_hours_id" class="form-label fw-bold text-muted">Operating Hours
+                                    (Bahasa Indonesia)</label>
+                                <textarea class="form-control" id="operating_hours_id" name="operating_hours[id]" rows="3"
+                                    placeholder="Senin - Sabtu: 08:00 - 20:00&#10;Minggu: Tutup">{{ $contact->getTranslation('operating_hours', 'id') ?? '' }}</textarea>
+                                <div class="form-text">One schedule per line, e.g.: "Senin - Sabtu: 08:00 - 20:00"</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="operating_hours_en" class="form-label fw-bold text-muted">Operating Hours
+                                    (English)</label>
+                                <textarea class="form-control" id="operating_hours_en" name="operating_hours[en]" rows="3"
+                                    placeholder="Mon - Sat: 8:00 AM - 8:00 PM&#10;Sun: Closed">{{ $contact->getTranslation('operating_hours', 'en') ?? '' }}</textarea>
+                                <div class="form-text">One schedule per line, e.g.: "Mon - Sat: 8:00 AM - 8:00 PM"</div>
+                            </div>
+                        </div>
+
                         {{-- Social Media --}}
                         <h5 class="mb-3 text-dark">Social Media</h5>
                         <div class="row mb-4">
