@@ -19,7 +19,7 @@ class TranslationHelper
 
         foreach ($fields as $field) {
             // Skip if field doesn't exist in data
-            if (! isset($data[$field]) || ! is_array($data[$field])) {
+            if (!isset($data[$field]) || !is_array($data[$field])) {
                 continue;
             }
 
@@ -41,9 +41,9 @@ class TranslationHelper
                     // Check if it really has text or critical media tags
                     if (
                         empty($cleanText) &&
-                        ! str_contains($text, '<img') &&
-                        ! str_contains($text, '<iframe') &&
-                        ! str_contains($text, '<video')
+                        !str_contains($text, '<img') &&
+                        !str_contains($text, '<iframe') &&
+                        !str_contains($text, '<video')
                     ) {
                         $isEmpty = true;
                     }
@@ -59,7 +59,7 @@ class TranslationHelper
             }
 
             // If we have source text and missing locales, translate
-            if ($sourceText && ! empty($missingLocales)) {
+            if ($sourceText && !empty($missingLocales)) {
                 foreach ($missingLocales as $targetLocale) {
                     try {
                         $translatedText = $translationService->translate(
@@ -67,6 +67,9 @@ class TranslationHelper
                             $sourceLocale,
                             $targetLocale
                         );
+
+                        // Decode HTML entities to preserve special characters like quotes
+                        $translatedText = html_entity_decode($translatedText, ENT_QUOTES, 'UTF-8');
 
                         // Set translated text in data
                         $data[$field][$targetLocale] = $translatedText;
