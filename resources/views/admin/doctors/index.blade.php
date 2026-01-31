@@ -15,7 +15,7 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">ID</th>
+                            <th style="width: 50px;">No</th>
                             <th style="width: 80px;">Image</th>
                             <th>Name</th>
                             <th>Specialty</th>
@@ -25,7 +25,7 @@
                     <tbody>
                         @forelse($doctors as $doctor)
                             <tr>
-                                <td>{{ $doctor->id }}</td>
+                                <td>{{ $doctors->firstItem() + $loop->index }}</td>
                                 <td>
                                     @if($doctor->image)
                                         @if(Str::startsWith($doctor->image, 'http'))

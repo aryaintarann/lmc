@@ -22,7 +22,7 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">ID</th>
+                            <th style="width: 50px;">No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -33,7 +33,7 @@
                     <tbody>
                         @forelse($users as $user)
                             <tr>
-                                <td>{{ $user->id }}</td>
+                                <td>{{ $users->firstItem() + $loop->index }}</td>
                                 <td>
                                     <div class="fw-bold">{{ $user->name }}</div>
                                 </td>

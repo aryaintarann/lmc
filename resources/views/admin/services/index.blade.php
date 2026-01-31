@@ -15,7 +15,7 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">ID</th>
+                            <th style="width: 50px;">No</th>
                             <th>Icon</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -25,7 +25,7 @@
                     <tbody>
                         @forelse($services as $service)
                             <tr>
-                                <td>{{ $service->id }}</td>
+                                <td>{{ $services->firstItem() + $loop->index }}</td>
                                 <td><i class="{{ $service->icon }} text-primary fs-5"></i></td>
                                 <td class="fw-bold">{{ $service->title }}</td>
                                 <td>{{ Str::limit($service->description, 60) }}</td>

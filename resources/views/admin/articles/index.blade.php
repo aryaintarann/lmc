@@ -15,7 +15,7 @@
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">ID</th>
+                            <th style="width: 50px;">No</th>
                             <th>Title</th>
                             <th>Published</th>
                             <th>Date</th>
@@ -25,7 +25,7 @@
                     <tbody>
                         @forelse($articles as $article)
                             <tr>
-                                <td>{{ $article->id }}</td>
+                                <td>{{ $articles->firstItem() + $loop->index }}</td>
                                 <td>
                                     <div class="fw-bold">{{ $article->title }}</div>
                                     <small class="text-muted">{{ Str::limit($article->excerpt, 50) }}</small>

@@ -18,7 +18,7 @@ class ArticleController
      */
     public function index()
     {
-        $articles = Article::trending()->latest()->paginate(10);
+        $articles = Article::orderBy('id')->paginate(10);
 
         return view('admin.articles.index', compact('articles'));
     }
