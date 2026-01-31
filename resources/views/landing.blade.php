@@ -724,6 +724,20 @@
                             <i class="bi bi-chevron-right"></i>
                         </button>
 
+                        <!-- Operating Hours Button -->
+                        <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="contact" onclick="highlightOperatingHours()">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
+                                    <i class="bi bi-clock-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block text-dark fw-bold">{{ __('Operating Hours') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('Check our schedule') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="doctors">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
@@ -1339,6 +1353,38 @@
                 window.location.href = href;
             }
         });
+
+        // Highlight Operating Hours Function
+        function highlightOperatingHours() {
+            // Wait for modal to close
+            setTimeout(() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    // Scroll to contact section
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Add pulse animation to operating hours
+                    setTimeout(() => {
+                        const operatingHoursElement = contactSection.querySelector('.bi-clock-fill').closest('.d-flex');
+                        if (operatingHoursElement) {
+                            // Add highlight style
+                            operatingHoursElement.style.transition = 'all 0.3s ease';
+                            operatingHoursElement.style.backgroundColor = 'rgba(23, 162, 184, 0.1)';
+                            operatingHoursElement.style.borderRadius = '10px';
+                            operatingHoursElement.style.padding = '10px';
+                            operatingHoursElement.style.transform = 'scale(1.05)';
+                            
+                            // Remove highlight after 2 seconds
+                            setTimeout(() => {
+                                operatingHoursElement.style.backgroundColor = 'transparent';
+                                operatingHoursElement.style.transform = 'scale(1)';
+                                operatingHoursElement.style.padding = '0';
+                            }, 2000);
+                        }
+                    }, 800);
+                }
+            }, 300);
+        }
     </script>
 </body>
 
