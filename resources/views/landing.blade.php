@@ -724,6 +724,27 @@
                             <i class="bi bi-chevron-right"></i>
                         </button>
 
+                        @php
+                            $emergencyUrl = $header && isset($header->button_url) ? $header->button_url : '#';
+                            
+                            // Check if URL is not an anchor link and doesn't have http/https
+                            if ($emergencyUrl && !Str::startsWith($emergencyUrl, ['http://', 'https://', '#'])) {
+                                $emergencyUrl = 'https://' . $emergencyUrl;
+                            }
+                        @endphp
+                        <a href="{{ $emergencyUrl }}" target="_blank" class="btn choice-btn d-flex align-items-center justify-content-between" style="border-color: #dc3545;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                                    <i class="bi bi-telephone-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <span class="d-block fw-bold" style="color: #dc3545;">{{ __('Emergency Call') }}</span>
+                                    <small class="text-muted" style="font-size: 0.75rem;">{{ __('Contact us immediately') }}</small>
+                                </div>
+                            </div>
+                            <i class="bi bi-chevron-right" style="color: #dc3545;"></i>
+                        </a>
+
                         <button class="btn choice-btn d-flex align-items-center justify-content-between" data-target="all">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center flex-shrink-0" style="width: 60px; height: 60px;">
