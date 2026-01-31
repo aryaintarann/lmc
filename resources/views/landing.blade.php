@@ -9,6 +9,19 @@
     <meta name="description" content="{{ $header && isset($header->tagline) ? ($header->tagline[app()->getLocale()] ?? $header->tagline['id'] ?? 'Premier medical clinic in Bali.') : 'Premier medical clinic in Bali.' }}">
     <link rel="icon" href="img/lmc.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google tag (gtag.js) -->
+    @if(config('services.google.measurement_id'))
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.measurement_id') }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ config('services.google.measurement_id') }}');
+        </script>
+    @endif
+
     <style>
         :root {
             /* Palette: LMC Brand (Forest Green & Gold/White) */

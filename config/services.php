@@ -40,4 +40,8 @@ return [
         'key_file' => env('GOOGLE_CLOUD_KEY_FILE', 'google-cloud/service-account-key.json'),
     ],
 
+    'google' => [
+        'measurement_id' => env('GA4_MEASUREMENT_ID'),
+    ],
+
 ];

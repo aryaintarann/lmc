@@ -264,6 +264,19 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600&display=swap"
         rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    @if(config('services.google.measurement_id'))
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.measurement_id') }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', '{{ config('services.google.measurement_id') }}');
+        </script>
+    @endif
+
     <!-- Schema Markup -->
     {!! $schema !!}
 </head>
