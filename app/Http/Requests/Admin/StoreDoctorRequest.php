@@ -23,9 +23,19 @@ class StoreDoctorRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'specialty' => 'required|max:255',
-            'bio' => 'nullable',
+            'specialty.en' => 'required_without:specialty.id|nullable|max:255',
+            'specialty.id' => 'required_without:specialty.en|nullable|max:255',
+            'bio.en' => 'nullable',
+            'bio.id' => 'nullable',
             'image' => 'nullable|image|max:2048',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'specialty.en.required_without' => 'Please fill in at least one specialty (English or Indonesian).',
+            'specialty.id.required_without' => 'Please fill in at least one specialty (English or Indonesian).',
         ];
     }
 }

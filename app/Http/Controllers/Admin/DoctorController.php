@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Admin\StoreDoctorRequest;
 use App\Http\Requests\Admin\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Services\ImageService;
+use App\Services\TranslationService;
 
 class DoctorController extends Controller
 {
@@ -26,13 +28,16 @@ class DoctorController extends Controller
         return view('admin.doctors.create');
     }
 
-    public function store(StoreDoctorRequest $request, ImageService $imageService)
+    public function store(StoreDoctorRequest $request, ImageService $imageService, TranslationService $translationService)
     {
         $validated = $request->validated();
 
         if ($request->hasFile('image')) {
             $validated['image'] = $imageService->upload($request->file('image'), 'doctors');
         }
+
+        // Auto-translate missing language fields
+        $validated = TranslationHelper::autoTranslateFields($validated, ['specialty', 'bio'], $translationService);
 
         Doctor::create($validated);
 
@@ -49,7 +54,7 @@ class DoctorController extends Controller
         return view('admin.doctors.edit', compact('doctor'));
     }
 
-    public function update(UpdateDoctorRequest $request, Doctor $doctor, ImageService $imageService)
+    public function update(UpdateDoctorRequest $request, Doctor $doctor, ImageService $imageService, TranslationService $translationService)
     {
         $validated = $request->validated();
 
@@ -60,6 +65,9 @@ class DoctorController extends Controller
                 $doctor->image
             );
         }
+
+        // Auto-translate missing language fields
+        $validated = TranslationHelper::autoTranslateFields($validated, ['specialty', 'bio'], $translationService);
 
         $doctor->update($validated);
 
