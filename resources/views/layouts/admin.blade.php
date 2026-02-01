@@ -253,7 +253,7 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 1001;
+            z-index: 999;
             display: none;
             background: var(--primary-gradient);
             border: none;
@@ -272,6 +272,13 @@
 
         .sidebar-toggle i {
             font-size: 1.2rem;
+        }
+
+        /* Hide toggle button when sidebar is open */
+        .sidebar-toggle.hide {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
         }
 
         .sidebar-backdrop {
@@ -510,7 +517,7 @@
 
     <script>
         // Sidebar Toggle Functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.querySelector('.sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarBackdrop = document.getElementById('sidebarBackdrop');
@@ -518,6 +525,7 @@
             function toggleSidebar() {
                 sidebar.classList.toggle('show');
                 sidebarBackdrop.classList.toggle('show');
+                sidebarToggle.classList.toggle('hide');
                 document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
             }
 
@@ -532,7 +540,7 @@
             // Close sidebar when clicking a link on mobile
             const navLinks = sidebar.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
-                link.addEventListener('click', function() {
+                link.addEventListener('click', function () {
                     if (window.innerWidth <= 1024) {
                         toggleSidebar();
                     }
@@ -540,10 +548,11 @@
             });
 
             // Handle window resize
-            window.addEventListener('resize', function() {
+            window.addEventListener('resize', function () {
                 if (window.innerWidth > 1024) {
                     sidebar.classList.remove('show');
                     sidebarBackdrop.classList.remove('show');
+                    sidebarToggle.classList.remove('hide');
                     document.body.style.overflow = '';
                 }
             });

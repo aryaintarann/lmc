@@ -996,7 +996,288 @@ public function handle(GoogleAnalyticsService $analytics)
                     peringkat pencarian yang lebih baik, dan aliran berkelanjutan calon pasien yang menemukan klinik
                     melalui pencarian.</p>
 
-                <h3>5. 📝 Content Management System (CMS)</h3>
+                <h3>5. � Zero Result Search Analysis (Analisis Pencarian Tanpa Hasil)</h3>
+
+                <div class="warning-box">
+                    <strong>⚠️ Problem Statement:</strong> Bayangkan seorang user mencari "tes diabetes" di website,
+                    tapi tidak menemukan hasil apapun (0 artikel). User kecewa dan meninggalkan website. Padahal, ini
+                    sebenarnya adalah sinyal berharga - user INGIN konten tentang tes diabetes, tapi website belum
+                    menyediakannya. Tanpa tracking, admin tidak akan pernah tahu ada demand untuk topik ini.
+                </div>
+
+                <p><strong>Apa itu Zero Result Search?</strong> Zero result search adalah istilah yang digunakan ketika
+                    user melakukan pencarian di website, tapi sistem tidak menemukan artikel apapun yang match dengan
+                    keyword mereka. Ini adalah salah satu metrik paling krusial dalam content strategy karena
+                    menunjukkan <strong>content gap</strong> - topik yang dicari user tapi belum ada di website.</p>
+
+                <p><strong>Mengapa Ini Penting?</strong> Zero result search adalah gold mine untuk content planning.
+                    Setiap zero result adalah data point yang mengatakan "user ingin konten tentang ini, tapi kita belum
+                    punya". Ini berbeda dengan analytic metrics lain (views, bounce rate) yang mengukur performa konten
+                    existing - zero result search mengukur <strong>missing opportunities</strong>. Jika 50 orang mencari
+                    "vaksinasi bayi" tapi hasil 0, itu berarti ada 50 potential reader (atau lebih) yang kita
+                    kehilangan.</p>
+
+                <h4>📊 Bagaimana Sistem Tracking Bekerja</h4>
+
+                <p>Setiap kali user melakukan pencarian di halaman Articles (<code>/articles?q=keyword</code>), sistem
+                    secara otomatis mencatat 3 hal penting ke database <code>search_logs</code>:</p>
+
+                <div class="diagram">
+                    <pre>User Action                Database Record
+─────────────────         ──────────────────────────────────
+User search "diabetes"    query: "diabetes"
+↓                         results_count: 5
+System finds 5 articles   ip_address: "192.168.1.10"
+↓                         created_at: "2026-02-01 14:30:00"
+Log ke database           ✅ Logged
+
+User search "MRI scan"    query: "MRI scan"
+↓                         results_count: 0  ← ZERO RESULT!
+System finds 0 articles   ip_address: "192.168.1.10"
+↓                         created_at: "2026-02-01 14:31:00"
+Log ke database           ⚠️ Content Gap Detected!</pre>
+                </div>
+
+                <h4>🔧 Implementasi Teknis</h4>
+
+                <p><strong>Step 1: Logging di Controller</strong> - Setiap search request di-intercept oleh
+                    <code>LandingController::articles()</code>. Setelah query selesai, sistem langsung record ke
+                    database:</p>
+
+                <pre><code class="language-php">// File: app/Http/Controllers/LandingController.php
+public function articles(Request $request)
+{
+    $search = $request->input('q');
+    
+    // Execute search query
+    $articles = Article::where('title', 'like', "%{$search}%")
+        ->orWhere('content', 'like', "%{$search}%")
+        ->get();
+    
+    // 🔍 Zero Result Analysis Logging
+    if ($search) {
+        \App\Models\SearchLog::create([
+            'query' => $search,
+            'results_count' => $articles->count(),  // Bisa 0!
+            'ip_address' => $request->ip(),
+        ]);
+    }
+    
+    return view('articles', compact('articles'));
+}</code></pre>
+
+                <p>Perhatikan bahwa <code>results_count</code> diisi dengan <code>$articles->count()</code> - jika tidak
+                    ada artikel yang match, nilai ini akan <strong>0</strong>. Inilah yang membuat kita bisa identify
+                    zero result searches!</p>
+
+                <h4>📈 Analisis Data di Admin Dashboard</h4>
+
+                <p><strong>Step 2: Aggregation Query</strong> - Di admin analytics dashboard, sistem mengaggregate semua
+                    search logs untuk menemukan pattern. Query yang digunakan sangat powerful:</p>
+
+                <pre><code class="language-php">// File: app/Http/Controllers/Admin/AnalyticsController.php
+$searchLogs = \App\Models\SearchLog::selectRaw('
+    query,
+    count(*) as total,
+    sum(case when results_count = 0 then 1 else 0 end) as zero_results
+')
+->groupBy('query')
+->orderByDesc('total')
+->take(10)
+->get();</code></pre>
+
+                <p><strong>Breakdown Query:</strong></p>
+                <ul>
+                    <li><code>count(*) as total</code> - Berapa kali keyword ini dicari total</li>
+                    <li><code>sum(case when results_count = 0 then 1 else 0 end)</code> - Berapa kali hasil pencarian =
+                        0</li>
+                    <li><code>GROUP BY query</code> - Aggregate per keyword unik</li>
+                    <li><code>ORDER BY total DESC</code> - Sort by paling banyak dicari</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>💡 Contoh Output:</strong><br><br>
+                    <table style="width:100%; font-size:0.9em;">
+                        <thead>
+                            <tr>
+                                <th>Keyword</th>
+                                <th>Total Searches</th>
+                                <th>Zero Results</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>tes diabetes</td>
+                                <td>45</td>
+                                <td>45</td>
+                                <td><span class="badge badge-warning">Content Gap</span> 100% searches failed!</td>
+                            </tr>
+                            <tr>
+                                <td>vitamin D</td>
+                                <td>32</td>
+                                <td>2</td>
+                                <td><span class="badge badge-success">Covered</span> 94% success rate</td>
+                            </tr>
+                            <tr>
+                                <td>MRI scan</td>
+                                <td>28</td>
+                                <td>28</td>
+                                <td><span class="badge badge-warning">Content Gap</span> Perlu artikel!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>🎯 Business Logic: Content Gap Classification</h4>
+
+                <p>Sistem secara otomatis mengklasifikasikan setiap keyword berdasarkan ratio zero results:</p>
+
+                <pre><code class="language-php">// File: resources/views/admin/analytics/index.blade.php
+@if($log->zero_results > ($log->total / 2))
+    &lt;span class="badge bg-danger"&gt;Content Gap&lt;/span&gt;
+@else
+    &lt;span class="badge bg-success"&gt;Covered&lt;/span&gt;
+@endif</code></pre>
+
+                <p><strong>Logika Klasifikasi:</strong></p>
+                <ul>
+                    <li><strong>Content Gap</strong> - Jika lebih dari 50% searches menghasilkan 0 artikel → Urgent!
+                        Perlu buat konten baru</li>
+                    <li><strong>Covered</strong> - Jika mayoritas searches menemukan artikel → OK, konten sudah cukup
+                        memadai</li>
+                </ul>
+
+                <h4>🔬 Case Study: Real Example</h4>
+
+                <div class="info-box">
+                    <strong>Scenario:</strong> Dalam 30 hari terakhir, data menunjukkan:<br><br>
+
+                    <strong>Keyword: "tes diabetes"</strong><br>
+                    • Total searches: 45 kali<br>
+                    • Zero results: 45 kali (100%)<br>
+                    • Status: ⚠️ CONTENT GAP<br><br>
+
+                    <strong>Interpretasi:</strong><br>
+                    Ada 45 user yang specifically mencari informasi tentang "tes diabetes", tapi website tidak punya
+                    satupun artikel yang mengandung kata kunci tersebut. Ini adalah missed opportunity yang
+                    signifikan!<br><br>
+
+                    <strong>Action Item untuk Admin:</strong><br>
+                    1. Segera buat artikel "Panduan Lengkap Tes Diabetes: Jenis, Prosedur, dan Persiapan"<br>
+                    2. Include keywords seperti "tes gula darah", "HbA1c", "diabetes screening"<br>
+                    3. Setelah publish, monitoring search logs lagi - zero results untuk keyword ini harus turun
+                    drastis<br>
+                    4. Potensi traffic: Jika 45 searches dalam 30 hari, itu ~1.5 searches/day → artikel bisa dapat
+                    ~50-100 views/month dari search ini saja
+                </div>
+
+                <h4>🧠 Advanced Insight: Search Pattern Analysis</h4>
+
+                <p><strong>Trending vs Evergreen Content Gaps:</strong> Dengan melihat timestamp
+                    (<code>created_at</code>) di search logs, admin bisa membedakan:</p>
+
+                <ul>
+                    <li><strong>Trending Gap</strong> - Keyword tiba-tiba banyak dicari dalam periode singkat (misal:
+                        "flu singapura" saat outbreak)</li>
+                    <li><strong>Evergreen Gap</strong> - Keyword consistently dicari sepanjang waktu (misal: "checkup
+                        kesehatan")</li>
+                </ul>
+
+                <p>Trending gaps butuh response cepat (buat artikel ASAP untuk capitalize momentum), sedangkan evergreen
+                    gaps bisa dijadwalkan dalam content calendar reguler.</p>
+
+                <h4>📊 Database Schema</h4>
+
+                <pre><code class="language-sql">CREATE TABLE search_logs (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    query VARCHAR(255) NOT NULL,           -- Keyword yang dicari
+    results_count INT NOT NULL,             -- Jumlah artikel ditemukan (0 = zero result!)
+    ip_address VARCHAR(45) NULLABLE,        -- IP user untuk basic tracking
+    created_at TIMESTAMP,                   -- Kapan search dilakukan
+    INDEX idx_query (query),                -- Fast lookup by keyword
+    INDEX idx_results (results_count)       -- Fast filter zero results
+);</code></pre>
+
+                <p><strong>Kenapa Track IP Address?</strong> IP address digunakan untuk basic deduplication - jika 1
+                    user search "diabetes" 10 kali, kita bisa detect ini bukan 10 user berbeda. Ini membantu mendapat
+                    gambaran lebih akurat tentang berapa unique users yang mencari topik tertentu.</p>
+
+                <h4>💰 Business Value & ROI</h4>
+
+                <p><strong>Direct Impact:</strong></p>
+                <ol>
+                    <li><strong>Data-Driven Content Strategy</strong> - Tidak perlu guessing konten apa yang harus
+                        dibuat. Data search menunjukkan exactly apa yang user cari.</li>
+                    <li><strong>Reduced Bounce Rate</strong> - Dengan mengisi content gaps, lebih banyak searches akan
+                        menemukan hasil → user lebih puas → bounce rate turun</li>
+                    <li><strong>SEO Improvement</strong> - Artikel tentang topik yang sering dicari tapi kurang coverage
+                        → potensi rank tinggi karena low competition</li>
+                    <li><strong>Better User Experience</strong> - User frustration karena "no results" berkurang drastis
+                    </li>
+                </ol>
+
+                <div class="success-box">
+                    <strong>📈 ROI Example:</strong><br><br>
+                    Jika admin membuat 5 artikel berdasarkan top 5 zero-result keywords:<br>
+                    • Total potential searchers per month: 150 (dari data search logs)<br>
+                    • Conversion rate to actual patient: 5% (industry average untuk health content)<br>
+                    • Average patient value: Rp 500.000<br>
+                    • <strong>Monthly revenue from content gap filling: 150 × 5% × 500k = Rp 3.750.000</strong><br><br>
+
+                    Time investment: ~10 jam untuk 5 artikel (2 jam/artikel)<br>
+                    Cost: ~Rp 500.000 (outsource writer) atau Rp 0 (internal team)<br>
+                    <strong>ROI: 650% (3.75jt revenue vs 500k cost)</strong>
+                </div>
+
+                <h4>🛠️ Integration dengan Workflow Lain</h4>
+
+                <p>Zero Result Search Analysis terintegrasi dengan fitur lain:</p>
+
+                <ul>
+                    <li><strong>Trend Analysis</strong> - Keyword dari zero results bisa di-cross-check dengan Google
+                        Trends. Jika keyword trending global DAN zero results di website → double urgent!</li>
+                    <li><strong>Content Decay</strong> - Jika artikel decay dan zero results untuk keyword terkait
+                        meningkat → mungkin artikel perlu major overhaul atau perlu artikel baru yang lebih focused</li>
+                    <li><strong>Translation Service</strong> - Content gaps bisa berbeda per bahasa. User Inggris
+                        mungkin search "medical checkup", user Indonesia search "pemeriksaan kesehatan" → perlu analisis
+                        terpisah per locale</li>
+                </ul>
+
+                <h4>⚡ Performance Optimization</h4>
+
+                <p><strong>Concern:</strong> Logging setiap search bisa membebani database?</p>
+
+                <p><strong>Solution:</strong> Implementasi current sudah optimal:</p>
+                <ul>
+                    <li><strong>Async Logging</strong> - Insert ke database tidak blocking response ke user (happens
+                        after response sent)</li>
+                    <li><strong>Indexed Columns</strong> - <code>query</code> column di-index untuk fast GROUP BY
+                        aggregation</li>
+                    <li><strong>Partition Strategy</strong> - Jika data terlalu besar, bisa partition by month
+                        (search_logs_202601, search_logs_202602, etc)</li>
+                    <li><strong>Data Retention</strong> - Keep detailed logs 90 days, aggregate older data untuk
+                        long-term trends</li>
+                </ul>
+
+                <h4>🎓 Key Takeaways</h4>
+
+                <div class="info-box">
+                    <strong>Ringkasan Zero Result Search Analysis:</strong><br><br>
+                    ✅ <strong>Automatic</strong> - Tidak perlu manual tracking, every search auto-logged<br>
+                    ✅ <strong>Actionable</strong> - Dashboard langsung highlight content gaps yang harus diisi<br>
+                    ✅ <strong>ROI-Positive</strong> - Biaya implementasi minimal, revenue impact signifikan<br>
+                    ✅ <strong>User-Centric</strong> - Content strategy driven by actual user needs, bukan
+                    assumptions<br>
+                    ✅ <strong>Competitive Advantage</strong> - Kompetitor yang tidak track ini miss banyak
+                    opportunities<br><br>
+
+                    <strong>Bottom Line:</strong> Zero Result Search Analysis mengubah "user frustration" menjadi
+                    "content roadmap". Setiap "no results found" adalah data point yang mengatakan ke admin what content
+                    to create next.
+                </div>
+
+                <h3>6. �📝 Content Management System (CMS)</h3>
 
 
                 <p>CMS memungkinkan admin manage ALL website content tanpa touching code. Semua operations dilakukan
