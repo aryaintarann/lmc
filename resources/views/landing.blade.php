@@ -918,6 +918,20 @@
                         <a href="#services" class="btn btn-dark-blue btn-lg width-full-mobile">{{ __('Our Services') }}</a>
                     </div>
                     
+                    <!-- Trust Indicators / Stats -->
+                    <div class="d-flex gap-4 mt-5 justify-content-center justify-content-lg-start align-items-center">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="text-primary" style="font-size: 2rem; font-weight: 800; line-height: 1;">10+</div>
+                            <div class="text-muted small fw-semibold" style="line-height: 1.3;">{{ __('Years of Service') }}</div>
+                        </div>
+                        <!-- Vertical Divider -->
+                        <div style="width: 1px; height: 40px; background-color: rgba(46, 77, 54, 0.2);"></div>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="text-primary" style="font-size: 2rem; font-weight: 800; line-height: 1;">24/7</div>
+                            <div class="text-muted small fw-semibold" style="line-height: 1.3;">{{ __('Emergency Care') }}</div>
+                        </div>
+                    </div>
+                    
                     <style>
                         @media (max-width: 768px) {
                             .width-full-mobile {

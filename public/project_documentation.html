@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi Lengkap Project LMC (Legian Medical Clinic)</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #0ea5e9;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-bg: #1e293b;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --code-bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .export-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .export-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .content {
+            padding: 3rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        code {
+            background: var(--code-bg);
+            color: #ef4444;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        pre code {
+            background: transparent;
+            color: #e2e8f0;
+            padding: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        ul,
+        ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc {
+            background: var(--light-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--border-color);
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            border-bottom: none;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+
+        .toc a:hover {
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            color: #1e293b;
+        }
+
+        .info-box strong {
+            color: var(--primary-color);
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid var(--warning-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            color: #1e293b;
+        }
+
+        .warning-box strong {
+            color: var(--warning-color);
+        }
+
+        .success-box {
+            background: #d1fae5;
+            border-left: 4px solid var(--success-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            color: #1e293b;
+        }
+
+        .success-box strong {
+            color: var(--success-color);
+        }
+
+        .success-box code {
+            background: white;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .diagram {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: auto;
+            color: #1e293b;
+        }
+
+        .diagram pre {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+            color: #1e293b;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 3rem 0;
+        }
+
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+            padding: 2rem 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .export-btn {
+                display: none;
+            }
+
+            .header {
+                break-after: avoid;
+            }
+
+            h2,
+            h3,
+            h4 {
+                break-after: avoid;
+            }
+
+            pre {
+                break-inside: avoid;
+            }
+
+            .diagram {
+                break-inside: avoid;
+            }
+
+            table {
+                break-inside: avoid;
+            }
+
+            @page {
+                margin: 2cm;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <button class="export-btn" onclick="exportToPDF()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        Export to PDF
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1>📖 Dokumentasi Lengkap Project LMC</h1>
+            <p class="subtitle">Legian Medical Clinic - Sistem Informasi Manajemen Klinik Medis</p>
+        </div>
+
+        <div class="content">
+            <div class="toc">
+                <h2>📑 Daftar Isi</h2>
+                <ul>
+                    <li><a href="#overview">1. Gambaran Umum Project</a></li>
+                    <li><a href="#architecture">2. Arsitektur Sistem</a></li>
+                    <li><a href="#features">3. Fitur-Fitur Utama</a></li>
+                    <li><a href="#database">4. Penjelasan Database</a></li>
+                    <li><a href="#flow">5. Alur Sistem & Logika</a></li>
+                    <li><a href="#files">6. Penjelasan File per File</a></li>
+                    <li><a href="#diagrams">7. Flow Diagram</a></li>
+                    <li><a href="#business-logic">8. Logika Bisnis Penting</a></li>
+                </ul>
+            </div>
+
+            <section id="overview">
+                <h2>🎯 Gambaran Umum Project</h2>
+
+                <h3>Apa itu LMC?</h3>
+                <p><strong>Legian Medical Clinic (LMC)</strong> adalah sistem informasi manajemen klinik medis yang
+                    dibangun menggunakan framework Laravel 12. Aplikasi ini dirancang untuk memfasilitasi dua kelompok
+                    pengguna utama: <strong>pengunjung website</strong> (pasien dan calon pasien) serta <strong>tim
+                        administrasi klinik</strong> (owner dan admin).</p>
+
+                <p>Sistem ini menyelesaikan berbagai masalah umum yang dihadapi klinik medis dalam pengelolaan informasi
+                    digital. Pertama, memberikan informasi yang lengkap dan mudah diakses kepada pengunjung tentang
+                    layanan medis, dokter, dan lokasi klinik. Kedua, memudahkan tim administrasi dalam mengelola konten
+                    website tanpa perlu keahlian teknis yang mendalam. Ketiga, menyediakan konten dalam dua bahasa untuk
+                    menjangkau audiens yang lebih luas.</p>
+
+                <h3>🌐 Landing Page (Public)</h3>
+                <p>Landing page adalah website publik yang bisa diakses oleh siapa saja tanpa perlu login. Halaman ini
+                    dirancang dengan user experience yang optimal, menampilkan informasi penting secara hirarki.
+                    Pengunjung pertama kali akan disambut dengan banner hero yang eye-catching, diikuti dengan
+                    section-section informatif seperti About (tentang klinik), Services (layanan medis), Doctors (profil
+                    dokter), Gallery (foto-foto klinik), Articles (artikel kesehatan), dan Contact (informasi kontak
+                    dengan peta lokasi).</p>
+
+                <div class="info-box">
+                    <strong>💡 Fitur Unik: Preference Modal</strong><br>
+                    Ketika pengunjung pertama kali membuka website, mereka ditanya "Apa yang Anda cari hari ini?" dengan
+                    pilihan Services, Doctors, Contact, atau All. Berdasarkan pilihan ini, halaman akan auto-scroll ke
+                    section yang relevan, mengurangi friction dan membuat pengunjung cepat menemukan informasi yang
+                    mereka butuhkan.
+                </div>
+
+                <h3>👨‍💼 Admin Panel (Private)</h3>
+                <p>Admin panel adalah dashboard khusus untuk tim internal klinik yang hanya bisa diakses setelah login.
+                    Panel ini memiliki sistem Role-Based Access Control (RBAC) yang membedakan hak akses antara Owner
+                    dan Admin. Owner memiliki akses penuh termasuk mengelola user, sementara Admin hanya bisa mengelola
+                    konten website.</p>
+
+                <p>Dari admin panel, tim klinik bisa mengelola semua aspek konten tanpa perlu menyentuh code. Mereka
+                    bisa update informasi header, mengubah deskripsi about, menambah layanan baru, mengupload foto
+                    dokter, membuat artikel kesehatan, mengatur galeri foto, dan mengupdate informasi kontak - semuanya
+                    melalui form yang user-friendly.</p>
+            </section>
+
+            <hr>
+
+            <section id="architecture">
+                <h2>🏗️ Arsitektur Sistem</h2>
+
+                <h3>Tech Stack Overview</h3>
+                <p>Sistem LMC dibangun dengan kombinasi teknologi modern yang proven dan reliable:</p>
+
+                <div class="diagram">
+                    <pre>┌─────────────────────────────────────────────┐
+│           Frontend Layer                     │
+│  - Blade Templates (Laravel)                 │
+│  - Bootstrap 5 (Responsive UI)               │
+│  - JavaScript Vanilla (Interactivity)        │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│         Application Layer                    │
+│  - Laravel 12 Framework (PHP 8.2+)           │
+│  - Controllers (MVC Pattern)                 │
+│  - Services (Business Logic)                 │
+│  - Middleware (Auth, Role)                   │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│           Data Layer                         │
+│  - Eloquent ORM (Database Abstraction)       │
+│  - MySQL/MariaDB (Relational DB)             │
+│  - File Storage (Images)                     │
+└─────────────────────────────────────────────┘
+                    ↓
+┌─────────────────────────────────────────────┐
+│        External Services                     │
+│  - Google Cloud Translation API              │
+│  - Google Analytics (Traffic Analysis)       │
+│  - Schema.org (SEO Structured Data)          │
+└─────────────────────────────────────────────┘</pre>
+                </div>
+
+                <h3>Penjelasan Arsitektur Layer</h3>
+
+                <p><strong>Frontend Layer</strong> menghandle semua yang dilihat dan diinteraksi oleh user. Blade
+                    sebagai template engine memungkinkan kita menulis HTML dengan dynamic data dari backend. Bootstrap 5
+                    menyediakan komponen UI yang responsif sehingga website tampil baik di desktop maupun mobile.
+                    JavaScript vanilla digunakan untuk interaktivitas seperti modal, form validation, dan smooth
+                    scrolling - tanpa dependency framework berat sehingga loading tetap cepat.</p>
+
+                <p>Pemilihan Blade templates bukan tanpa alasan - sebagai template engine bawaan Laravel, Blade
+                    menawarkan perfect integration dengan ecosystem Laravel, syntax yang clean dan readable, serta
+                    performance yang excellent karena templates di-compile menjadi pure PHP. Bootstrap 5 dipilih karena
+                    mature component library-nya yang sudah battle-tested, extensive documentation, dan support
+                    komunitas yang besar. Untuk JavaScript, kita deliberately avoid heavy frameworks seperti React atau
+                    Vue karena complexity yang ditambahkannya tidak justified untuk use case ini - vanilla JS sudah
+                    cukup powerful untuk kebutuhan interactivity yang sederhana.</p>
+
+                <p><strong>Application Layer</strong> adalah inti dari logika bisnis. Laravel 12 framework menyediakan
+                    struktur MVC yang rapi. Controllers menghandle HTTP requests dan responses, Models merepresentasikan
+                    data dan relasi database, Views menampilkan data dalam format HTML. Services adalah class khusus
+                    yang mengextract logika bisnis kompleks (seperti translation, analytics, image processing) agar
+                    Controllers tetap slim.</p>
+
+                <p>Service Layer pattern adalah crucial architectural decision di project ini. Tanpa services, semua
+                    business logic akan tercampur di controllers, making them fat dan hard to test. Dengan mengextract
+                    logic ke dedicated service classes, kita achieve better separation of concerns, code reusability
+                    (service bisa dipanggil dari multiple controllers), dan easier unit testing (service classes bisa
+                    di-test independent dari HTTP layer). Contohnya <code>TrendAnalysisService</code> menghandle semua
+                    kompleksitas trend score calculation - controllers cukup call service method tanpa perlu tau detail
+                    algorithmnya.</p>
+
+                <p><strong>Data Layer</strong> menghandle persistence. Eloquent ORM memungkinkan kita berinteraksi
+                    dengan database menggunakan PHP object-oriented code daripada raw SQL. Ini membuat code lebih
+                    maintainable dan secure dari SQL injection. File storage menggunakan Laravel's filesystem yang
+                    mendukung local disk dan cloud storage (S3, etc).</p>
+
+                <p>Eloquent ORM menyediakan abstraction layer yang powerful antara application code dan database. Dengan
+                    Eloquent, kita bisa query database menggunakan fluent, expressive syntax seperti
+                    <code>Article::where('published_at', '!=', null)->get()</code> instead of raw SQL. Ini bukan hanya
+                    membuat code lebih readable, tapi juga automatically protect dari SQL injection karena Eloquent uses
+                    parameter binding. Plus, Eloquent's relationship methods membuat working dengan related data jadi
+                    sangat straightforward - tanpa perlu manual write JOIN queries.
+                </p>
+
+                <p><strong>External Services</strong> memperkaya functionality. Google Cloud Translation API enable
+                    auto-translation sehingga admin tidak perlu manual translate semua konten. Google Analytics
+                    memberikan insights tentang traffic dan user behavior. Schema.org structured data membantu mesin
+                    pencari memahami konten untuk better SEO.</p>
+
+                <p>Integration dengan external services ini carefully designed dengan fallback mechanisms. Jika Google
+                    Translation API down atau quota exceeded, system gracefully degrade - admin masih bisa save content
+                    (hanya satu bahasa), dan translation bisa di-retry later. Google Analytics data di-cache dengan TTL
+                    1 hour, meaning jika API unreachable, kita masih serve cached data instead of showing errors.
+                    Schema.org implementation using <code>SchemaService</code> yang generate JSON-LD structured data,
+                    helping search engines better understand page content dan potentially earning rich snippets in
+                    search results.</p>
+            </section>
+
+            <hr>
+
+            <section id="features">
+                <h2>✨ Fitur-Fitur Utama</h2>
+
+                <h3>1. 🌍 Multi-Language System dengan Auto-Translation</h3>
+
+                <h4>Konsep Dasar</h4>
+                <p>Salah satu fitur unggulan sistem ini adalah dukungan multi-bahasa yang intelligent. Setiap konten
+                    dinamis di website dapat ditampilkan dalam dua bahasa: Indonesia dan Inggris. Yang membuatnya
+                    special adalah admin tidak perlu manually translate semua konten - sistem melakukannya otomatis
+                    menggunakan AI.</p>
+
+                <p>Fitur ini sangat penting dalam konteks bisnis klinik medis di Bali, yang melayani baik wisatawan
+                    mancanegara maupun pasien lokal. Dengan dukungan dua bahasa, klinik dapat menjangkau audience yang
+                    lebih luas tanpa harus menambah beban kerja tim admin untuk melakukan penerjemahan manual yang
+                    memakan waktu dan berpotensi inconsistent.</p>
+
+                <h4>Bagaimana It Works</h4>
+                <p>Ketika admin membuat konten baru (misalnya artikel kesehatan), mereka cukup menulis dalam bahasa
+                    Indonesia saja. Sistem kemudian secara otomatis mendeteksi bahwa terjemahan Inggris belum tersedia,
+                    lalu memanggil Google Cloud Translation API untuk menerjemahkannya. Hasil terjemahan disimpan di
+                    database dan di-cache selama 30 hari untuk efisiensi.</p>
+
+                <p>Proses auto-translation ini terjadi secara seamless di background. Admin tidak perlu melakukan aksi
+                    tambahan apapun - cukup save artikel dalam satu bahasa, dan sistem langsung menyediakan versi bahasa
+                    lainnya dalam hitungan detik. Hasil terjemahan kemudian di-cache dengan TTL (Time To Live) 30 hari
+                    untuk menghindari API calls berulang yang sama, menghemat biaya dan meningkatkan response time.</p>
+
+                <h4>Struktur Data</h4>
+                <p>Semua field yang translateable disimpan dalam format JSON. Pendekatan ini dipilih karena
+                    kesederhanaannya - kita tidak perlu membuat separate translation tables atau pivot tables yang akan
+                    mengkomplicasi query dan relationship. Dengan JSON, semua translations untuk satu entity tersimpan
+                    dalam satu row, membuat query lebih straightforward dan performant.</p>
+
+                <pre><code class="language-json">{
+  "title": {
+    "id": "Layanan Darurat 24 Jam",
+    "en": "24 Hour Emergency Service"
+  }
+}</code></pre>
+
+                <p>Spatie Laravel Translatable package menghandle JSON parsing secara otomatis. Ketika kita akses
+                    <code>$service->title</code> di blade template, package otomatis return text sesuai locale yang
+                    active. Package ini menggunakan Laravel's localization system, sehingga switching language bisa
+                    dilakukan dengan simple <code>app()->setLocale('en')</code>.
+                </p>
+
+                <h4>Flow Auto-Translation Lengkap</h4>
+                <p>Mari kita breakdown step-by-step bagaimana auto-translation bekerja dari saat admin create content
+                    hingga user melihat translated version:</p>
+
+                <div class="diagram">
+                    <pre>1. Admin buat artikel, isi konten Bahasa Indonesia saja
+   ↓
+2. System detect field English kosong
+   ↓
+3. Panggil TranslationService->translate()
+   ↓
+4. Service check cache dulu (key = hash dari text)
+   ↓
+5a. Cache HIT → Return instantly (<1ms)
+5b. Cache MISS → Call Google Cloud API (~500ms)
+   ↓
+6. Save translation result ke cache (TTL 30 days)
+   ↓
+7. Return translation ke controller
+   ↓
+8. Controller save ke database (both languages)
+   ↓
+9. User bisa switch language di website</pre>
+                </div>
+
+                <p>Caching strategy yang diterapkan sangat crucial untuk performance dan cost optimization. Google Cloud
+                    Translation API mencharge per character yang ditranslate - dengan caching 30 hari, kita avoid
+                    redundant API calls untuk text yang sama. Misalnya jika "Layanan Darurat 24 Jam" sudah pernah
+                    ditranslate, semua request berikutnya untuk text yang sama akan instantly return dari cache tanpa
+                    hit API.</p>
+
+                <h3>2. 📊 Trend Score System</h3>
+
+                <div class="warning-box">
+                    <strong>⚠️ Penting:</strong> Trend score calculation menggunakan formula berbasis Google Trends,
+                    Analytics, dan Freshness - BUKAN view count!
+                </div>
+
+                <p><strong>Problem yang Diselesaikan:</strong> Bagaimana menentukan artikel mana yang harus muncul
+                    paling atas? Jika
+                    sorting hanya by views, artikel lama selalu dominan karena accumulated views. Jika sorting hanya by
+                    date, artikel bagus tapi
+                    lama jadi terkubur di page 2 atau 3. Sistem butuh intelligent ranking yang menggabungkan beberapa
+                    faktor: popularitas
+                    global (Google Trends), performa di website sendiri (Analytics), dan kesegaran konten.</p>
+
+                <p>Ini adalah challenge klasik dalam content management - bagaimana balance antara "evergreen content"
+                    yang selalu relevan dengan "trending topics" yang sedang hot. Pure view count biased terhadap old
+                    content (artikel yang udah 6 bulan online pasti punya lebih banyak views daripada artikel kemarin).
+                    Pure date sorting biased terhadap new content (artikel kemarin yang low quality bisa muncul di atas
+                    artikel 2 bulan lalu yang excellent). Trend score system solve ini dengan multi-factor algorithm.
+                </p>
+
+                <p><strong>Solution:</strong> Sistem menggunakan <strong>TrendAnalysisService</strong> yang
+                    mengkalkulasi score berdasarkan 3 komponen:</p>
+
+                <div class="success-box">
+                    <strong>Formula:</strong><br>
+                    <code>trend_score = Google Trends Score + Analytics Score + Freshness Score</code><br><br>
+                    Dimana:<br>
+                    - Google Trends Match → +50 points<br>
+                    - Analytics Popularity → +30 points<br>
+                    - Fresh Content (&lt;7d) → +10 points<br><br>
+                    <strong>Maximum possible score: 90 points</strong>
+                </div>
+
+                <div class="info-box">
+                    <strong>📍 Sumber Formula:</strong> Formula ini bukan nilai arbitrary, tapi diambil langsung dari
+                    implementasi source code di <code>app/Services/TrendAnalysisService.php</code> method
+                    <code>analyzeAndUpdateScores()</code>.
+                    Dalam code, sistem melakukan penjumlahan bertahap: <code>$score += 50</code> (Google Trends),
+                    <code>$score += 30</code> (Analytics), <code>$score += 10</code> (Freshness).
+                    Bobot (50, 30, 10) ditentukan berdasarkan prioritas bisnis: Google Trends paling penting karena
+                    mencerminkan minat global, Analytics kedua karena menunjukkan performa lokal, and Freshness sebagai
+                    bonus kecil untuk konten baru.
+                </div>
+
+                <h4>Komponen Detail:</h4>
+                <ol>
+                    <li><strong>Google Trends Score (+50)</strong> - Service memanggil Google Trends API untuk
+                        mendapatkan trending health keywords. Jika title artikel mengandung trending keyword → +50
+                        points</li>
+                    <li><strong>Analytics Popularity Score (+30)</strong> - Service mengambil data dari Google Analytics
+                        untuk pages dengan traffic tertinggi. Jika slug artikel match dengan popular page → +30 points
+                    </li>
+                    <li><strong>Freshness Score (+10)</strong> - Artikel yang dipublish dalam 7 hari terakhir → +10
+                        points. Memberi boost untuk konten fresh agar tidak langsung terkubur</li>
+                </ol>
+
+                <h4>🎯 Mengapa Bobot 50-30-10?</h4>
+
+                <p>Pemilihan bobot ini bukan nilai sembarangan, tapi berdasarkan <strong>reasoning logis</strong> dan
+                    prioritas bisnis:</p>
+
+                <div class="info-box">
+                    <strong>1. Google Trends Score = +50 (Tertinggi - 55% dari total)</strong><br><br>
+                    <strong>Mengapa paling tinggi?</strong><br>
+                    • <strong>Scope Global:</strong> Mencerminkan minat pencarian di seluruh dunia, bukan hanya
+                    lokal<br>
+                    • <strong>Data Objektif External:</strong> Berasal dari Google, sangat reliable dan real-time<br>
+                    • <strong>SEO Impact Terbesar:</strong> Artikel yang match dengan trending keywords punya potensi
+                    traffic organic tertinggi<br>
+                    • <strong>User Intent Validation:</strong> Jika banyak orang search keyword tertentu, berarti ada
+                    demand nyata<br><br>
+                    <strong>Contoh:</strong> Jika "Vitamin D" trending di Google Trends, artikel tentang Vitamin D
+                    berpotensi mendapat traffic besar dari search engine.
+                </div>
+
+                <div class="info-box">
+                    <strong>2. Analytics Popularity Score = +30 (Menengah - 33% dari total)</strong><br><br>
+                    <strong>Mengapa lebih rendah dari Trends?</strong><br>
+                    • <strong>Scope Lokal:</strong> Hanya mencerminkan traffic di website LMC sendiri, bukan global<br>
+                    • <strong>Limited Data:</strong> Tergantung seberapa banyak traffic website sudah ada<br>
+                    • <strong>Bias terhadap Old Content:</strong> Artikel lama naturally punya accumulated views lebih
+                    banyak<br>
+                    • <strong>Complementary:</strong> Melengkapi Trends dengan data internal, bukan faktor
+                    primary<br><br>
+                    <strong>Tapi tetap penting karena:</strong> Menunjukkan apa yang resonates dengan audience spesifik
+                    klinik. Artikel mungkin tidak trending globally, tapi sangat popular untuk visitor kita.<br><br>
+                    <strong>Contoh:</strong> Artikel "Tips Kesehatan di Bali" mungkin tidak trending global, tapi sangat
+                    popular untuk visitor website klinik yang di Bali.
+                </div>
+
+                <div class="info-box">
+                    <strong>3. Freshness Score = +10 (Terendah - 11% dari total)</strong><br><br>
+                    <strong>Mengapa paling rendah?</strong><br>
+                    • <strong>Bukan Indikator Quality:</strong> Konten baru ≠ konten bagus<br>
+                    • <strong>Temporer Boost Only:</strong> Hanya aktif 7 hari, bukan permanent factor<br>
+                    • <strong>Prevent Gaming:</strong> Jika terlalu tinggi, admin bisa gaming system dengan terus
+                    publish artikel baru berkualitas rendah<br>
+                    • <strong>Purpose:</strong> Hanya untuk "give new content a fair chance" sebelum punya accumulated
+                    views<br><br>
+                    <strong>Tapi tetap ada karena:</strong> New content perlu exposure awal untuk build momentum. Tanpa
+                    boost, artikel baru akan terkubur oleh artikel lama yang sudah punya analytics data.
+                </div>
+
+                <div class="success-box">
+                    <strong>📊 Ratio Simplified: 5:3:1</strong><br><br>
+                    Jika disederhanakan, ratio bobot adalah <strong>5:3:1</strong> (Trends:Analytics:Freshness).<br><br>
+                    Ini adalah <strong>weighted scoring system</strong> yang common di ranking algorithms:<br>
+                    • Google Search uses 200+ ranking factors dengan bobot berbeda<br>
+                    • YouTube ranking: watch time (tinggi) + likes (menengah) + recency (rendah)<br>
+                    • Reddit: upvotes (tinggi) + engagement (menengah) + time decay (rendah)<br><br>
+                    <strong>Kenapa bukan equal weight (33-33-33)?</strong><br>
+                    Freshness akan terlalu powerful → Low quality new articles bisa beat high quality old articles.
+                    Tidak ada clear priority → Sulit predict mana artikel yang akan rank tinggi.<br><br>
+                    <strong>Kesimpulan:</strong> Bobot 50-30-10 adalah business decision yang balance antara external
+                    validation (Google Trends - most important), internal performance (Analytics - important), dan
+                    recency bias (Freshness - nice to have).
+                </div>
+
+                <h3>3. 📉 Analisis Tingkat Pentalan (Bounce Rate) Tinggi</h3>
+
+                <p><strong>Apa itu Bounce Rate?</strong> Bounce rate atau tingkat pentalan adalah persentase pengunjung
+                    yang langsung meninggalkan
+                    website setelah melihat satu halaman saja - tanpa berinteraksi, tanpa mengklik link lain, tanpa
+                    menjelajah lebih
+                    jauh. Tingkat pentalan tinggi (>50%) adalah tanda bahaya yang menunjukkan ada masalah dengan
+                    kualitas konten,
+                    pengalaman pengguna, atau relevansi.</p>
+
+                <p>Ketika pengguna mendarat di artikel "Tips Menurunkan Kolesterol" tapi langsung menutup tab dalam 5
+                    detik, itu
+                    dihitung sebagai bounce. Kemungkinan alasan: (1) Konten tidak sesuai ekspektasi dari judul/cuplikan,
+                    (2)
+                    Kualitas konten buruk (konten tipis, kesalahan tata bahasa), (3) Halaman terlalu lambat dimuat, (4)
+                    Desain tidak
+                    ramah mata (dinding teks tanpa gambar), atau (5) Tidak ada ajakan bertindak yang jelas untuk
+                    menjelajah lebih lanjut.
+                </p>
+
+                <p><strong>Implementasi dalam LMC:</strong> Sistem secara otomatis melacak dan menandai artikel dengan
+                    tingkat pentalan
+                    >50% menggunakan data Google Analytics 4. Service
+                    <code>GoogleAnalyticsService@getHighBouncePages()</code> mengambil 10 artikel teratas dengan tingkat
+                    pentalan
+                    tertinggi, lalu menampilkan peringatan di dashboard admin.
+                </p>
+
+                <div class="warning-box">
+                    <strong>⚠️ Mengapa Ini Penting:</strong><br>
+                    Tingkat pentalan tinggi berdampak langsung pada peringkat SEO. Google mengartikan bounce rate tinggi
+                    sebagai sinyal bahwa konten
+                    tidak memenuhi maksud pengguna - hasilnya? Peringkat pencarian lebih rendah. Selain itu, bounce rate
+                    tinggi berarti kehilangan
+                    peluang untuk mengubah pengunjung menjadi pasien atau membangun kepercayaan dengan merek klinik.
+                </div>
+
+                <h4>Implementasi Teknis:</h4>
+                <pre><code class="language-php">// GoogleAnalyticsService.php
+public function getHighBouncePages(int $limit = 10): array
+{
+    return Cache::remember('ga4_high_bounce', 3600, function () use ($limit) {
+        $period = Period::days(30);
+        
+        // Fetch page views dengan engagement metrics dari GA4
+        $response = Analytics::get(
+            $period,
+            ['screenPageViews', 'bounceRate', 'engagementRate'],
+            ['pagePath'],
+            $limit * 2
+        );
+        
+        $highBouncePages = [];
+        
+        foreach ($response as $row) {
+            $pagePath = $row['pagePath'] ?? '';
+            $bounceRate = floatval($row['bounceRate'] ?? 0);
+            
+            // Filter: Only article pages dengan bounce rate > 50%
+            if ($bounceRate > 0.5 && str_contains($pagePath, '/articles/')) {
+                $highBouncePages[] = $pagePath;
+            }
+            
+            if (count($highBouncePages) >= $limit) break;
+        }
+        
+        return $highBouncePages;
+    });
+}</code></pre>
+
+                <p><strong>Tindakan untuk Admin:</strong> Ketika artikel ditandai memiliki bounce rate tinggi, admin
+                    harus menyelidiki
+                    dan meningkatkan konten. Tindakan yang bisa dilakukan: (1) Tulis ulang paragraf pembuka untuk
+                    langsung menarik
+                    perhatian pembaca, (2) Tambahkan gambar/infografis yang menarik, (3) Pecah dinding teks menjadi
+                    bagian-bagian yang mudah dipindai
+                    dengan subjudul, (4) Tambahkan tautan internal ke artikel terkait, (5) Sertakan ajakan bertindak
+                    yang jelas seperti "Baca
+                    artikel terkait" atau "Hubungi kami untuk konsultasi".</p>
+
+                <p><strong>Strategi Caching:</strong> Data di-cache selama 1 jam. Bounce rate tidak berubah secara
+                    drastis
+                    setiap menit, jadi pembaruan setiap jam sudah cukup untuk menyeimbangkan antara data terbaru dan
+                    efisiensi API.</p>
+
+                <h3>4. 📊 Analisis Penurunan & Pertumbuhan Konten</h3>
+
+                <p><strong>Penjelasan Content Decay:</strong> Content decay atau penurunan konten terjadi ketika artikel
+                    yang dulu populer
+                    secara bertahap kehilangan traffic seiring waktu. Ini adalah fenomena alami - informasi menjadi
+                    usang, kompetitor
+                    menerbitkan konten yang lebih baik, atau tren pencarian berubah. Tanpa pemantauan, artikel bisa
+                    secara diam-diam turun dari
+                    1000 views/bulan menjadi 100 views/bulan tanpa ada yang menyadari.</p>
+
+                <p>Contoh nyata: Artikel "Panduan Vaksin COVID-19" mungkin sangat populer di 2021-2022 (puncak pandemi),
+                    tapi di 2026 traffic-nya turun signifikan karena: (1) Pandemi sudah mereda, minat menurun, (2)
+                    Informasi sudah usang (jenis vaksin berubah), (3) Perilaku pencarian pengguna berubah (dari
+                    "apakah vaksin aman?" ke "jadwal booster"). Jika admin tidak menyadari penurunan ini, artikel
+                    yang berharga menjadi "konten zombie" - ada tapi tidak produktif.</p>
+
+                <p><strong>Pertumbuhan Konten:</strong> Sebaliknya, pertumbuhan konten adalah ketika artikel mengalami
+                    peningkatan traffic.
+                    Bisa karena: (1) Topik tiba-tiba trending (misalnya "Demam Berdarah" saat wabah), (2)
+                    Peringkat artikel meningkat di hasil pencarian, atau (3) Dibagikan secara viral di media sosial.
+                    Pertumbuhan adalah
+                    peluang untuk dimanfaatkan - mungkin membuat lebih banyak konten terkait atau mengoptimalkan artikel
+                    lebih lanjut.</p>
+
+                <p><strong>Perbandingan Bulan-ke-Bulan:</strong> Sistem membandingkan traffic 30 hari terakhir dengan
+                    30 hari sebelumnya (30-60 hari yang lalu) untuk menghitung persentase perubahan. Formula sederhana
+                    tapi efektif:</p>
+
+                <div class="success-box">
+                    <strong>Formula Perubahan Traffic:</strong><br>
+                    <code>perubahan% = ((views_bulan_ini - views_bulan_lalu) / views_bulan_lalu) × 100</code><br><br>
+                    <strong>Klasifikasi Status:</strong><br>
+                    - 📈 <strong>Bertumbuh:</strong> perubahan > 0% (traffic meningkat)<br>
+                    - ✅ <strong>Stabil:</strong> -30% ≤ perubahan ≤ 0% (fluktuasi kecil, normal)<br>
+                    - ⚠️ <strong>Peringatan Penurunan:</strong> perubahan < -30% (penurunan signifikan, perlu
+                        tindakan!)<br><br>
+                        <strong>Contoh:</strong><br>
+                        Bulan Lalu: 800 views | Bulan Ini: 500 views<br>
+                        Perubahan = ((500 - 800) / 800) × 100 = -37.5%<br>
+                        Status: ⚠️ Peringatan Penurunan
+                </div>
+
+                <div class="info-box">
+                    <strong>📍 Sumber Formula:</strong> Formula persentase perubahan ini adalah <strong>rumus matematika
+                        standar</strong> yang digunakan universal dalam statistik dan analisis bisnis.
+                    Dalam project LMC, implementasinya ada di <code>app/Services/GoogleAnalyticsService.php</code>
+                    method <code>calculateTrafficChange()</code> baris 84:
+                    <code>$change = (($currentViews - $lastViews) / $lastViews) * 100</code>.
+                    <br><br>
+                    <strong>Mengapa threshold -30%?</strong> Penurunan 0% sampai -30% dianggap "Stabil" karena traffic
+                    website selalu berfluktuasi secara natural (10-20% naik turun adalah normal).
+                    Threshold -30% dipilih untuk membedakan antara "fluktuasi normal" vs "masalah serius yang perlu
+                    tindakan". Hanya penurunan lebih dari 30% yang dianggap content decay signifikan.
+                </div>
+
+                <h4>Pemantauan Otomatis:</h4>
+                <p>Sistem menjalankan analisis penurunan konten secara otomatis setiap minggu melalui Laravel Scheduler.
+                    Cron job menjalankan
+                    perintah <code>php artisan seo:check-decay</code> setiap Senin jam 8 pagi, menghasilkan laporan
+                    komprehensif
+                    dari semua artikel yang dipublikasikan.</p>
+
+                <pre><code class="language-php">// routes/console.php
+Schedule::command('seo:check-decay')->weeklyOn(1, '08:00');
+
+// CheckContentDecayCommand.php
+public function handle(GoogleAnalyticsService $analytics)
+{
+    $articles = Article::whereNotNull('published_at')->get();
+    
+    foreach ($articles as $article) {
+        $path = "/articles/{$article->id}";
+        
+        // Calculate month-over-month traffic change
+        $change = $analytics->calculateTrafficChange($path);
+        
+        // Determine status
+        if ($change < -30) {
+            $status = '⚠️ Decay Alert';
+            Log::warning("Content Decay: {$article->title} dropped {$change}%");
+        } elseif ($change > 0) {
+            $status = '📈 Growing';
+        } else {
+            $status = '✅ Stable';
+        }
+        
+        // Results displayed in CLI table
+        $results[] = [
+            'Title' => $article->title,
+            'Change' => $change.'%',
+            'Status' => $status
+        ];
+    }
+}</code></pre>
+
+                <p><strong>Integrasi Dashboard Admin:</strong> Data penurunan/pertumbuhan juga ditampilkan di dashboard
+                    analytics admin
+                    dalam format tabel visual. Admin bisa langsung melihat artikel mana yang perlu perhatian (peringatan
+                    penurunan)
+                    dan artikel mana yang berkinerja baik (traffic bertumbuh). Ini mengubah analytics dari angka pasif
+                    menjadi wawasan yang dapat ditindaklanjuti.</p>
+
+                <p><strong>Strategi Perbaikan untuk Konten yang Menurun:</strong> Ketika artikel diklasifikasikan
+                    sebagai menurun,
+                    admin punya beberapa pilihan: (1) <strong>Perbarui & Segarkan</strong> - Tambahkan informasi baru,
+                    perbarui
+                    statistik, segarkan bagian yang usang, (2) <strong>Tingkatkan SEO</strong> - Optimalkan
+                    judul/deskripsi meta,
+                    tambahkan kata kunci yang hilang, tingkatkan tautan internal, (3) <strong>Ubah Tujuan</strong> -
+                    Ubah menjadi konten video atau infografis, (4) <strong>Gabungkan</strong> - Gabungkan dengan artikel
+                    terkait menjadi panduan komprehensif, atau (5) <strong>Pensiunkan</strong> - Jika benar-benar usang,
+                    ubah ke
+                    draft atau tambahkan redirect ke versi yang diperbarui.</p>
+
+                <p><strong>Dampak Bisnis:</strong> Dengan pemantauan penurunan konten yang proaktif, klinik dapat
+                    mempertahankan
+                    portofolio konten yang lebih sehat. Alih-alih membiarkan traffic perlahan berkurang, admin dapat
+                    dengan cepat
+                    melakukan intervensi dan merevitalisasi konten. Hasilnya? Traffic organik yang berkelanjutan,
+                    peringkat pencarian yang lebih baik, dan aliran berkelanjutan calon pasien yang menemukan klinik
+                    melalui pencarian.</p>
+
+                <h3>5. 📝 Content Management System (CMS)</h3>
+
+
+                <p>CMS memungkinkan admin manage ALL website content tanpa touching code. Semua operations dilakukan
+                    through user-friendly forms.</p>
+
+                <h4>Modules:</h4>
+                <ul>
+                    <li><strong>Header Management:</strong> Title, Tagline, Logo (image), Button Text</li>
+                    <li><strong>About Management:</strong> Title, Description, Vision, Mission, Image</li>
+                    <li><strong>Contact Management:</strong> Address, Phone, Email, WhatsApp, Social Media, Google Maps
+                        Embed</li>
+                    <li><strong>Services CRUD:</strong> Full Create-Read-Update-Delete untuk layanan medis</li>
+                    <li><strong>Doctors CRUD:</strong> Manage doctor profiles dengan Name, Specialty, Bio, Photo</li>
+                    <li><strong>Articles CRUD + Publishing:</strong> Rich text editor, featured image, draft/publish
+                        system</li>
+                    <li><strong>Gallery CRUD:</strong> Upload photos dengan sort order dan active/inactive toggle</li>
+                </ul>
+
+                <h3>4. 🔐 Role-Based Access Control (RBAC)</h3>
+
+                <p>Sistem memiliki dua roles:</p>
+                <ul>
+                    <li><strong>Owner:</strong> Full access termasuk user management</li>
+                    <li><strong>Admin:</strong> Content management only, no user access</li>
+                </ul>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fitur</th>
+                            <th>Owner</th>
+                            <th>Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dashboard</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>Manage Content (Header, About, Contact)</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>Manage Services, Doctors, Articles, Gallery</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Manage Users</strong></td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>Analytics</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <hr>
+
+            <section id="database">
+                <h2>🗄️ Penjelasan Database</h2>
+
+                <h3>Overview Struktur</h3>
+                <p>Database LMC terdiri dari 9 tabel utama, dirancang dengan prinsip normalization tapi tidak
+                    over-normalized untuk maintain performance. Tidak ada foreign key constraints yang kompleks - ini
+                    design choice untuk simplicity karena relationship antar entities tidak strict.</p>
+
+                <h3>Tabel-Tabel dan Penjelasannya</h3>
+
+                <h4>1. users</h4>
+                <p><strong>Purpose:</strong> Menyimpan data admin dan owner yang bisa login ke admin panel.</p>
+
+                <p><strong>Key Fields:</strong></p>
+                <ul>
+                    <li><code>id</code> - Primary key auto-increment</li>
+                    <li><code>name</code> - Full name user</li>
+                    <li><code>email</code> - Unique email for login</li>
+                    <li><code>password</code> - Bcrypt hashed password</li>
+                    <li><code>role</code> - ENUM('owner', 'admin') - Menentukan permission level</li>
+                    <li><code>email_verified_at</code> - NULL jika email belum verified</li>
+                </ul>
+
+                <h4>2. headers, contacts, abouts</h4>
+                <p><strong>Pattern:</strong> Singleton tables (hanya boleh 1 record). Semua text fields disimpan dalam
+                    format JSON untuk multi-language support.</p>
+
+                <div class="info-box">
+                    <strong>💡 Why JSON?</strong><br>
+                    JSON allows us menyimpan multiple languages dalam satu field, making queries simpler dan avoiding
+                    need untuk separate translation tables.
+                </div>
+
+                <h4>3. services, doctors, galleries</h4>
+                <p><strong>Pattern:</strong> Multiple records tables dengan JSON fields untuk translatable content.</p>
+
+                <h4>4. articles</h4>
+                <p><strong>Most Complex Table</strong> karena punya draft/publish system dan trending algorithm.</p>
+
+                <p><strong>Key Fields:</strong></p>
+                <ul>
+                    <li><code>title, excerpt, content</code> - JSON multi-language</li>
+                    <li><code>image</code> - Featured image path</li>
+                    <li><code>slug</code> - URL-friendly identifier</li>
+                    <li><code>published_at</code> - <strong>NULL = draft</strong>, timestamp = published</li>
+                    <li><code>view_count</code> - Incremented each view</li>
+                    <li><code>trend_score</code> - Calculated score untuk sorting</li>
+                    <li><code>trend_data</code> - JSON untuk debugging (stores which factors contributed to score)</li>
+                </ul>
+
+                <h4>5. search_logs</h4>
+                <p><strong>Purpose:</strong> Analytics - track all search queries.</p>
+
+                <p><strong>Fields:</strong></p>
+                <ul>
+                    <li><code>query</code> - Keyword yang dicari</li>
+                    <li><code>results_count</code> - Berapa artikel found</li>
+                    <li><code>ip_address</code> - User IP</li>
+                    <li><code>created_at</code> - When searched</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>Use Case:</strong> Top missing keywords analysis<br>
+                    Query untuk find keywords yang sering dicari tapi zero results:<br>
+                    <code>SELECT query, COUNT(*) as searches FROM search_logs WHERE results_count = 0 GROUP BY query ORDER BY searches DESC LIMIT 5</code>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="flow">
+                <h2>🔄 Alur Sistem & Logika</h2>
+
+                <h3>1. User Journey - Landing Page</h3>
+                <div class="diagram">
+                    <pre>STEP 1: First Visit
+User akses https://lmc.com
+        ↓
+STEP 2: Preference Modal Muncul
+Modal: "Apa yang Anda cari hari ini?"
+Options: [Services] [Doctors] [Contact] [View All]
+        ↓
+STEP 3: User Memilih (Contoh: "Services")
+Browser kirim POST /set-preference
+Laravel simpan preference di session
+        ↓
+STEP 4: Auto-scroll ke Section
+JavaScript smooth scroll ke #services section
+User langsung lihat layanan yang dicari
+        ↓
+STEP 5: User Explore Website
+- Baca services, doctors, articles
+- Switch language ID/EN via toggle
+- Click WhatsApp button → redirect ke WA klinik</pre>
+                </div>
+
+                <h3>2. Content Creation Flow (Article Example)</h3>
+
+                <h4>Phase 1: Draft Creation</h4>
+                <ol>
+                    <li>Admin navigasi ke <code>/admin/articles/create</code></li>
+                    <li>Admin isi form (Title & Content in ID only, leave EN empty)</li>
+                    <li>Admin klik "Save as Draft"</li>
+                    <li>POST request ke <code>/admin/articles</code></li>
+                    <li>Controller validate input via <code>StoreArticleRequest</code></li>
+                    <li><code>TranslationHelper::autoTranslateFields()</code> deteksi EN kosong</li>
+                    <li><code>TranslationService</code> called → Check cache → Call Google API → Return translation</li>
+                    <li>Article created dengan <code>published_at = NULL</code> (DRAFT)</li>
+                </ol>
+
+                <h4>Phase 2: Publishing</h4>
+                <ol>
+                    <li>Admin edit artikel draft</li>
+                    <li>Set <code>Published At = "2026-02-01 10:00:00"</code></li>
+                    <li>PUT request ke <code>/admin/articles/{id}</code></li>
+                    <li>Controller update <code>published_at</code></li>
+                    <li>Artikel sekarang LIVE di landing page!</li>
+                </ol>
+
+                <h4>Phase 3: Trend Score Calculation</h4>
+                <ol>
+                    <li>Cron job run setiap hari (scheduled task)</li>
+                    <li><code>TrendAnalysisService@analyzeAndUpdateScores()</code> called</li>
+                    <li>Service fetch:
+                        <ul>
+                            <li>Google Trends: ['Vitamin C', 'Flu', ...]</li>
+                            <li>Analytics: ['/articles/vitamin-c', ...]</li>
+                        </ul>
+                    </li>
+                    <li>Loop semua artikel:
+                        <ul>
+                            <li>Check title match trending keyword → +50</li>
+                            <li>Check slug di Analytics → +30</li>
+                            <li>Check freshness &lt; 7 days → +10</li>
+                        </ul>
+                    </li>
+                    <li>Update <code>trend_score</code> di database</li>
+                </ol>
+
+                <h3>3. Multi-Language Switching Flow</h3>
+                <div class="diagram">
+                    <pre>User click language toggle (ID/EN)
+        ↓
+JavaScript trigger: locale.change(newLocale)
+        ↓
+Send POST /translation/switch-locale
+        ↓
+TranslationController@switchLocale()
+{
+    session(['locale' => $newLocale]);
+    app()->setLocale($newLocale);
+}
+        ↓
+Reload page dengan locale baru
+        ↓
+Blade: {{ $article->title }}
+        ↓
+Spatie Translatable auto-return text sesuai locale</pre>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="files">
+                <h2>📂 Penjelasan File per File</h2>
+
+                <h3>Controllers</h3>
+
+                <h4>LandingController.php</h4>
+                <p><strong>Path:</strong> <code>app/Http/Controllers/LandingController.php</code></p>
+                <p><strong>Purpose:</strong> Handle semua request untuk landing page public.</p>
+
+                <p><strong>Key Methods:</strong></p>
+                <ul>
+                    <li><code>index()</code> - Landing page utama (load all sections)</li>
+                    <li><code>articles(Request $request)</code> - Halaman daftar artikel dengan search & logging</li>
+                    <li><code>show($id)</code> - Detail artikel dengan related articles</li>
+                    <li><code>setPreference()</code> - Save user preference ke session</li>
+                </ul>
+
+                <h4>Admin/ArticleController.php</h4>
+                <p><strong>Path:</strong> <code>app/Http/Controllers/Admin/ArticleController.php</code></p>
+                <p><strong>Purpose:</strong> CRUD operations untuk articles di admin panel.</p>
+
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Protected by <code>auth</code> middleware</li>
+                    <li>Uses Form Request validation</li>
+                    <li>Auto-translation integration</li>
+                    <li>Soft delete support</li>
+                </ul>
+
+                <h3>Services</h3>
+
+                <h4>TranslationService.php</h4>
+                <p><strong>Purpose:</strong> Handle auto-translation menggunakan Google Cloud Translation API.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Cache translations untuk 30 hari (mengurangi API calls)</li>
+                    <li>Support multiple source/target languages</li>
+                    <li>Batch translation untuk efficiency</li>
+                </ul>
+
+                <h4>TrendAnalysisService.php</h4>
+                <p><strong>Purpose:</strong> Calculate dan update trend scores untuk semua artikel.</p>
+                <p><strong>Dependencies:</strong></p>
+                <ul>
+                    <li>GoogleTrendsService - fetch trending keywords</li>
+                    <li>GoogleAnalyticsService - fetch popular pages</li>
+                </ul>
+                <p><strong>Performance:</strong></p>
+                <ul>
+                    <li>Uses chunking untuk handle large datasets (100 articles per batch)</li>
+                    <li>Only update jika score berubah (reduce DB writes)</li>
+                    <li>Logs execution time untuk monitoring</li>
+                </ul>
+
+                <h4>SchemaService.php</h4>
+                <p><strong>Purpose:</strong> Generate Schema.org structured data untuk SEO.</p>
+                <p><strong>Methods:</strong></p>
+                <ul>
+                    <li><code>getOrganizationSchema()</code> - Info tentang klinik</li>
+                    <li><code>getMedicalClinicSchema()</code> - Specific untuk medical clinic</li>
+                    <li><code>getArticleSchema($article)</code> - Schema untuk article detail page</li>
+                </ul>
+
+                <h4>ImageService.php</h4>
+                <p><strong>Purpose:</strong> Handle image upload, resize, dan optimization.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li>Auto-resize to max 1200px width (maintain aspect ratio)</li>
+                    <li>Optimize quality (85%) untuk balance quality vs file size</li>
+                    <li>Generate unique filenames</li>
+                    <li>Original 5MB → After: ~300KB (16x faster loading!)</li>
+                </ul>
+
+                <h3>Models</h3>
+
+                <h4>Article.php</h4>
+                <p><strong>Traits:</strong> <code>HasTranslations</code></p>
+                <p><strong>Translatable Fields:</strong> title, excerpt, content</p>
+                <p><strong>Scopes:</strong></p>
+                <ul>
+                    <li><code>published()</code> - Filter hanya artikel published</li>
+                    <li><code>trending()</code> - Sort by trend score</li>
+                </ul>
+                <p><strong>Accessors:</strong></p>
+                <ul>
+                    <li><code>processed_content</code> - Content dengan auto internal links</li>
+                </ul>
+
+                <h4>Header.php, Contact.php, About.php</h4>
+                <p><strong>Pattern:</strong> Singleton models (strictly 1 record only)</p>
+                <p>Enforce singleton via <code>boot()</code> method yang throw exception jika trying to create second
+                    record.</p>
+
+                <h3>Middleware</h3>
+
+                <h4>RoleMiddleware.php</h4>
+                <p><strong>Purpose:</strong> Protect routes berdasarkan user role.</p>
+                <p>Check authentication → Check role → Allow/Deny access</p>
+
+                <h4>LocaleMiddleware.php</h4>
+                <p><strong>Purpose:</strong> Set application locale berdasarkan session.</p>
+                <p>Get locale from session (default 'id') → Set app locale</p>
+            </section>
+
+            <hr>
+
+            <section id="diagrams">
+                <h2>📊 Flow Diagram</h2>
+
+                <h3>System Architecture Diagram</h3>
+                <div class="diagram">
+                    <pre>┌────────────────────────────────────────────────────────┐
+│                    USER LAYER                          │
+│  ┌─────────────┐           ┌─────────────┐            │
+│  │   Public    │           │    Admin    │            │
+│  │  Visitor    │           │    Users    │            │
+│  └──────┬──────┘           └──────┬──────┘            │
+└─────────┼────────────────────────┼────────────────────┘
+          │                        │
+          ↓                        ↓
+┌─────────────────────────────────────────────────────────┐
+│              PRESENTATION LAYER                         │
+│  Landing Views              Admin Views                 │
+│  - landing.blade            - dashboard                 │
+│  - articles                 - articles                  │
+│  - article_show             - services                  │
+└────────┬───────────────────────┬────────────────────────┘
+         │                       │
+         ↓                       ↓
+┌─────────────────────────────────────────────────────────┐
+│              CONTROLLER LAYER                           │
+│  LandingController    ◄────  Auth Middleware            │
+│  Admin Controllers    ◄────  Role Middleware            │
+└────────┬────────────────────────────────────────────────┘
+         │
+         ↓
+┌─────────────────────────────────────────────────────────┐
+│              SERVICE LAYER                              │
+│  TranslationService    TrendAnalysisService             │
+│  SchemaService         ImageService                     │
+│  GoogleAnalytics       GoogleTrends                     │
+└────────┬────────────────────────────────────────────────┘
+         │
+         ↓
+┌─────────────────────────────────────────────────────────┐
+│              MODEL LAYER                                │
+│  Article   Service   SearchLog                          │
+│  Header    Doctor    User                               │
+│  Contact   Gallery                                      │
+└────────┬────────────────────────────────────────────────┘
+         │
+         ↓
+┌─────────────────────────────────────────────────────────┐
+│              DATABASE (MySQL)                           │
+│  articles, services, doctors, galleries                 │
+│  headers, contacts, abouts, users, search_logs          │
+└─────────────────────────────────────────────────────────┘</pre>
+                </div>
+
+                <h3>Article Lifecycle</h3>
+                <div class="diagram">
+                    <pre>PHASE 1: CREATION
+  Admin → /admin/articles/create → Fill Form → Submit
+  ↓
+  Validation → Auto-translate → Article::create()
+  ↓
+PHASE 2: DRAFT STATE
+  published_at = NULL
+  Visible in admin panel only
+  NOT visible on landing page
+  ↓
+PHASE 3: PUBLISHED STATE
+  Admin set published_at = now()
+  NOW visible on landing page
+  trend_score = 0 (waiting cron)
+  ↓
+PHASE 4: TRENDING STATE
+  Cron job → TrendAnalysisService
+  Calculate score (Google Trends + Analytics + Freshness)
+  Update trend_score
+  Article appears at top of landing page
+  ↓
+PHASE 5: MATURE STATE
+  Article > 7 days (lose freshness bonus)
+  Keyword not trending (lose trends bonus)
+  Traffic down (lose analytics bonus)
+  Score decreases, article position drops</pre>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="business-logic">
+                <h2>💡 Logika Bisnis Penting</h2>
+
+                <h3>1. Singleton Pattern untuk Settings Tables</h3>
+                <p><strong>Problem:</strong> Headers, contacts, dan abouts hanya boleh punya 1 record. Multiple records
+                    akan cause confusion.</p>
+                <p><strong>Solution:</strong> Enforce singleton pattern di Model level via <code>boot()</code> method.
+                </p>
+
+                <h3>2. Draft vs Published Logic</h3>
+                <p><strong>Draft Detection:</strong> <code>$isDraft = $article->published_at === null</code></p>
+                <p><strong>Query Only Published:</strong> <code>Article::whereNotNull('published_at')->get()</code></p>
+                <p><strong>Benefits:</strong></p>
+                <ul>
+                    <li>Admin bisa prepare content in advance</li>
+                    <li>Review process sebelum publish</li>
+                    <li>Scheduled publishing untuk content calendar</li>
+                </ul>
+
+                <h3>3. Zero Result Search Analysis</h3>
+                <p><strong>Why Important:</strong> Setiap zero result search = missed opportunity. User cari info, tidak
+                    dapat, kemungkinan besar leave website frustrated.</p>
+
+                <div class="success-box">
+                    <strong>How It Works:</strong><br>
+                    1. Log EVERY search dengan result count<br>
+                    2. Dashboard analyze top keywords dengan zero results<br>
+                    3. Admin create artikel untuk keywords tersebut<br>
+                    4. Next user yang search dapat hasil → Better UX!
+                </div>
+
+                <h3>4. Image Optimization</h3>
+                <p><strong>Problem:</strong> User upload foto 5MB dari kamera → Website jadi lambat → User bounce</p>
+                <p><strong>Solution:</strong> Auto-resize to max 1200px + compress to 85% quality</p>
+                <p><strong>Result:</strong> Original 5MB → After ~300KB (16x faster!)</p>
+
+                <h3>5. Cache Strategy untuk Performance</h3>
+                <ul>
+                    <li><strong>Translation Cache:</strong> TTL 30 days - Translations never change spontaneously</li>
+                    <li><strong>Analytics Cache:</strong> TTL 1 hour - Data doesn't change minute-to-minute</li>
+                    <li><strong>Trend Keywords Cache:</strong> TTL 24 hours - Trends update daily, not real-time</li>
+                </ul>
+
+                <h3>6. Preference Modal UX Pattern</h3>
+                <p><strong>Problem:</strong> Website punya banyak sections. User harus scroll manual untuk cari info.
+                </p>
+                <p><strong>Solution:</strong> Show preference modal on first visit → Auto-scroll to selected section</p>
+                <p><strong>Benefits:</strong></p>
+                <ul>
+                    <li>Reduce time to relevant content (dari ~30 detik jadi ~2 detik)</li>
+                    <li>Better UX & Lower bounce rate</li>
+                    <li>Personalized experience</li>
+                </ul>
+
+                <h3>7. Internal Link Service (SEO Boost)</h3>
+                <p><strong>Purpose:</strong> Auto-link keywords dalam artikel ke artikel lain yang relevan.</p>
+                <p><strong>SEO Benefits:</strong></p>
+                <ul>
+                    <li>Better internal linking structure</li>
+                    <li>Helps search engines understand content relationships</li>
+                    <li>Increases page authority distribution</li>
+                    <li>Encourages users explore more content</li>
+                </ul>
+            </section>
+
+            <hr>
+
+            <section>
+                <h2>🎓 Best Practices yang Diterapkan</h2>
+
+                <h3>Security</h3>
+                <ul>
+                    <li>✅ Password hashing dengan Bcrypt</li>
+                    <li>✅ CSRF protection di semua forms</li>
+                    <li>✅ Input validation via Form Requests</li>
+                    <li>✅ SQL injection protection via Eloquent ORM</li>
+                    <li>✅ XSS protection dengan <code>{{ }}</code> blade escaping</li>
+                    <li>✅ Role-based access control</li>
+                </ul>
+
+                <h3>Performance</h3>
+                <ul>
+                    <li>✅ Database query optimization (N+1 prevention)</li>
+                    <li>✅ Caching strategy untuk external API calls</li>
+                    <li>✅ Image optimization (resize + compress)</li>
+                    <li>✅ Lazy loading untuk large datasets (chunking)</li>
+                    <li>✅ CDN-ready asset structure</li>
+                </ul>
+
+                <h3>Code Quality</h3>
+                <ul>
+                    <li>✅ MVC architecture separation</li>
+                    <li>✅ Service layer untuk business logic</li>
+                    <li>✅ DRY principle (Don't Repeat Yourself)</li>
+                    <li>✅ SOLID principles compliance</li>
+                    <li>✅ Meaningful naming conventions</li>
+                    <li>✅ Comprehensive inline documentation</li>
+                </ul>
+
+                <h3>SEO</h3>
+                <ul>
+                    <li>✅ Schema.org structured data</li>
+                    <li>✅ Semantic HTML5</li>
+                    <li>✅ Meta tags optimization</li>
+                    <li>✅ Clean URL structure</li>
+                    <li>✅ Internal linking strategy</li>
+                </ul>
+            </section>
+
+            <hr>
+
+            <section>
+                <h2>🚀 Deployment Checklist</h2>
+
+                <h3>Pre-Deployment</h3>
+                <ul>
+                    <li>☐ Run <code>composer install --optimize-autoloader --no-dev</code></li>
+                    <li>☐ Run <code>npm run build</code></li>
+                    <li>☐ Set <code>APP_ENV=production</code> di <code>.env</code></li>
+                    <li>☐ Set <code>APP_DEBUG=false</code></li>
+                    <li>☐ Generate new <code>APP_KEY</code></li>
+                    <li>☐ Configure database credentials</li>
+                    <li>☐ Setup Google Cloud credentials</li>
+                </ul>
+
+                <h3>Optimization</h3>
+                <ul>
+                    <li>☐ Run <code>php artisan config:cache</code></li>
+                    <li>☐ Run <code>php artisan route:cache</code></li>
+                    <li>☐ Run <code>php artisan view:cache</code></li>
+                    <li>☐ Enable OPcache di <code>php.ini</code></li>
+                    <li>☐ Setup Redis untuk cache & sessions</li>
+                </ul>
+
+                <h3>Security</h3>
+                <ul>
+                    <li>☐ Enable HTTPS (SSL certificate)</li>
+                    <li>☐ Setup firewall rules</li>
+                    <li>☐ Set secure session cookies</li>
+                    <li>☐ Enable rate limiting</li>
+                    <li>☐ Regular backup schedule</li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="footer">
+            <p><strong>Dokumentasi Project LMC</strong></p>
+            <p>Legian Medical Clinic - Sistem Informasi Manajemen Klinik Medis</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">
+                Last Updated: 2026-02-01 | Version: 1.0.0 | Framework: Laravel 12 | PHP 8.2+
+            </p>
+            <p style="margin-top: 0.5rem;">Dibuat dengan ❤️ menggunakan Laravel 12 & modern web technologies</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+
+        // Export to PDF function
+        function exportToPDF() {
+            window.print();
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll-to-top button
+        const scrollBtn = document.createElement('button');
+        scrollBtn.innerHTML = '↑';
+        scrollBtn.style.cssText = `
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            display: none;
+            z-index: 999;
+            transition: all 0.3s ease;
+        `;
+
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        scrollBtn.addEventListener('mouseenter', () => {
+            scrollBtn.style.transform = 'translateY(-5px)';
+        });
+
+        scrollBtn.addEventListener('mouseleave', () => {
+            scrollBtn.style.transform = 'translateY(0)';
+        });
+
+        document.body.appendChild(scrollBtn);
+
+        // Show/hide scroll-to-top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollBtn.style.display = 'block';
+            } else {
+                scrollBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
