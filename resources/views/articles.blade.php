@@ -315,15 +315,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#hero') }}">{{ __('Home') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/#about') }}">{{ __('About') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#services') }}">{{ __('Services') }}</a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#doctors') }}">{{ __('Doctors') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#about') }}">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#gallery') }}">{{ __('Gallery') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#contact') }}">{{ __('Contact') }}</a></li>
                     <li class="nav-item"><a class="nav-link"
                             href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/#contact') }}">{{ __('Contact') }}</a></li>
+                </ul>
+
+                <!-- Right side: Search & Language -->
+                <ul class="navbar-nav align-items-center">
 
                     <!-- Search Trigger -->
                     <li class="nav-item ms-lg-2">

@@ -807,12 +807,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#hero">{{ __('Home') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery">{{ __('Gallery') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">{{ __('Services') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#doctors">{{ __('Doctors') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">{{ __('Gallery') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">{{ __('Contact') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
                 </ul>
                 
                 <!-- Right side: Search & Language -->
