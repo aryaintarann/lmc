@@ -510,44 +510,44 @@
 
     <script>
         // Sidebar Toggle Functionality
-        document.addEventListener('DOMContentLoaded', fu n ction() {
+        document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.querySelector('.sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
             function toggleSidebar() {
-            sidebar.classList.toggle('show');
-            sidebarBackdrop.classList.toggle('show');
-            document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
-        }
+                sidebar.classList.toggle('show');
+                sidebarBackdrop.classList.toggle('show');
+                document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
+            }
 
             if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', toggleSidebar);
-        }
-
-        if (sidebarBackdrop) {
-            sidebarBackdrop.addEventListener('click', toggleSidebar);
-        }
-
-        // Close sidebar when clicking a link on mobile
-        const navLinks = sidebar.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', fu nction() {
-                if(window.innerWidth <= 1024) {
-                toggleSidebar();
+                sidebarToggle.addEventListener('click', toggleSidebar);
             }
-        });
+
+            if (sidebarBackdrop) {
+                sidebarBackdrop.addEventListener('click', toggleSidebar);
+            }
+
+            // Close sidebar when clicking a link on mobile
+            const navLinks = sidebar.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 1024) {
+                        toggleSidebar();
+                    }
+                });
             });
 
-        // Handle window resize
-        window.addEventListener('resize', f unction() {
-            if(window.innerWidth > 1024) {
-            sidebar.classList.remove('show');
-            sidebarBackdrop.classList.remove('show');
-            document.body.style.overflow = '';
-        }
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove('show');
+                    sidebarBackdrop.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
             });
-});
+        });
     </script>
 
     @stack('scripts')
