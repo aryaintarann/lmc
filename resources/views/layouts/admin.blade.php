@@ -226,11 +226,162 @@
             border-color: transparent;
             color: var(--primary-color);
         }
+
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            display: none;
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-toggle i {
+            font-size: 1.2rem;
+        }
+
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-backdrop.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 80px;
+            }
+
+            .top-bar {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 280px;
+            }
+
+            .sidebar {
+                width: var(--sidebar-width);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+                padding-left: 75px;
+            }
+
+            .top-bar h4 {
+                font-size: 1.25rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+
+            .card-header .btn {
+                width: 100%;
+            }
+
+            .table {
+                font-size: 0.875rem;
+            }
+
+            .table thead th {
+                font-size: 0.7rem;
+            }
+
+            .btn-sm {
+                padding: 0.375rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar-brand {
+                font-size: 1.1rem;
+            }
+
+            .sidebar .nav-link {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+
+            .sidebar .nav-link i {
+                font-size: 1rem;
+            }
+
+            .top-bar {
+                margin-bottom: 1rem;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+        }
     </style>
 </head>
 
 <body>
     @php /** @var \App\Models\User $user */ $user = Auth::user(); @endphp
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -335,6 +486,49 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Sidebar Toggle Functionality
+        document.addEventListener('DOMContentLoaded', fu n ction () {
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('show');
+                sidebarBackdrop.classList.toggle('show');
+                document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
+            }
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', toggleSidebar);
+            }
+
+            if (sidebarBackdrop) {
+                sidebarBackdrop.addEventListener('click', toggleSidebar);
+            }
+
+            // Close sidebar when clicking a link on mobile
+            const navLinks = sidebar.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click',  fu nction () {
+                    if (window.innerWidth <= 1024) {
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize' , f unction () {
+                if (window.innerWidth > 1024) {
+                    sidebar.classList.remove('show');
+                    sidebarBackdrop.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+});
+    </script>
+
     @stack('scripts')
 </body>
 

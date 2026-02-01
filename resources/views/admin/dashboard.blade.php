@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card bg-primary text-white h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card bg-success text-white h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card bg-info text-white h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-6 col-xl-3 mb-3">
             <div class="card bg-secondary text-white h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -76,7 +76,7 @@
 
     <div class="row mt-4">
         {{-- Recent Articles --}}
-        <div class="col-md-8">
+        <div class="col-12 col-lg-8 mb-3">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-header bg-white py-3 border-0">
                     <h5 class="mb-0 fw-bold text-dark"><i class="bi bi-journal-text me-2 text-primary"></i> Recent Articles</h5>
@@ -113,9 +113,9 @@
         </div>
 
         {{-- Zero Result Analysis Widget --}}
-        <div class="col-md-4">
+        <div class="col-12 col-lg-4 mb-3">
             <div class="card h-100 shadow-sm border-0">
-                <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <h5 class="mb-0 fw-bold text-dark">
                         <i class="bi bi-search me-2 text-danger"></i> Missing Keywords
                     </h5>
