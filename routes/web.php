@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 // Public Routes
 Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/articles', [LandingController::class, 'articles'])->name('articles.index');
-Route::get('/articles/{id}', [LandingController::class, 'show'])->name('articles.show');
+Route::get('/articles/{article}', [LandingController::class, 'show'])->name('articles.show');
 Route::post('/preferences', [LandingController::class, 'setPreference'])->name('preferences.set');
 
 // Default Auth Dashboard (optional, redirects here after login by default)

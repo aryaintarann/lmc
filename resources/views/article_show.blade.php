@@ -293,47 +293,43 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#hero') }}">{{ __('Home') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/#about') }}">{{ __('About') }}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/#services') }}">{{ __('Services') }}</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#services') }}">{{ __('Services') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#doctors') }}">{{ __('Doctors') }}</a></li>
-                    <li class="nav-item"><a class="nav-link"
-                            href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#about') }}">{{ __('About') }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/#gallery') }}">{{ __('Gallery') }}</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/#contact') }}">{{ __('Contact') }}</a></li>
-
+                    <li class="nav-item"><a class="nav-link" href="{{ route('articles.index') }}">{{ __('Articles') }}</a></li>
+                </ul>
+                
+                <!-- Right side: Search & Language -->
+                <ul class="navbar-nav align-items-center">
                     <!-- Search Trigger -->
-                    <li class="nav-item ms-lg-2">
-                        <button class="btn btn-sm btn-link nav-link text-decoration-none" onclick="toggleNavbarSearch()"
-                            type="button">
+                    <li class="nav-item">
+                        <button class="btn btn-sm btn-link nav-link text-decoration-none" onclick="toggleNavbarSearch()" type="button">
                             <i class="bi bi-search"></i>
                         </button>
                     </li>
 
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
                         <div class="dropdown">
-                            <button class="btn btn-sm nav-lang-btn rounded-pill" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <button class="btn btn-sm nav-lang-btn rounded-pill" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-translate fs-5"></i>
                                 <span id="current-lang-label" class="ls-1">{{ strtoupper(app()->getLocale()) }}</span>
                                 <i class="bi bi-chevron-down ms-1" style="font-size: 0.7rem; opacity: 0.7;"></i>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-custom animate-up">
                                 <li>
-                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between"
-                                        href="{{ route('lang.switch', 'en') }}">
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'en') }}">
                                         <span>English</span>
-                                        @if(app()->getLocale() == 'en') <i
-                                        class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                        @if(app()->getLocale() == 'en') <i class="bi bi-check-circle-fill text-success fs-6"></i> @endif
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between"
-                                        href="{{ route('lang.switch', 'id') }}">
+                                    <a class="dropdown-item dropdown-item-custom d-flex align-items-center justify-content-between" href="{{ route('lang.switch', 'id') }}">
                                         <span>Indonesia</span>
-                                        @if(app()->getLocale() == 'id') <i
-                                        class="bi bi-check-circle-fill text-success fs-6"></i> @endif
+                                        @if(app()->getLocale() == 'id') <i class="bi bi-check-circle-fill text-success fs-6"></i> @endif
                                     </a>
                                 </li>
                             </ul>
@@ -384,8 +380,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
                 <img src="{{ Str::startsWith($article->image, 'http') ? $article->image : asset('storage/' . $article->image) }}"
-                    alt="{{ $article->title }}" class="img-fluid article-img w-100 object-fit-cover"
-                    style="height: 400px; object-fit: cover;">
+                    alt="{{ $article->title }}" class="img-fluid article-img w-100">
             </div>
         </div>
 
@@ -434,7 +429,7 @@
                                     <p class="text-muted small mb-3 flex-grow-1">
                                         {{ Str::limit($rel->excerpt, 100) }}
                                     </p>
-                                    <a href="{{ route('articles.show', $rel->id) }}"
+                                    <a href="{{ route('articles.show', $rel->slug) }}"
                                         class="btn btn-sm btn-outline-primary rounded-pill align-self-start">
                                         {{ __('Read Article') }} <i class="bi bi-arrow-right ms-1"></i>
                                     </a>

@@ -95,7 +95,7 @@
                             @foreach($highBounceArticles as $article)
                                 <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
                                     <span class="small fw-bold">{{ Str::limit($article->title, 40) }}</span>
-                                    <a href="{{ route('articles.show', $article->id) }}" target="_blank"
+                                    <a href="{{ route('articles.show', $article->slug) }}" target="_blank"
                                         class="btn btn-sm btn-light rounded-pill"><i class="bi bi-eye"></i></a>
                                 </li>
                             @endforeach

@@ -39,7 +39,7 @@
                                 </td>
                                 <td>{{ $article->date }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('articles.show', $article->id) }}" target="_blank"
+                                    <a href="{{ route('articles.show', $article->slug) }}" target="_blank"
                                         class="btn btn-sm btn-outline-info me-1" title="View">
                                         <i class="bi bi-eye"></i>
                                     </a>

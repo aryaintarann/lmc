@@ -17,6 +17,52 @@ class Article extends Model
         'published_at' => 'datetime',
     ];
 
+    /**
+     * Boot method to auto-generate slug
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($article) {
+            if (empty($article->slug)) {
+                $article->slug = static::generateUniqueSlug($article->getTranslation('title', 'en'));
+            }
+        });
+
+        static::updating(function ($article) {
+            // Only regenerate slug if title changed and slug is empty
+            if ($article->isDirty('title') && empty($article->slug)) {
+                $article->slug = static::generateUniqueSlug($article->getTranslation('title', 'en'));
+            }
+        });
+    }
+
+    /**
+     * Generate unique slug from title
+     */
+    protected static function generateUniqueSlug($title)
+    {
+        $baseSlug = \Illuminate\Support\Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Use slug for route model binding
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function getDateAttribute()
     {
         return $this->published_at ? $this->published_at->format('M d, Y') : '';

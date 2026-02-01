@@ -64,18 +64,21 @@ class LandingController extends Controller
         return view('articles', compact('articles'));
     }
 
-    public function show($id, \App\Services\GoogleAnalyticsService $analytics, \App\Services\SchemaService $schemaService)
+    public function show(Article $article, \App\Services\GoogleAnalyticsService $analytics, \App\Services\SchemaService $schemaService)
     {
-        $article = Article::whereNotNull('published_at')->findOrFail($id);
+        // Ensure article is published
+        if (!$article->published_at) {
+            abort(404);
+        }
 
         $schema = $schemaService->getArticleSchema($article)->toScript();
 
         // High Exit Rate Optimization
         $highBouncePages = $analytics->getHighBouncePages();
-        $isHighBounce = in_array("/articles/{$id}", $highBouncePages);
+        $isHighBounce = in_array("/articles/{$article->slug}", $highBouncePages);
 
         // Always fetch recommended articles (excluding current)
-        $relatedArticles = Article::where('id', '!=', $id)
+        $relatedArticles = Article::where('id', '!=', $article->id)
             ->whereNotNull('published_at')
             ->orderBy('trend_score', 'desc')
             ->take(3)

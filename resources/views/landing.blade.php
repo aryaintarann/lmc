@@ -1264,7 +1264,7 @@
                                 <span class="article-date">{{ $article->date }}</span>
                                 <h5 class="fw-bold mb-3">{{ $article->title }}</h5>
                                 <p class="text-muted mb-4">{{ $article->excerpt }}</p>
-                                <a href="{{ route('articles.show', $article->id) }}"
+                                <a href="{{ route('articles.show', $article->slug) }}"
                                     class="article-link stretched-link">{{ __('Read More') }} <i class="bi bi-arrow-right ms-2"></i></a>
                             </div>
                         </div>
