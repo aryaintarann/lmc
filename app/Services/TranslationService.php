@@ -22,11 +22,11 @@ class TranslationService
     public function __construct()
     {
         try {
-            $keyFilePath = storage_path('app/'.config('services.google_cloud.key_file'));
+            $keyFilePath = storage_path('app/' . config('services.google_cloud.key_file'));
             $this->projectId = config('services.google_cloud.project_id');
 
-            if (! file_exists($keyFilePath)) {
-                Log::warning('Google Cloud key file not found: '.$keyFilePath);
+            if (!file_exists($keyFilePath)) {
+                Log::warning('Google Cloud key file not found: ' . $keyFilePath);
                 $this->translate = null;
 
                 return;
@@ -44,7 +44,7 @@ class TranslationService
                 ],
             ]);
         } catch (\Exception $e) {
-            Log::error('Google Cloud Translation initialization failed: '.$e->getMessage());
+            Log::error('Google Cloud Translation initialization failed: ' . $e->getMessage());
             $this->translate = null;
         }
     }
@@ -80,7 +80,7 @@ class TranslationService
         }
 
         // If translation client is not available, return original text
-        if (! $this->translate) {
+        if (!$this->translate) {
             Log::warning('Translation client not available, returning original text');
 
             return $text;
@@ -103,6 +103,9 @@ class TranslationService
             $translations = $response->getTranslations();
             $translatedText = $translations[0]->getTranslatedText() ?? $text;
 
+            // Decode HTML entities (e.g., &#39; to ')
+            $translatedText = html_entity_decode($translatedText, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
             // Cache the result
             if ($this->cacheEnabled) {
                 $cacheKey = $this->getCacheKey($text, $sourceLang, $targetLang);
@@ -111,7 +114,7 @@ class TranslationService
 
             return $translatedText;
         } catch (\Exception $e) {
-            Log::error('Translation failed: '.$e->getMessage(), [
+            Log::error('Translation failed: ' . $e->getMessage(), [
                 'text' => $text,
                 'source' => $sourceLang,
                 'target' => $targetLang,
@@ -171,7 +174,7 @@ class TranslationService
         }
 
         // If translation client is not available, return original texts
-        if (! $this->translate) {
+        if (!$this->translate) {
             foreach ($toTranslateIndexes as $i => $index) {
                 $results[$index] = $toTranslate[$i];
             }
@@ -202,6 +205,9 @@ class TranslationService
                 $originalText = $toTranslate[$i];
                 $translatedText = $translation->getTranslatedText() ?? $originalText;
 
+                // Decode HTML entities (e.g., &#39; to ')
+                $translatedText = html_entity_decode($translatedText, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
                 $results[$index] = $translatedText;
 
                 // Cache the result
@@ -211,7 +217,7 @@ class TranslationService
                 }
             }
         } catch (\Exception $e) {
-            Log::error('Batch translation failed: '.$e->getMessage());
+            Log::error('Batch translation failed: ' . $e->getMessage());
 
             // Return original texts on error
             foreach ($toTranslateIndexes as $i => $index) {
@@ -227,6 +233,6 @@ class TranslationService
      */
     protected function getCacheKey(string $text, string $sourceLang, string $targetLang): string
     {
-        return 'translation:'.md5($text.'|'.$sourceLang.'|'.$targetLang);
+        return 'translation:' . md5($text . '|' . $sourceLang . '|' . $targetLang);
     }
 }
