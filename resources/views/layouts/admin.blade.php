@@ -51,8 +51,29 @@
             background: var(--primary-gradient);
             color: white;
             padding-top: 20px;
+            padding-bottom: 20px;
             z-index: 1000;
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar styling for sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .sidebar-brand {
@@ -489,42 +510,42 @@
 
     <script>
         // Sidebar Toggle Functionality
-        document.addEventListener('DOMContentLoaded', fu n ction () {
+        document.addEventListener('DOMContentLoaded', fu n ction() {
             const sidebar = document.querySelector('.sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
             function toggleSidebar() {
-                sidebar.classList.toggle('show');
-                sidebarBackdrop.classList.toggle('show');
-                document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
-            }
+            sidebar.classList.toggle('show');
+            sidebarBackdrop.classList.toggle('show');
+            document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
+        }
 
             if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', toggleSidebar);
-            }
+            sidebarToggle.addEventListener('click', toggleSidebar);
+        }
 
-            if (sidebarBackdrop) {
-                sidebarBackdrop.addEventListener('click', toggleSidebar);
-            }
+        if (sidebarBackdrop) {
+            sidebarBackdrop.addEventListener('click', toggleSidebar);
+        }
 
-            // Close sidebar when clicking a link on mobile
-            const navLinks = sidebar.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.addEventListener('click',  fu nction () {
-                    if (window.innerWidth <= 1024) {
-                        toggleSidebar();
-                    }
-                });
+        // Close sidebar when clicking a link on mobile
+        const navLinks = sidebar.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', fu nction() {
+                if(window.innerWidth <= 1024) {
+                toggleSidebar();
+            }
+        });
             });
 
-            // Handle window resize
-            window.addEventListener('resize' , f unction () {
-                if (window.innerWidth > 1024) {
-                    sidebar.classList.remove('show');
-                    sidebarBackdrop.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
+        // Handle window resize
+        window.addEventListener('resize', f unction() {
+            if(window.innerWidth > 1024) {
+            sidebar.classList.remove('show');
+            sidebarBackdrop.classList.remove('show');
+            document.body.style.overflow = '';
+        }
             });
 });
     </script>
