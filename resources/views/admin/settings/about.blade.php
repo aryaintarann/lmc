@@ -31,48 +31,18 @@
                             <div class="col-md-6">
                                 <label for="description_id" class="form-label fw-bold text-muted">Description (Bahasa
                                     Indonesia)</label>
-                                <textarea class="form-control" id="description_id" name="description[id]"
-                                    rows="6">{{ $about->description['id'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="description_id" name="description[id]"
+                                    rows="10">{{ $about->description['id'] ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label for="description_en" class="form-label fw-bold text-muted">Description
                                     (English)</label>
-                                <textarea class="form-control" id="description_en" name="description[en]"
-                                    rows="6">{{ $about->description['en'] ?? '' }}</textarea>
+                                <textarea class="form-control summernote" id="description_en" name="description[en]"
+                                    rows="10">{{ $about->description['en'] ?? '' }}</textarea>
                             </div>
                         </div>
 
-                        {{-- Vision (Multi-language, Optional) --}}
-                        <h5 class="mb-3 text-dark">Vision (Optional)</h5>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="vision_id" class="form-label fw-bold text-muted">Vision (Bahasa
-                                    Indonesia)</label>
-                                <textarea class="form-control summernote" id="vision_id" name="vision[id]"
-                                    rows="3">{{ $about->vision['id'] ?? '' }}</textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="vision_en" class="form-label fw-bold text-muted">Vision (English)</label>
-                                <textarea class="form-control summernote" id="vision_en" name="vision[en]"
-                                    rows="3">{{ $about->vision['en'] ?? '' }}</textarea>
-                            </div>
-                        </div>
 
-                        {{-- Mission (Multi-language, Optional) --}}
-                        <h5 class="mb-3 text-dark">Mission (Optional)</h5>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="mission_id" class="form-label fw-bold text-muted">Mission (Bahasa
-                                    Indonesia)</label>
-                                <textarea class="form-control summernote" id="mission_id" name="mission[id]"
-                                    rows="3">{{ $about->mission['id'] ?? '' }}</textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="mission_en" class="form-label fw-bold text-muted">Mission (English)</label>
-                                <textarea class="form-control summernote" id="mission_en" name="mission[en]"
-                                    rows="3">{{ $about->mission['en'] ?? '' }}</textarea>
-                            </div>
-                        </div>
 
                         {{-- Image --}}
                         <h5 class="mb-3 text-dark">About Image</h5>
@@ -101,10 +71,13 @@
         </div>
     </div>
 
+@endsection
+
+@push('scripts')
     <script>
         $(document).ready(function () {
             $('.summernote').summernote({
-                height: 150,
+                height: 300,
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -114,4 +87,4 @@
             });
         });
     </script>
-@endsection
+@endpush

@@ -1056,17 +1056,9 @@
                         $aboutDesc = $about && isset($about->description) ? ($about->description[$locale] ?? $about->description['id'] ?? '') : __('Legian Medical Clinic has been a pillar of health in the community.');
                     @endphp
                     <h2 class="section-title text-primary">{{ $aboutTitle }}</h2>
-                    <p class="text-muted lead mb-4">
-                        {{ $aboutDesc }}
-                    </p>
-                    @if($about && $about->vision && ($about->vision[$locale] ?? $about->vision['id'] ?? ''))
-                        <h5 class="text-primary mb-2">{{ __('Vision') }}</h5>
-                        <div class="text-muted mb-3">{!! $about->vision[$locale] ?? $about->vision['id'] ?? '' !!}</div>
-                    @endif
-                    @if($about && $about->mission && ($about->mission[$locale] ?? $about->mission['id'] ?? ''))
-                        <h5 class="text-primary mb-2">{{ __('Mission') }}</h5>
-                        <div class="text-muted mb-3">{!! $about->mission[$locale] ?? $about->mission['id'] ?? '' !!}</div>
-                    @endif
+                    <div class="mb-4" style="color: var(--text-muted); font-size: 1.1rem;">
+                        {!! $aboutDesc !!}
+                    </div>
                 </div>
             </div>
         </section>

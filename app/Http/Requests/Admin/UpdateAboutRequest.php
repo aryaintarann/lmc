@@ -18,10 +18,6 @@ class UpdateAboutRequest extends FormRequest
             'title.en' => 'nullable|string|max:255',
             'description.id' => 'nullable|string',
             'description.en' => 'nullable|string',
-            'vision.id' => 'nullable|string',
-            'vision.en' => 'nullable|string',
-            'mission.id' => 'nullable|string',
-            'mission.en' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
         ];
     }

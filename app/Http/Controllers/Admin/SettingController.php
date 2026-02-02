@@ -85,7 +85,8 @@ class SettingController extends Controller
         }
 
         // Auto-translate missing language fields
-        $data = TranslationHelper::autoTranslateFields($data, ['title', 'description', 'vision', 'mission'], $translationService);
+        // Auto-translate missing language fields
+        $data = TranslationHelper::autoTranslateFields($data, ['title', 'description'], $translationService);
 
         $about = About::firstOrCreate([], [
             'title' => ['en' => 'About Us', 'id' => 'Tentang Kami'],
@@ -101,8 +102,6 @@ class SettingController extends Controller
         $about->update([
             'title' => ['id' => $data['title']['id'] ?? '', 'en' => $data['title']['en'] ?? ''],
             'description' => ['id' => $data['description']['id'] ?? '', 'en' => $data['description']['en'] ?? ''],
-            'vision' => isset($data['vision']) ? ['id' => $data['vision']['id'] ?? '', 'en' => $data['vision']['en'] ?? ''] : null,
-            'mission' => isset($data['mission']) ? ['id' => $data['mission']['id'] ?? '', 'en' => $data['mission']['en'] ?? ''] : null,
             'image' => $data['image'] ?? $about->image,
         ]);
 
