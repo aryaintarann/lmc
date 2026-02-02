@@ -193,7 +193,8 @@
                         <label for="image" class="form-label">Article Image</label>
                         <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
                             accept="image/*">
-                        <div class="form-text">Upload an image for the article (Max 2MB).</div>
+                        <div class="form-text">Recommended size: 800x600px. Max size: 2MB. Accepted formats: JPG, PNG, GIF,
+                            WEBP.</div>
                         @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

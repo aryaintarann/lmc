@@ -49,7 +49,8 @@
                         <div class="mb-4">
                             <label for="image" class="form-label fw-bold text-muted">Upload Image</label>
                             <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                            <div class="form-text">Recommended size: 800x600px</div>
+                            <div class="form-text">Recommended size: 800x600px. Max size: 2MB. Accepted formats: JPG, PNG,
+                                GIF, WEBP.</div>
 
                             @if($about && $about->image)
                                 <div class="mt-3">
@@ -81,6 +82,7 @@
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['view', ['codeview']]
                 ]

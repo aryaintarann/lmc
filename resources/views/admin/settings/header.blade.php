@@ -65,7 +65,8 @@
                             <div class="mb-4">
                                 <label for="logo" class="form-label fw-bold text-muted">Upload Logo</label>
                                 <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
-                                <div class="form-text">Recommended size: 200x80px (PNG or SVG for best quality)</div>
+                                <div class="form-text">Recommended size: 200x80px. Max size: 2MB. Accepted formats: JPG,
+                                    PNG, GIF, WEBP.</div>
 
                                 @if($header && $header->logo)
                                     <div class="mt-3">

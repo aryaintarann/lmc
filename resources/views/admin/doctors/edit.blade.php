@@ -101,6 +101,8 @@
                     @error('image')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    <div class="form-text">Recommended size: 500x500px (Square). Max size: 2MB. Accepted formats: JPG, PNG,
+                        GIF, WEBP.</div>
                 </div>
 
                 <div class="d-flex justify-content-end">
