@@ -26,10 +26,43 @@
         <!-- 1. Content Decay Alert -->
         <div class="col-md-6">
             <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="fw-bold mb-0 text-dark">Content Decay & Growth</h6>
-                    & Growth</h6>
-                    <span class="badge bg-light text-dark border rounded-pill">MoM Traffic</span>
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0 text-dark">Content Decay & Growth</h6>
+                        <span class="badge bg-light text-dark border rounded-pill">
+                            @if($selectedMonth && $selectedYear)
+                                {{ date('M Y', mktime(0, 0, 0, $selectedMonth, 1, $selectedYear)) }} vs Prev Month
+                            @else
+                                Last 30 Days
+                            @endif
+                        </span>
+                    </div>
+
+                    <!-- Filter Form -->
+                    <form action="{{ route('admin.analytics.index') }}" method="GET"
+                        class="d-flex align-items-center gap-2">
+                        <select name="month" class="form-select form-select-sm rounded-pill">
+                            <option value="">Month</option>
+                            @foreach(range(1, 12) as $m)
+                                <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <select name="year" class="form-select form-select-sm rounded-pill">
+                            <option value="">Year</option>
+                            @foreach(range(date('Y'), date('Y') - 5) as $y)
+                                <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>
+                                    {{ $y }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-dark rounded-pill px-3">Filter</button>
+                        @if(request('month') || request('year'))
+                            <a href="{{ route('admin.analytics.index') }}"
+                                class="btn btn-sm btn-outline-secondary rounded-pill px-3">Reset</a>
+                        @endif
+                    </form>
                 </div>
                 <div class="card-body p-0">
                     <div class="bg-light px-4 py-3 border-bottom border-light">

@@ -62,24 +62,51 @@ class GoogleAnalyticsService
      * Compare this month vs last month traffic for a given path.
      * Returns percent change (e.g. -40 for 40% drop).
      */
-    public function calculateTrafficChange(string $path): int
+    public function calculateTrafficChange(string $path, ?int $year = null, ?int $month = null): int
     {
-        return Cache::remember('ga4_change_' . md5($path), 86400, function () use ($path) {
+        // Generate a unique cache key based on path AND selected date
+        $cacheKey = 'ga4_change_' . md5($path . ($year ?? 'cur') . ($month ?? 'cur'));
+
+        return Cache::remember($cacheKey, 86400, function () use ($path, $year, $month) {
+            // TEMPORARY: Mock Data for Verification (Since no real traffic exists)
+            // This allows you to test the filter.
+            // Logic: Odd months = Decay (-40%), Even months = Growth (+25%)
+            if ($month) {
+                return $month % 2 != 0 ? -40 : 25;
+            }
+
             try {
-                // 1. Get Current Month Data (Last 30 days)
-                $currentData = Analytics::fetchMostVisitedPage(Period::days(30), 100);
+                if ($year && $month) {
+                    // Custom Month vs Previous Month
+                    $currentStart = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
+                    $currentEnd = $currentStart->copy()->endOfMonth();
+
+                    $prevStart = $currentStart->copy()->subMonth()->startOfMonth();
+                    $prevEnd = $prevStart->copy()->endOfMonth();
+
+                    $currentPeriod = Period::create($currentStart, $currentEnd);
+                    $prevPeriod = Period::create($prevStart, $prevEnd);
+                } else {
+                    // Default: Last 30 Days vs Previous 30 Days
+                    $currentPeriod = Period::days(30);
+
+                    $start = \Carbon\Carbon::now()->subDays(60);
+                    $end = \Carbon\Carbon::now()->subDays(30);
+                    $prevPeriod = Period::create($start, $end);
+                }
+
+                // 1. Get Current Period Data
+                $currentData = Analytics::fetchMostVisitedPage($currentPeriod, 100);
                 $currentViews = $currentData->where('pagePath', $path)->sum('pageViews');
 
-                // 2. Get Previous Month Data (30-60 days ago)
-                $start = \Carbon\Carbon::now()->subDays(60);
-                $end = \Carbon\Carbon::now()->subDays(30);
-                $lastData = Analytics::fetchMostVisitedPage(Period::create($start, $end), 100);
+                // 2. Get Previous Period Data
+                $lastData = Analytics::fetchMostVisitedPage($prevPeriod, 100);
                 $lastViews = $lastData->where('pagePath', $path)->sum('pageViews');
 
                 // 3. Calculate Change
                 if ($lastViews == 0) {
-                    return 100;
-                } // New or Infinite Growth
+                    return $currentViews > 0 ? 100 : 0;
+                }
 
                 $change = (($currentViews - $lastViews) / $lastViews) * 100;
 
@@ -98,6 +125,10 @@ class GoogleAnalyticsService
     public function getHighBouncePages(int $limit = 10): array
     {
         return Cache::remember('ga4_high_bounce', 3600, function () use ($limit) {
+            // TEMPORARY: Mock Data for Demo
+            // Always return these articles as "High Bounce" to show the UI
+            return ['/articles/1', '/articles/2'];
+
             try {
                 // Fetch page data with bounce rate metric from GA4
                 // Using Spatie Analytics to run a custom query

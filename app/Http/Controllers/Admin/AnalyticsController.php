@@ -6,14 +6,19 @@ use App\Http\Controllers\Controller;
 
 class AnalyticsController extends Controller
 {
-    public function index(\App\Services\GoogleAnalyticsService $analytics)
+    public function index(\Illuminate\Http\Request $request, \App\Services\GoogleAnalyticsService $analytics)
     {
-        // 1. Content Decay Analysis (Reusing simple logic)
+        $selectedYear = $request->input('year');
+        $selectedMonth = $request->input('month');
+
+        // 1. Content Decay Analysis
         $articles = \App\Models\Article::whereNotNull('published_at')->get();
         $decayData = [];
 
         foreach ($articles as $article) {
-            $change = $analytics->calculateTrafficChange("/articles/{$article->id}");
+            // Pass year/month if selected
+            $change = $analytics->calculateTrafficChange("/articles/{$article->id}", $selectedYear, $selectedMonth);
+
             if ($change < -30 || $change > 0) { // Show Movers & Shakers
                 $decayData[] = [
                     'title' => $article->title,
@@ -24,7 +29,7 @@ class AnalyticsController extends Controller
         }
 
         // 2. High Bounce Pages
-        $highBouncePaths = $analytics->getHighBouncePages();
+        $highBouncePaths = $analytics->getHighBouncePages(10);
         // Convert paths to articles
         $highBounceArticles = collect($highBouncePaths)->map(function ($path) {
             // Path is /articles/{id}
@@ -43,6 +48,6 @@ class AnalyticsController extends Controller
             ->take(10)
             ->get();
 
-        return view('admin.analytics.index', compact('decayData', 'highBounceArticles', 'searchLogs'));
+        return view('admin.analytics.index', compact('decayData', 'highBounceArticles', 'searchLogs', 'selectedYear', 'selectedMonth'));
     }
 }
