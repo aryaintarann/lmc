@@ -43,11 +43,11 @@
                                         class="btn btn-sm btn-outline-info me-1" title="View">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.articles.edit', $article->id) }}"
+                                    <a href="{{ route('admin.articles.edit', $article->slug) }}"
                                         class="btn btn-sm btn-outline-primary me-1" title="Edit">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST"
+                                    <form action="{{ route('admin.articles.destroy', $article->slug) }}" method="POST"
                                         class="d-inline" onsubmit="return confirm('Are you sure?');">
                                         @csrf
                                         @method('DELETE')

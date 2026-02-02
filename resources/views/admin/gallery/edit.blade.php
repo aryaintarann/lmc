@@ -120,7 +120,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save me-1"></i> Update
                     </button>
-                    <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary" onclick="return confirm('Are you sure you want to cancel? Unsaved changes will be lost.')">Cancel</a>
                 </div>
             </form>
         </div>

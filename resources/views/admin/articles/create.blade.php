@@ -209,7 +209,8 @@
                 </div>
 
                 <div class="d-flex justify-content-end mt-4">
-                    <a href="{{ route('admin.articles.index') }}" class="btn btn-secondary me-2">Cancel</a>
+                    <a href="{{ route('admin.articles.index') }}" class="btn btn-secondary me-2"
+                        onclick="return confirm('Are you sure you want to cancel? Unsaved changes will be lost.')">Cancel</a>
                     <button type="submit" class="btn btn-primary">Create Article</button>
                 </div>
             </form>

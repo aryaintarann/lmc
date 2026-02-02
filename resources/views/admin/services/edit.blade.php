@@ -107,7 +107,8 @@
                 </div>
 
                 <div class="d-flex justify-content-end mt-4">
-                    <a href="{{ route('admin.services.index') }}" class="btn btn-secondary me-2">Cancel</a>
+                    <a href="{{ route('admin.services.index') }}" class="btn btn-secondary me-2"
+                        onclick="return confirm('Are you sure you want to cancel? Unsaved changes will be lost.')">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update Service</button>
                 </div>
             </form>
@@ -209,11 +210,11 @@
                     const col = document.createElement('div');
                     col.className = 'col-6 col-sm-4 col-md-3 col-lg-2';
                     col.innerHTML = `
-                                                    <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
-                                                        <i class="${icon} fs-3 text-primary mb-2"></i>
-                                                        <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
-                                                    </div>
-                                                `;
+                                                        <div class="p-3 text-center border rounded icon-option" style="cursor: pointer;" onclick="selectIcon('${icon}')">
+                                                            <i class="${icon} fs-3 text-primary mb-2"></i>
+                                                            <div class="small text-truncate" style="font-size: 0.7rem;">${icon.replace('bi-', '')}</div>
+                                                        </div>
+                                                    `;
                     iconGrid.appendChild(col);
                 });
             }
